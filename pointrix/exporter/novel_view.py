@@ -47,7 +47,7 @@ def test_view_render(model, renderer, datapipeline, output_path, device='cuda'):
         atributes_dict = model(batch, training=False)
         image_name = os.path.basename(batch[i]['camera'].rgb_file_name)
         render_results = renderer.render_batch(atributes_dict, batch)
-        gt_image = torch.clamp(b_i['image'].to("cuda").float(), 0.0, 1.0)
+        gt_image = torch.clamp(batch[i]['image'].to("cuda").float(), 0.0, 1.0)
         image = torch.clamp(
             render_results['rendered_features_split']['rgb'], 0.0, 1.0)
 
