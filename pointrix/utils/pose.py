@@ -111,6 +111,12 @@ def ConcatRT(R: Float[Tensor, "3 3"],
     return extrinsic_matrix.float()
 
 
+def quat_to_rotmat(r):
+    q = quat_to_unitquat(r)
+    R = unitquat_to_rotmat(q)
+    return R
+
+
 def ViewScaling(extrinsic_matrix: Float[Tensor, "4 4"],
          scale: float = 1.0,
          t: Float[Tensor, "3"] = torch.tensor([0., 0., 0.])):
