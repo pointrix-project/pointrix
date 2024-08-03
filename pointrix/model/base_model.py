@@ -6,8 +6,7 @@ from ..utils.base import BaseModule
 from ..point_cloud import parse_point_cloud
 from .loss import l1_loss, ssim, psnr, LPIPS
 from ..utils.registry import Registry
-from ..camera.camera_model import CameraModel
-from ..camera import parse_camera_model
+from .camera import parse_camera_model
 
 MODEL_REGISTRY = Registry("MODEL", modules=["pointrix.model"])
 MODEL_REGISTRY.__doc__ = ""

@@ -68,7 +68,7 @@ class BaseTrainer:
 
     cfg: Config
 
-    def __init__(self, cfg: Config, exp_dir: Path) -> None:
+    def __init__(self, cfg: Config, exp_dir: Path, name: str) -> None:
         super().__init__()
         self.exp_dir = exp_dir
         self.start_steps = 1
@@ -90,7 +90,7 @@ class BaseTrainer:
         self.model = parse_model(
             self.cfg.model, self.datapipeline, device=self.device)
         # build logger and hooks
-        self.writer = parse_writer(self.cfg.writer, exp_dir)
+        self.writer = parse_writer(self.cfg.writer, exp_dir, experiment_name=name, logcfg=self.cfg)
 
         if not self.cfg.training:
             # self.exporter = parse_exporter(self.cfg.exporter)
@@ -105,7 +105,7 @@ class BaseTrainer:
                                             self.model, datapipeline=self.datapipeline,
                                             cameras_extent=cameras_extent)
             
-            self.controler = DensificationController(self.cfg.controler, self.optimizer.optimizer_dict['optimizer_1'].optimizer, self.model, cameras_extent=cameras_extent)
+            self.controler = DensificationController(self.cfg.controler, self.optimizer, self.model, cameras_extent=cameras_extent)
 
     @abstractmethod
     def train_loop(self) -> None:

@@ -45,13 +45,16 @@ def test_view_render(model, renderer, datapipeline, output_path, device='cuda'):
     for i in range(0, val_dataset_size):
         batch = datapipeline.next_val(i)
         atributes_dict = model(batch, training=False)
-        image_name = os.path.basename(batch[i]['camera'].rgb_file_name)
+        image_name = os.path.basename(batch[0]['camera'].rgb_file_name)
         render_results = renderer.render_batch(atributes_dict, batch)
-        gt_image = torch.clamp(batch[i]['image'].to("cuda").float(), 0.0, 1.0)
+        gt_image = torch.clamp(batch[0]['image'].to("cuda").float(), 0.0, 1.0)
         image = torch.clamp(
-            render_results['rendered_features_split']['rgb'], 0.0, 1.0)
+            render_results['rgb'], 0.0, 1.0).squeeze()
 
-        for feat_name, feat in render_results['rendered_features_split'].items():
+        visualize_feature = ['rgb']
+        
+        for feat_name in visualize_feature:
+            feat = render_results[feat_name]
             visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
             if not os.path.exists(os.path.join(output_path, f'test_view_{feat_name}')):
                 os.makedirs(os.path.join(

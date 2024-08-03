@@ -6,6 +6,7 @@ from pathlib import Path
 from torch import Tensor
 from jaxtyping import Float
 from abc import abstractmethod
+from dataclasses import dataclass
 from torch.utils.tensorboard import SummaryWriter
 from typing import Any, Dict, Optional, Union
 
@@ -23,6 +24,8 @@ from rich.progress import (
 from rich.text import Text
 
 Logger = Console(width=120)
+
+from ..utils.base import BaseObject
 
 
 LOGGER_REGISTRY = Registry("LOGGER", modules=["pointrix.hook"])
@@ -317,11 +320,14 @@ class TensorboardWriter(Writer):
             The step of the config.
         """
         self.writer.add_text("config", str(config_dict))
+        
+    def finish(self):
+        self.writer.close()
 
 
 @LOGGER_REGISTRY.register()
 class WandbWriter(Writer):
-    def __init__(self, log_dir, experiment_name: str, project_name: str = "pointrix-project"):
+    def __init__(self, log_dir, experiment_name: str, project_name: str = "pointrix-project", logcfg: Dict[str, Any] = {}):
         """
         Wandb writer.
 
@@ -338,7 +344,12 @@ class WandbWriter(Writer):
         wandb.init(project=project_name,
                    name=experiment_name,
                    dir=log_dir,
-                   reinit=True)
+                   reinit=True,
+                   config=dict(logcfg))
+        
+        arti_code = wandb.Artifact(experiment_name, type='code')
+        arti_code.add_dir(os.path.join(log_dir, "project_file"))
+        wandb.log_artifact(arti_code)
 
     def write_scalar(self, name: str, scalar: Union[float, torch.Tensor], step: int):
         """
@@ -373,7 +384,7 @@ class WandbWriter(Writer):
         """
         import wandb
         wandb.log(
-            {name: [wandb.Image(image, caption=name if caption == None else caption)]})
+            {name: [wandb.Image(image, caption=name if caption == None else caption)]}, step=step)
 
     def write_config(self, name: str, config_dict: Dict[str, Any], step: int):
         """Function that writes out the config to wandb
@@ -383,4 +394,8 @@ class WandbWriter(Writer):
         """
         import wandb
 
-        wandb.config.update(config_dict, allow_val_change=True)
+        wandb.config.update(config_dict, allow_val_change=True, step=step)
+    
+    def finish(self):
+        import wandb
+        wandb.finish()

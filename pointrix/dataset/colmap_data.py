@@ -21,7 +21,7 @@ class ColmapDataset(BaseDataset):
     """
     The dataset class for the Colmap based dataset.
     """
-    def _load_camera(self, split: str) -> List[CameraPrior]:
+    def _load_camera_prior(self, split: str) -> List[CameraPrior]:
         """
         The function for loading the camera information.
         
@@ -51,7 +51,7 @@ class ColmapDataset(BaseDataset):
         cameras_results = [sorted_camera[i] for i in self.train_index] if split == 'train' else [sorted_camera[i] for i in self.val_index] 
         return cameras_results
     
-    def _load_pointcloud(self) -> dict:
+    def _load_pointcloud_prior(self) -> dict:
         """
         The function for loading the Pointcloud for initialization of gaussian model.
 

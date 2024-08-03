@@ -42,10 +42,15 @@ class DefaultTrainer(BaseTrainer):
         self.call_hook("before_train")
         for iteration in loop_range:
             self.call_hook("before_train_iter")
+            # structure of batch {"frame_index": frame_index, "image": image, "depth": depth}
             batch = self.datapipeline.next_train(self.global_step)
+            # update the sh degree of renderer
             self.renderer.update_sh_degree(iteration)
+            # update learning rate
             self.schedulers.step(self.global_step, self.optimizer)
+            # model forward step
             self.train_step(batch)
+            # update optimizer and densify point cloud
             with torch.no_grad():
                 self.controler.f_step(**self.optimizer_dict)
                 self.optimizer.update_model(**self.optimizer_dict)
@@ -68,10 +73,34 @@ class DefaultTrainer(BaseTrainer):
         batch : dict
             The batch data.
         """
+        # structure of render_dict: {}
+        #  render_dict = {
+        #     "extrinsic_matrix": extrinsic_matrix,
+        #     "intrinsic_params": intrinsic_params,
+        #     "camera_center": camera_center,
+        #     "position": point_cloud.position,
+        #     "opacity": self.point_cloud.get_opacity,
+        #     "scaling": self.point_cloud.get_scaling,
+        #     "rotation": self.point_cloud.get_rotation,
+        #     "shs": self.point_cloud.get_shs,
+        # }
         render_dict = self.model(batch)
+        # structure of render_results: {}
+        # example of render_results = {
+        #     "rgb": rgb,
+        #     "depth": depth,
+        #     "normal": normal, ....
+        # }
         render_results = self.renderer.render_batch(render_dict, batch)
         self.loss_dict = self.model.get_loss_dict(render_results, batch)
         self.loss_dict['loss'].backward()
+        # structure of optimizer_dict: {}
+        # example of optimizer_dict = {
+        #   "loss": loss,
+        #   "uv_points": uv_points,
+        #   "visibility": visibility,
+        #   "radii": radii,
+        #   "white_bg": white_bg
         self.optimizer_dict = self.model.get_optimizer_dict(self.loss_dict,
                                                             render_results,
                                                             self.white_bg)

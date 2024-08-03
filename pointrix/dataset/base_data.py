@@ -24,7 +24,6 @@ class BaseDataset(Dataset):
     """
     Basic dataset used in Datapipeline.
     """
-
     @dataclass
     class Config:
         data_path: str = "data"
@@ -64,13 +63,13 @@ class BaseDataset(Dataset):
         ----------
         split: The split of the data.
         """
-        camera = self._load_camera(split=split)
+        camera = self._load_camera_prior(split=split)
         metadata = self._load_metadata(split=split)
-        pointcloud = self._load_pointcloud()
+        pointcloud = self._load_pointcloud_prior()
         return camera, metadata, pointcloud
 
     @abstractmethod
-    def _load_camera(self, split) -> List[CameraPrior]:
+    def _load_camera_prior(self, split) -> List[CameraPrior]:
         """
         The function for loading the camera typically requires user customization.
 
@@ -80,7 +79,7 @@ class BaseDataset(Dataset):
         """
         raise NotImplementedError
 
-    def _load_pointcloud(self) -> dict:
+    def _load_pointcloud_prior(self) -> dict:
         """
         The function for loading the Pointcloud for initialization of gaussian model.
         """
