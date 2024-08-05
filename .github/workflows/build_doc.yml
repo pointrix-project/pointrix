@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r docs/requirements.txt
-          pip install -e .
+          pip install .
       - name: Sphinx build
         # fail on warnings
         run: |
