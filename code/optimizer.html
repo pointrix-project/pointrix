@@ -1,241 +1,386 @@
-<!doctype html>
-<html class="no-js" lang="en" data-content_root="../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="renderer" href="render.html" /><link rel="prev" title="model" href="model.html" />
 
-    <link rel="shortcut icon" href="../_static/pointrix.ico"/><!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
-        <title>optimizer - Pointrix</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=135e06be" />
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>optimizer &#8212; Pointrix</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=36a5483c" />
-    
-    
-
-
-<style>
-  body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
   
-  }
-  @media not print {
-    body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'code/optimizer';</script>
+    <link rel="icon" href="../_static/pointrix.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="renderer" href="render.html" />
+    <link rel="prev" title="model" href="model.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
   
-    }
-    @media (prefers-color-scheme: dark) {
-      body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
   
-      }
-    }
-  }
-</style></head>
-  <body>
-    
-    <script>
-      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
-    </script>
-    
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="svg-toc" viewBox="0 0 24 24">
-    <title>Contents</title>
-    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
-      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
-    </svg>
-  </symbol>
-  <symbol id="svg-menu" viewBox="0 0 24 24">
-    <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
-    <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
-      <polyline points="9 18 15 12 9 6"></polyline>
-    </svg>
-  </symbol>
-  <symbol id="svg-sun" viewBox="0 0 24 24">
-    <title>Light mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-    </svg>
-  </symbol>
-  <symbol id="svg-moon" viewBox="0 0 24 24">
-    <title>Dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-    </svg>
-  </symbol>
-  <symbol id="svg-sun-half" viewBox="0 0 24 24">
-    <title>Auto light/dark mode</title>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
-      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M13 12h5" />
-      <path d="M13 15h4" />
-      <path d="M13 18h1" />
-      <path d="M13 9h4" />
-      <path d="M13 6h1" />
-    </svg>
-  </symbol>
-</svg>
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
 
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
 
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
 
-<div class="page">
-  <header class="mobile-header">
-    <div class="header-left">
-      <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
-      </label>
-    </div>
-    <div class="header-center">
-      <a href="../index_cn.html"><div class="brand">Pointrix</div></a>
-    </div>
-    <div class="header-right">
-      <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
-          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-        </button>
-      </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-      </label>
-    </div>
-  </header>
-  <aside class="sidebar-drawer">
-    <div class="sidebar-container">
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index_cn.html">
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
   
-  <div class="sidebar-logo-container">
-    <img class="sidebar-logo" src="../_static/pointrix_landscape_b.png" alt="Logo"/>
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
   </div>
   
-  <span class="sidebar-brand-text">Pointrix</span>
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
   
-</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
-  <input type="hidden" name="check_keywords" value="yes">
-  <input type="hidden" name="area" value="default">
-</form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">开始（10分钟内学习Pointrix）</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/installation.html">安装</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/run_first_model.html">运行你的第一个模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/learning_config.html">Pointrix 中的配置文件</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/render_novel_view_gui.html">使用 Pointflicks (GUI) 可视化</a></li>
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pointrix_landscape_b.png" class="logo__image only-light" alt="Pointrix - Home"/>
+    <script>document.write(`<img src="../_static/pointrix_landscape_b.png" class="logo__image only-dark" alt="Pointrix - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Get started (In 10 minutes)</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/run_first_model.html">Run Your First Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/render_novel_view_gui.html">Using Pointflicks (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/learning_configuration.html">Configuration Files in Pointrix</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">教程</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_cn/tutorial_2.html">为点云渲染添加监督</a></li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial_2.html">Adding Supervision for 3D GS</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">架构</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/overall.html">总览</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/data.html">数据流水线</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/model.html">模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/trainer.html">训练器 (Trainer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/hook.html">钩子</a></li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Framework</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../framework/overall.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/data.html">Data Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/trainer.html">Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/hook.html">Hook</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">Advanced</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/camera_optimization.html">相机优化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/dust3r_init.html">使用Dust3r 初始化相机模型与点云</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/extract_mesh.html">mesh 提取</a></li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/camera_optimization.html">Camera Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Initilization of Point Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Export mesh</a></li>
 </ul>
-<p class="caption" role="heading"><span class="caption-text">参考</span></p>
-<ul class="current">
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../API.html">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="point_cloud.html">point_cloud</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model.html">model</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">optimizer</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="render.html">renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="trainer.html">trainer</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../switch_cn.html"><a href="https://pointrix-project.github.io/pointrix/index.html">English</a></a></li>
-<li class="toctree-l1"><a class="reference internal" href="../switch_cn.html#id1"><a href="https://pointrix-project.github.io/pointrix/index_cn.html">简体中文</a></a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../switch.html"><a href="https://pointrix-project.github.io/pointrix/index_cn.html">简体中文</a></a></li>
 </ul>
 
-</div>
-</div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
 
       </div>
       
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
     </div>
-  </aside>
-  <div class="main">
-    <div class="content">
-      <div class="article-container">
-        <a href="#" class="back-to-top muted-link">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
-          </svg>
-          <span>Back to top</span>
-        </a>
-        <div class="content-icon-container">
-          
-<div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
-              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
-              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
-              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
-            </button>
-          </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-          </label>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/code/optimizer.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>optimizer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.Config"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.Config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_lr"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_lr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_momentum"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_momentum()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.load_state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.param_groups"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.param_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.update_model"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList"><code class="docutils literal notranslate"><span class="pre">OptimizerList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.load_state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.load_state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.param_groups"><code class="docutils literal notranslate"><span class="pre">OptimizerList.param_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.update_model"><code class="docutils literal notranslate"><span class="pre">OptimizerList.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.get_exponential_lr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler.step"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
-        <article role="main">
-          <section id="module-pointrix.optimizer.optimizer">
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-pointrix.optimizer.optimizer">
 <span id="optimizer"></span><h1>optimizer<a class="headerlink" href="#module-pointrix.optimizer.optimizer" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="pointrix.optimizer.optimizer.BaseOptimizer">
@@ -428,99 +573,125 @@ you need backward first, then call this function to update the model.</p>
 
 </section>
 
-        </article>
-      </div>
-      <footer>
-        
-        <div class="related-pages">
-          <a class="next-page" href="render.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">renderer</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="model.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">model</div>
-                
-              </div>
-            </a>
-        </div>
-        <div class="bottom-of-page">
-          <div class="left-details">
-            <div class="copyright">
-                Copyright &#169; 2024, Pointrix-Group
-            </div>
-            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-            
-            <a href="https://github.com/pradyunsg/furo">Furo</a>
-            
-          </div>
-          <div class="right-details">
-            
-          </div>
-        </div>
-        
-      </footer>
-    </div>
-    <aside class="toc-drawer">
-      
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">optimizer</a><ul>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer</span></code></a><ul>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.Config"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.Config</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_lr"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_lr()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_momentum"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_momentum()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.load_state_dict()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.param_groups"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.param_groups</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.state_dict()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.BaseOptimizer.update_model"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.update_model()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.OptimizerList"><code class="docutils literal notranslate"><span class="pre">OptimizerList</span></code></a><ul>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.OptimizerList.load_state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.load_state_dict()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.OptimizerList.param_groups"><code class="docutils literal notranslate"><span class="pre">OptimizerList.param_groups</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.OptimizerList.state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.state_dict()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.optimizer.OptimizerList.update_model"><code class="docutils literal notranslate"><span class="pre">OptimizerList.update_model()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#pointrix.optimizer.scheduler.ExponLRScheduler"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler</span></code></a><ul>
-<li><a class="reference internal" href="#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.get_exponential_lr()</span></code></a></li>
-<li><a class="reference internal" href="#pointrix.optimizer.scheduler.ExponLRScheduler.step"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.step()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 
-          </div>
-        </div>
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="model.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">model</p>
       </div>
-      
-      
-    </aside>
+    </a>
+    <a class="right-next"
+       href="render.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">renderer</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
   </div>
-</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=32e29ea5"></script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
-    </body>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.Config"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.Config</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_lr"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_lr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.get_momentum"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_momentum()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.load_state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.param_groups"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.param_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.BaseOptimizer.update_model"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList"><code class="docutils literal notranslate"><span class="pre">OptimizerList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.load_state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.load_state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.param_groups"><code class="docutils literal notranslate"><span class="pre">OptimizerList.param_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.state_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.optimizer.OptimizerList.update_model"><code class="docutils literal notranslate"><span class="pre">OptimizerList.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.get_exponential_lr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.optimizer.scheduler.ExponLRScheduler.step"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pointrix-Group
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Pointrix-Group.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
