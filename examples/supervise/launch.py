@@ -8,7 +8,7 @@ from pointrix.logger.writer import logproject, Logger
 
 from dataset import ColmapDepthNormalDataset
 from model import NormalModel
-from renderer import DPTRNormalRender
+from renderer import MsplatNormalRender
 from hook import NormalLogHook
 
 def main(args, extras) -> None:

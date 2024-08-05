@@ -7,7 +7,7 @@ trainer:
   training: True
 
   model:
-    name: BaseModel
+    name: NormalModel
     lambda_ssim: 0.2
     point_cloud:
       point_cloud_type: "GaussianPointCloud"  
@@ -19,6 +19,7 @@ trainer:
         feat_dim: 3
     camera_model:
       enable_training: False
+
   
   controler:
     normalize_grad: False
@@ -54,10 +55,9 @@ trainer:
         init:  0.00016
         final: 0.0000016
         max_steps: ${trainer.max_steps}
-  
   datapipeline:
     data_path: "/home/linzhuo/gj/data/garden"
-    data_set: "ColmapDataset"
+    data_set: "ColmapDepthNormalDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
@@ -65,16 +65,17 @@ trainer:
       cached_metadata: ${trainer.training}
       scale: 0.25
       white_bg: False
+      meta_dirs_dict: {"image": "images", "normal": "normals"}
 
   renderer:
-    name: "GaussianSplattingRender"
+    name: "MsplatNormalRender"
     max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
     writer_type: "TensorboardWriter"
   
   hooks:
     LogHook:
-      name: LogHook
+      name: NormalLogHook
     CheckPointHook:
       name: CheckPointHook
   

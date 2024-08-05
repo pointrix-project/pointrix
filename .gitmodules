@@ -1,0 +1,3 @@
+[submodule "msplat"]
+	path = msplat
+	url = https://github.com/pointrix-project/msplat.git

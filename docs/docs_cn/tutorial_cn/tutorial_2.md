@@ -252,7 +252,22 @@ class NormalModel(BaseModel):
 :    我们高亮相较于MsplatRender修改的代码。
 
 @RENDERER_REGISTRY.register()
-class DPTRNormalRender(MsplatRender):
+class MsplatNormalRender(MsplatRender):
+    """
+    A class for rendering point clouds using DPTR.
+
+    Parameters
+    ----------
+    cfg : dict
+        The configuration dictionary.
+    white_bg : bool
+        Whether the background is white or not.
+    device : str
+        The device to use.
+    update_sh_iter : int, optional
+        The iteration to update the spherical harmonics degree, by default 1000.
+    """
+
     def render_iter(self,
                     height,
                     width,
@@ -270,10 +285,10 @@ class DPTRNormalRender(MsplatRender):
         direction = (position -
                      camera_center.repeat(position.shape[0], 1))
         direction = direction / direction.norm(dim=1, keepdim=True)
-        rgb = gs.compute_sh(shs, 3, direction)
+        rgb = msplat.compute_sh(shs.permute(0, 2, 1), direction)
         extrinsic_matrix = extrinsic_matrix[:3, :]
 
-        (uv, depth) = gs.project_point(
+        (uv, depth) = msplat.project_point(
             position,
             intrinsic_params,
             extrinsic_matrix,
@@ -282,10 +297,10 @@ class DPTRNormalRender(MsplatRender):
         visible = depth != 0
 
         # compute cov3d
-        cov3d = gs.compute_cov3d(scaling, rotation, visible)
+        cov3d = msplat.compute_cov3d(scaling, rotation, visible)
 
         # ewa project
-        (conic, radius, tiles_touched) = gs.ewa_project(
+        (conic, radius, tiles_touched) = msplat.ewa_project(
             position,
             cov3d,
             intrinsic_params,
@@ -297,7 +312,7 @@ class DPTRNormalRender(MsplatRender):
         )
 
         # sort
-        (gaussian_ids_sorted, tile_range) = gs.sort_gaussian(
+        (gaussian_ids_sorted, tile_range) = msplat.sort_gaussian(
             uv, depth, width, height, radius, tiles_touched
         )
 
@@ -311,7 +326,7 @@ class DPTRNormalRender(MsplatRender):
             raise ValueError("ndc does not have grad")
 
         # alpha blending
-        rendered_features = gs.alpha_blending(
+        rendered_features = msplat.alpha_blending(
             uv, conic, opacity, render_features,
             gaussian_ids_sorted, tile_range, self.bg_color, width, height, ndc
         )
@@ -330,6 +345,7 @@ class DPTRNormalRender(MsplatRender):
                 "visibility": radius > 0,
                 "radii": radius
                 }
+
 
 ```
 

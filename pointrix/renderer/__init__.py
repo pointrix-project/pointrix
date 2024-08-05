@@ -1,6 +1,5 @@
 from .msplat import RENDERER_REGISTRY, MsplatRender
 from .gsplat import GsplatRender
-from .dptr import DPTRRender
 
 def parse_renderer(cfg, **kwargs):
     """

@@ -8,16 +8,16 @@ Base dataset
    :members:
    :show-inheritance:
 
-.. Nerf dataset
-.. ----------------
-
-.. .. automodule:: pointrix.dataset.nerf_data
-..    :members:
-..    :show-inheritance:
-
 Colmap dataset
 ----------------
 
 .. automodule:: pointrix.dataset.colmap_data
+   :members:
+   :show-inheritance:
+
+Data Prior
+----------------
+
+.. automodule:: pointrix.dataset.utils.dataprior
    :members:
    :show-inheritance:

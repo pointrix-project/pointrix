@@ -1,7 +1,7 @@
 hook
 ============
 
-.. automodule:: pointrix.hook.hook
+.. automodule:: pointrix.hook.base_hook
    :members:
    :show-inheritance:
 

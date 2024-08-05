@@ -15,8 +15,10 @@ trainer:
       trainable: true
       unwarp_prefix: "point_cloud"
       initializer:
-        init_type: 'colmap'
+        init_type: 'random'
+        num_points: 100000
         feat_dim: 3
+        radius: 1.3
     camera_model:
       enable_training: False
   
@@ -57,20 +59,20 @@ trainer:
   
   datapipeline:
     data_path: "/home/linzhuo/gj/data/garden"
-    data_set: "ColmapDataset"
+    data_set: "NerfSyntheticDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
       cached_metadata: ${trainer.training}
-      scale: 0.25
-      white_bg: False
+      scale: 1.0
+      white_bg: True
 
   renderer:
     name: "GaussianSplattingRender"
     max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
-    writer_type: "TensorboardWriter"
+    writer_type: "WandbWriter"
   
   hooks:
     LogHook:

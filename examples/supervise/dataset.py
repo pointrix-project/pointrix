@@ -39,9 +39,7 @@ class ColmapDepthNormalDataset(ColmapDataset):
                 image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
             meta[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
             cached_progress.update(f'Transforming', step=1)
-            
-            # Transform Depth
-            meta[i]['depth'] = torch.from_numpy(np.array(meta[i]['depth'])).float().permute(2, 0, 1)
+
             # Transform Normal
             meta[i]['normal'] = (torch.from_numpy(np.array(meta[i]['normal'])) / 255.0).float().permute(2, 0, 1)
         cached_progress.stop()

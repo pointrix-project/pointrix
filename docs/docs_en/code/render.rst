@@ -5,6 +5,10 @@ renderer
    :members:
    :show-inheritance:
 
-.. automodule:: pointrix.renderer.dptr
+.. automodule:: pointrix.renderer.msplat
+   :members:
+   :show-inheritance:
+
+.. automodule:: pointrix.renderer.gsplat
    :members:
    :show-inheritance:

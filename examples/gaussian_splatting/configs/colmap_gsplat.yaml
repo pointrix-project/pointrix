@@ -19,9 +19,10 @@ trainer:
         feat_dim: 3
     camera_model:
       enable_training: False
+
   
   controler:
-    normalize_grad: False
+    normalize_grad: True
 
   optimizer:
     optimizer_1:
@@ -54,7 +55,6 @@ trainer:
         init:  0.00016
         final: 0.0000016
         max_steps: ${trainer.max_steps}
-  
   datapipeline:
     data_path: "/home/linzhuo/gj/data/garden"
     data_set: "ColmapDataset"
@@ -67,7 +67,7 @@ trainer:
       white_bg: False
 
   renderer:
-    name: "GaussianSplattingRender"
+    name: "GsplatRender"
     max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
     writer_type: "TensorboardWriter"

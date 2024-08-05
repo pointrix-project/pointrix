@@ -2,9 +2,6 @@
 
 The Trainer provides a complete default training pipeline, including **initialization** of hooks, data pipelines, renderers, models, optimizers, and loggers, as well as the **train_step**, **train_loop**, and **validation** processes.
 
-The Relationship between Trainer to other modules is shown below:
-
-![](../../images/framework-trainer.png)
 
 ## DefaultTrainer 
 

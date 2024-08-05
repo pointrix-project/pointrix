@@ -1,4 +1,3 @@
-pytorch_msssim
 jaxtyping
 omegaconf
 tabulate
@@ -10,3 +9,4 @@ imageio
 plyfile
 opencv-python
 matplotlib
+roma

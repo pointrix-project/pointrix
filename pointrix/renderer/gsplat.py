@@ -5,12 +5,12 @@ from dataclasses import dataclass
 from ..utils.base import BaseObject
 from ..utils.pose import Fov2ProjectMat
 from ..logger import Logger
-from .dptr import RENDERER_REGISTRY, DPTRRender
+from .msplat import RENDERER_REGISTRY, MsplatRender
 
 from gsplat.rendering import rasterization
 
 @RENDERER_REGISTRY.register()
-class GsplatRender(DPTRRender):
+class GsplatRender(MsplatRender):
     """
     A class for rendering point clouds using Gaussian splatting.
 

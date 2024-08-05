@@ -52,13 +52,13 @@ Get Started
 :gutter: 1 1 1 2
 
 :::{grid-item-card} {octicon}`plug;1.5em;sd-mr-1` Highly Extensible
-:link: tutorial/tutorial_1
+:link: tutorial/tutorial_2
 :link-type: doc
 
 Pointrix adopts a modular design, with clear structure and easy extensibility. 
 
 +++
-[Learn more »](tutorial/tutorial_1)
+[Learn more »](tutorial/tutorial_2)
 :::
 
 :::{grid-item-card} {octicon}`device-camera` Rich Feature
@@ -103,7 +103,7 @@ If you **are the beginner** of Pointrix, You can start from these:
 get_started/installation
 get_started/run_first_model
 get_started/render_novel_view_gui
-tutorial/learning_configuration
+get_started/learning_configuration
 ```
 :::
 
@@ -116,7 +116,6 @@ tutorial/learning_configuration
 ```{toctree}
 :maxdepth: 1
 :caption: Tutorial
-tutorial/tutorial_1
 tutorial/tutorial_2
 ```
 :::
