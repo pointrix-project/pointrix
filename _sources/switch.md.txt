@@ -1,0 +1,1 @@
+# <a href='https://pointrix-project.github.io/pointrix/index_cn.html'>简体中文</a>
