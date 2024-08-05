@@ -176,7 +176,7 @@ API
 </a>
 
 
-### DPTR:
+### Msplat:
 <a href="https://github.com/pointrix-project/dptr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=pointrix-project/dptr" />
 </a>
@@ -186,7 +186,7 @@ API
 |                                                            |                        |
 | ---------------------------------------------------------- | ---------------------- |
 | [Github Page](https://github.com/pointrix-project/pointrix)     | Pointrix      |
-| [Github Page](https://github.com/pointrix-project/dptr)         | DPTR                   |
+| [Github Page](https://github.com/pointrix-project/msplat)         | Msplat                   |
 
 ```{toctree}
 :maxdepth: 1
