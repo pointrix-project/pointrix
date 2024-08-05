@@ -98,7 +98,7 @@ trainer:
       name: CheckPointHook
 ```
 
-# Configuration Files in Pointrix
+## Configuration Files in Pointrix
 
 In Pointrix, common configurations include:
 
