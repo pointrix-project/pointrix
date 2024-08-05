@@ -1,0 +1,664 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>API &#8212; Pointrix</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'API';</script>
+    <link rel="icon" href="_static/pointrix.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dataset" href="code/dataset.html" />
+    <link rel="prev" title="mesh 提取" href="advanced_usage_cn/extract_mesh.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index_cn.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/pointrix_landscape_b.png" class="logo__image only-light" alt="Pointrix - Home"/>
+    <script>document.write(`<img src="_static/pointrix_landscape_b.png" class="logo__image only-dark" alt="Pointrix - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">开始（10分钟内学习Pointrix）</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="get_started_cn/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started_cn/run_first_model.html">运行你的第一个模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started_cn/learning_config.html">Pointrix 中的配置文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started_cn/render_novel_view_gui.html">使用 Pointflicks (GUI) 可视化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_cn/tutorial_2.html">为点云渲染添加监督</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">架构</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="framework_cn/overall.html">总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="framework_cn/data.html">数据流水线</a></li>
+<li class="toctree-l1"><a class="reference internal" href="framework_cn/model.html">模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="framework_cn/trainer.html">训练器 (Trainer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="framework_cn/hook.html">钩子</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/camera_optimization.html">相机优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/dust3r_init.html">使用Dust3r 初始化相机模型与点云</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/extract_mesh.html">mesh 提取</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/dataset.html">dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/point_cloud.html">point_cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/exporter.html">exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/hook.html">hook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html">logger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/optimizer.html">optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/render.html">renderer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/trainer.html">trainer</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="switch_cn.html"><a href="https://pointrix-project.github.io/pointrix/index.html">English</a></a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/API.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>API</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="api">
+<h1>API<a class="headerlink" href="#api" title="Link to this heading">#</a></h1>
+<p>TODO: Explanation of each component</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="code/dataset.html">dataset</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.base_data">Base dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.Config"><code class="docutils literal notranslate"><span class="pre">BaseDataset.Config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.colmap_data">Colmap dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.colmap_data.ColmapDataset"><code class="docutils literal notranslate"><span class="pre">ColmapDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.utils.dataprior">Data Prior</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CameraPrior"><code class="docutils literal notranslate"><span class="pre">CameraPrior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior"><code class="docutils literal notranslate"><span class="pre">CamerasPrior</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.get_radius()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/point_cloud.html">point_cloud</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/point_cloud.html#module-pointrix.point_cloud.points">Base point cloud</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud"><code class="docutils literal notranslate"><span class="pre">PointCloud</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.Config"><code class="docutils literal notranslate"><span class="pre">PointCloud.Config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.extand_points"><code class="docutils literal notranslate"><span class="pre">PointCloud.extand_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.extend_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.extend_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.get_all_atributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.get_all_atributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.list_of_attributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.list_of_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.load_ply"><code class="docutils literal notranslate"><span class="pre">PointCloud.load_ply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.prune_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.prune_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.re_init"><code class="docutils literal notranslate"><span class="pre">PointCloud.re_init()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.register_atribute"><code class="docutils literal notranslate"><span class="pre">PointCloud.register_atribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.remove_points"><code class="docutils literal notranslate"><span class="pre">PointCloud.remove_points()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.replace"><code class="docutils literal notranslate"><span class="pre">PointCloud.replace()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.replace_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.replace_optimizer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.save_ply"><code class="docutils literal notranslate"><span class="pre">PointCloud.save_ply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.select_atributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.select_atributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_all_atributes_trainable"><code class="docutils literal notranslate"><span class="pre">PointCloud.set_all_atributes_trainable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_prefix_name"><code class="docutils literal notranslate"><span class="pre">PointCloud.set_prefix_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.setup"><code class="docutils literal notranslate"><span class="pre">PointCloud.setup()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.unwarp"><code class="docutils literal notranslate"><span class="pre">PointCloud.unwarp()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/exporter.html">exporter</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/exporter.html#module-pointrix.exporter.novel_view">Render the novel view.</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/exporter.html#pointrix.exporter.novel_view.novel_view_render"><code class="docutils literal notranslate"><span class="pre">novel_view_render()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/exporter.html#pointrix.exporter.novel_view.test_view_render"><code class="docutils literal notranslate"><span class="pre">test_view_render()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/hook.html">hook</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook"><code class="docutils literal notranslate"><span class="pre">Hook</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_load_checkpoint"><code class="docutils literal notranslate"><span class="pre">Hook.after_load_checkpoint()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_run"><code class="docutils literal notranslate"><span class="pre">Hook.after_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_train"><code class="docutils literal notranslate"><span class="pre">Hook.after_train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_train_iter"><code class="docutils literal notranslate"><span class="pre">Hook.after_train_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_val"><code class="docutils literal notranslate"><span class="pre">Hook.after_val()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.after_val_iter"><code class="docutils literal notranslate"><span class="pre">Hook.after_val_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.before_run"><code class="docutils literal notranslate"><span class="pre">Hook.before_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.before_train"><code class="docutils literal notranslate"><span class="pre">Hook.before_train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.before_train_iter"><code class="docutils literal notranslate"><span class="pre">Hook.before_train_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.before_val"><code class="docutils literal notranslate"><span class="pre">Hook.before_val()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.base_hook.Hook.before_val_iter"><code class="docutils literal notranslate"><span class="pre">Hook.before_val_iter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/hook.html#pointrix.hook.checkpoint_hook.CheckPointHook"><code class="docutils literal notranslate"><span class="pre">CheckPointHook</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.checkpoint_hook.CheckPointHook.after_train"><code class="docutils literal notranslate"><span class="pre">CheckPointHook.after_train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.checkpoint_hook.CheckPointHook.after_train_iter"><code class="docutils literal notranslate"><span class="pre">CheckPointHook.after_train_iter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook"><code class="docutils literal notranslate"><span class="pre">LogHook</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.after_train"><code class="docutils literal notranslate"><span class="pre">LogHook.after_train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.after_train_iter"><code class="docutils literal notranslate"><span class="pre">LogHook.after_train_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.after_val"><code class="docutils literal notranslate"><span class="pre">LogHook.after_val()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.after_val_iter"><code class="docutils literal notranslate"><span class="pre">LogHook.after_val_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.before_run"><code class="docutils literal notranslate"><span class="pre">LogHook.before_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.before_train"><code class="docutils literal notranslate"><span class="pre">LogHook.before_train()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/hook.html#pointrix.hook.log_hook.LogHook.before_val"><code class="docutils literal notranslate"><span class="pre">LogHook.before_val()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/logger.html">logger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ItersPerSecColumn"><code class="docutils literal notranslate"><span class="pre">ItersPerSecColumn</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ItersPerSecColumn.render"><code class="docutils literal notranslate"><span class="pre">ItersPerSecColumn.render()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.LogColumn"><code class="docutils literal notranslate"><span class="pre">LogColumn</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.LogColumn.render"><code class="docutils literal notranslate"><span class="pre">LogColumn.render()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger"><code class="docutils literal notranslate"><span class="pre">ProgressLogger</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.add_task"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.add_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.reset"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.start"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.start()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.start_task"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.start_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.stop"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.stop_task"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.stop_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.ProgressLogger.update"><code class="docutils literal notranslate"><span class="pre">ProgressLogger.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.TensorboardWriter"><code class="docutils literal notranslate"><span class="pre">TensorboardWriter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.TensorboardWriter.write_config"><code class="docutils literal notranslate"><span class="pre">TensorboardWriter.write_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.TensorboardWriter.write_image"><code class="docutils literal notranslate"><span class="pre">TensorboardWriter.write_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.TensorboardWriter.write_scalar"><code class="docutils literal notranslate"><span class="pre">TensorboardWriter.write_scalar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.WandbWriter"><code class="docutils literal notranslate"><span class="pre">WandbWriter</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.WandbWriter.write_config"><code class="docutils literal notranslate"><span class="pre">WandbWriter.write_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.WandbWriter.write_image"><code class="docutils literal notranslate"><span class="pre">WandbWriter.write_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.WandbWriter.write_scalar"><code class="docutils literal notranslate"><span class="pre">WandbWriter.write_scalar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.Writer"><code class="docutils literal notranslate"><span class="pre">Writer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.Writer.write_config"><code class="docutils literal notranslate"><span class="pre">Writer.write_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.Writer.write_image"><code class="docutils literal notranslate"><span class="pre">Writer.write_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.Writer.write_scalar"><code class="docutils literal notranslate"><span class="pre">Writer.write_scalar()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/logger.html#pointrix.logger.writer.logproject"><code class="docutils literal notranslate"><span class="pre">logproject()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/model.html">model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.Config"><code class="docutils literal notranslate"><span class="pre">BaseModel.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.forward"><code class="docutils literal notranslate"><span class="pre">BaseModel.forward()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.get_loss_dict"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_loss_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.get_metric_dict"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_metric_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.get_optimizer_dict"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_optimizer_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.load_ply"><code class="docutils literal notranslate"><span class="pre">BaseModel.load_ply()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.base_model.BaseModel.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseModel.load_state_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel"><code class="docutils literal notranslate"><span class="pre">CameraModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.Config"><code class="docutils literal notranslate"><span class="pre">CameraModel.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.camera_centers"><code class="docutils literal notranslate"><span class="pre">CameraModel.camera_centers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.extrinsic_matrices"><code class="docutils literal notranslate"><span class="pre">CameraModel.extrinsic_matrices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.image_height"><code class="docutils literal notranslate"><span class="pre">CameraModel.image_height</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.image_width"><code class="docutils literal notranslate"><span class="pre">CameraModel.image_width</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.intrinsic_params"><code class="docutils literal notranslate"><span class="pre">CameraModel.intrinsic_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.rotation_matrices"><code class="docutils literal notranslate"><span class="pre">CameraModel.rotation_matrices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.translation_vectors"><code class="docutils literal notranslate"><span class="pre">CameraModel.translation_vectors()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.Config"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.re_init"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.re_init()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.setup"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.setup()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/optimizer.html">optimizer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.Config"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.get_lr"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_lr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.get_momentum"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.get_momentum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.load_state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.load_state_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.param_groups"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.param_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.state_dict"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.state_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.update_model"><code class="docutils literal notranslate"><span class="pre">BaseOptimizer.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList"><code class="docutils literal notranslate"><span class="pre">OptimizerList</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.load_state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.load_state_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.param_groups"><code class="docutils literal notranslate"><span class="pre">OptimizerList.param_groups</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.state_dict"><code class="docutils literal notranslate"><span class="pre">OptimizerList.state_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.update_model"><code class="docutils literal notranslate"><span class="pre">OptimizerList.update_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.scheduler.ExponLRScheduler"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.get_exponential_lr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/optimizer.html#pointrix.optimizer.scheduler.ExponLRScheduler.step"><code class="docutils literal notranslate"><span class="pre">ExponLRScheduler.step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/render.html">renderer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/render.html#pointrix.renderer.base_splatting.GaussianSplattingRender"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.base_splatting.GaussianSplattingRender.Config"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.base_splatting.GaussianSplattingRender.cfg"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.cfg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.base_splatting.GaussianSplattingRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.render_iter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender"><code class="docutils literal notranslate"><span class="pre">MsplatRender</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender.Config"><code class="docutils literal notranslate"><span class="pre">MsplatRender.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender.load_state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.load_state_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender.render_batch"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_batch()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.msplat.MsplatRender.update_sh_degree"><code class="docutils literal notranslate"><span class="pre">MsplatRender.update_sh_degree()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="code/render.html#pointrix.renderer.gsplat.GsplatRender"><code class="docutils literal notranslate"><span class="pre">GsplatRender</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.gsplat.GsplatRender.Config"><code class="docutils literal notranslate"><span class="pre">GsplatRender.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.gsplat.GsplatRender.cfg"><code class="docutils literal notranslate"><span class="pre">GsplatRender.cfg</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/render.html#pointrix.renderer.gsplat.GsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GsplatRender.render_iter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/trainer.html">trainer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer"><code class="docutils literal notranslate"><span class="pre">DefaultTrainer</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.test"><code class="docutils literal notranslate"><span class="pre">DefaultTrainer.test()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.train_loop"><code class="docutils literal notranslate"><span class="pre">DefaultTrainer.train_loop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.train_step"><code class="docutils literal notranslate"><span class="pre">DefaultTrainer.train_step()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="advanced_usage_cn/extract_mesh.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">mesh 提取</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="code/dataset.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">dataset</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pointrix-Group
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Pointrix-Group.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

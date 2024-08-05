@@ -1,0 +1,942 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>为点云渲染添加监督 &#8212; Pointrix</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorial_cn/tutorial_2';</script>
+    <link rel="icon" href="../_static/pointrix.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="总览" href="../framework_cn/overall.html" />
+    <link rel="prev" title="使用 Pointflicks (GUI) 可视化" href="../get_started_cn/render_novel_view_gui.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index_cn.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pointrix_landscape_b.png" class="logo__image only-light" alt="Pointrix - Home"/>
+    <script>document.write(`<img src="../_static/pointrix_landscape_b.png" class="logo__image only-dark" alt="Pointrix - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">开始（10分钟内学习Pointrix）</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/installation.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/run_first_model.html">运行你的第一个模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/learning_config.html">Pointrix 中的配置文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/render_novel_view_gui.html">使用 Pointflicks (GUI) 可视化</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">为点云渲染添加监督</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">架构</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../framework_cn/overall.html">总览</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework_cn/data.html">数据流水线</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework_cn/model.html">模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework_cn/trainer.html">训练器 (Trainer)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework_cn/hook.html">钩子</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/camera_optimization.html">相机优化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/dust3r_init.html">使用Dust3r 初始化相机模型与点云</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/extract_mesh.html">mesh 提取</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/optimizer.html">optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/render.html">renderer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/trainer.html">trainer</a></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../switch_cn.html"><a href="https://pointrix-project.github.io/pointrix/index.html">English</a></a></li>
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorial_cn/tutorial_2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>为点云渲染添加监督</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">数据部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">模型部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">渲染部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hook">利用Hook 函数添加相关的日志</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="id1">
+<h1>为点云渲染添加监督<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>我们以表面法线为例，来说明如何为点云渲染模型添加表面法线先验的监督。本教程用到的数据下载链接如下：
+我们使用DSINE 模型来为 Tanks and Temple 数据集的truck场景生成Normal。</p>
+<section id="id2">
+<h2>数据部分的修改<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>由于Tanks and Temple 数据集为Colmap格式，因此我们选择继承Pointrix 中的Colmap Dataset进行修改。
+为了读取DSINE 模型的Normal 先验输出，我们首先需要修改配置：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>trainer.datapipeline.dataset.meta_dirs_dict<span class="o">={</span><span class="s2">&quot;image&quot;</span>:<span class="w"> </span><span class="s2">&quot;images&quot;</span>,<span class="w"> </span><span class="s2">&quot;normal&quot;</span>:<span class="s2">&quot;normals&quot;</span><span class="o">}</span>,
+</pre></div>
+</div>
+<p>其中 <code class="docutils literal notranslate"><span class="pre">normal</span></code> 为存入Normal 的文件夹名称，<code class="docutils literal notranslate"><span class="pre">normal</span></code>为这个数据的变量名。</p>
+<p>Pointrix 会根据当前数据路径和文件夹名称
+依据后缀自动读取数据，相关的读取代码在Pointrix中展示如下：</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Colmap 依据后缀自动读取数据的相关部分代码.</span><a class="headerlink" href="#id5" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span> <span class="nf">_load_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split</span><span class="p">):</span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 3</span><span class="sd">    The function for loading the metadata.</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="sd">    Parameters:</span>
+<span class="linenos"> 6</span><span class="sd">    -----------</span>
+<span class="linenos"> 7</span><span class="sd">    split: str</span>
+<span class="linenos"> 8</span><span class="sd">        The split of the dataset.</span>
+<span class="linenos"> 9</span><span class="sd">    </span>
+<span class="linenos">10</span><span class="sd">    Returns:</span>
+<span class="linenos">11</span><span class="sd">    --------</span>
+<span class="linenos">12</span><span class="sd">    meta_data: List[Dict[str, Any]]</span>
+<span class="linenos">13</span><span class="sd">        The metadata for the dataset.</span>
+<span class="linenos">14</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">15</span>    <span class="n">meta_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="hll"><span class="linenos">16</span>    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta_dirs_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class="hll"><span class="linenos">17</span>        <span class="n">meta_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_root</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</span><span class="linenos">18</span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">meta_path</span><span class="p">):</span>
+<span class="linenos">19</span>            <span class="n">Logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Meta path </span><span class="si">{</span><span class="n">meta_path</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+<span class="hll"><span class="linenos">20</span>        <span class="n">meta_file_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">meta_path</span><span class="p">))</span>
+</span><span class="linenos">21</span>        <span class="n">meta_file_names_split</span> <span class="o">=</span> <span class="p">[</span><span class="n">meta_file_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_index</span><span class="p">]</span> <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s2">&quot;train&quot;</span> <span class="k">else</span> <span class="p">[</span><span class="n">meta_file_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">val_index</span><span class="p">]</span>
+<span class="linenos">22</span>        <span class="n">cached_progress</span> <span class="o">=</span> <span class="n">ProgressLogger</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Loading cached meta&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;iters/s&#39;</span><span class="p">)</span>
+<span class="linenos">23</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cache_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Loading </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1"> cached </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">meta_file_names_split</span><span class="p">))</span>
+<span class="linenos">24</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="hll"><span class="linenos">25</span>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">meta_file_names_split</span><span class="p">):</span>
+</span><span class="linenos">26</span>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">meta_data</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">idx</span><span class="p">:</span>
+<span class="linenos">27</span>                <span class="n">meta_data</span><span class="o">.</span><span class="n">append</span><span class="p">({})</span>
+<span class="hll"><span class="linenos">28</span>            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">):</span>
+</span><span class="linenos">29</span>                <span class="n">meta_data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">meta_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">))})</span>
+<span class="hll"><span class="linenos">30</span>            <span class="k">elif</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;png&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;jpg&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;JPG&#39;</span><span class="p">):</span>
+</span><span class="linenos">31</span>                <span class="n">meta_data</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">meta_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">))})</span>
+<span class="linenos">32</span>            <span class="n">cached_progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cache_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">33</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<span class="linenos">34</span>    <span class="k">return</span> <span class="n">meta_data</span>
+</pre></div>
+</div>
+</div>
+<p>在使用Pointrix的自动数据读取功能后，我们需要对读取后的Normal数据进行处理。我们需要重载Colmap Dataset并修改其中的<code class="docutils literal notranslate"><span class="pre">_transform_metadata</span></code>
+函数来实现对读取观测数据 (表面法向) 的处理：具体代码在<code class="docutils literal notranslate"><span class="pre">examples/gaussian_splatting_supervise/dataset.py</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">我们高亮相较于原版Colmap Dataset中修改的代码。</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># 将修改后的数据集使用注册器进行注册</span>
+<span class="linenos"> 2</span><span class="nd">@DATA_SET_REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+<span class="linenos"> 3</span><span class="k">class</span> <span class="nc">ColmapDepthNormalDataset</span><span class="p">(</span><span class="n">ColmapDataset</span><span class="p">):</span>
+<span class="linenos"> 4</span>    <span class="k">def</span> <span class="nf">_transform_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">split</span><span class="p">):</span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 6</span><span class="sd">        The function for transforming the metadata.</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="sd">        Parameters:</span>
+<span class="linenos"> 9</span><span class="sd">        -----------</span>
+<span class="linenos">10</span><span class="sd">        meta: List[Dict[str, Any]]</span>
+<span class="linenos">11</span><span class="sd">            The metadata for the dataset.</span>
+<span class="linenos">12</span><span class="sd">        </span>
+<span class="linenos">13</span><span class="sd">        Returns:</span>
+<span class="linenos">14</span><span class="sd">        --------</span>
+<span class="linenos">15</span><span class="sd">        meta: List[Dict[str, Any]]</span>
+<span class="linenos">16</span><span class="sd">            The transformed metadata.</span>
+<span class="linenos">17</span><span class="sd">        &quot;&quot;&quot;</span>
+<span class="linenos">18</span>        <span class="n">cached_progress</span> <span class="o">=</span> <span class="n">ProgressLogger</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;transforming cached meta&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;iters/s&#39;</span><span class="p">)</span>
+<span class="linenos">19</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transforming&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Transforming </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1"> cached meta&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">meta</span><span class="p">))</span>
+<span class="linenos">20</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="linenos">21</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meta</span><span class="p">)):</span>
+<span class="linenos">22</span>            <span class="c1"># Transform Image</span>
+<span class="linenos">23</span>            <span class="n">image</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">]</span>
+<span class="linenos">24</span>            <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">size</span>
+<span class="linenos">25</span>            <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)))</span>
+<span class="linenos">26</span>            <span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image</span><span class="p">)</span> <span class="o">/</span> <span class="mf">255.</span>
+<span class="linenos">27</span>            <span class="k">if</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+<span class="linenos">28</span>                <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">image</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">image</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+<span class="linenos">29</span>            <span class="n">meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;image&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">image</span><span class="p">))</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="linenos">30</span>            <span class="n">cached_progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Transforming&#39;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos">31</span>            
+<span class="hll"><span class="linenos">32</span>            <span class="c1"># Transform Normal</span>
+</span><span class="hll"><span class="linenos">33</span>            <span class="n">meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;normal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;normal&#39;</span><span class="p">]))</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class="linenos">34</span>        <span class="n">cached_progress</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<span class="linenos">35</span>        <span class="k">return</span> <span class="n">meta</span>
+</pre></div>
+</div>
+</div>
+<p>我们将处理后的Normal 数据存入meta 中后，Pointrix中的Datapipeline 会自动帮我们在训练过程中生产对应的数据，数据部分修改完成。</p>
+</section>
+<section id="id3">
+<h2>模型部分的修改<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>首先，我们需要从Pointrix中导入基本模型，以便我们可以继承、注册和修改它们。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pointrix.model.base_model</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">MODEL_REGISTRY</span>
+</pre></div>
+</div>
+<p>其中基本模型包含一个高斯点云模型，和一个相机模型。由于我们需要得到点云模型的表面法线，因此我们需要对高斯点云
+模型进行对应的修改,从而使得其在<code class="docutils literal notranslate"><span class="pre">forward</span></code>函数前向输出表面法向，同时我们需要在<code class="docutils literal notranslate"><span class="pre">get_loss_dict</span></code>函数中获得对应的normal损失，使得normal监督
+加入反向传播，并且
+在<code class="docutils literal notranslate"><span class="pre">get_metric_dict</span></code>函数中得到渲染后的表面法向图片，为可视化预测表面法向做准备：</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">我们高亮相较于BaseModel修改的代码。</span><a class="headerlink" href="#id7" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="nd">@MODEL_REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+<span class="linenos">  2</span><span class="k">class</span> <span class="nc">NormalModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="linenos">  3</span>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="linenos">  4</span>
+<span class="linenos">  5</span>        <span class="n">frame_idx_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;frame_idx&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">))]</span>
+<span class="linenos">  6</span>        <span class="n">extrinsic_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_camera_model</span><span class="o">.</span><span class="n">extrinsic_matrices</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span> \
+<span class="linenos">  7</span>            <span class="k">if</span> <span class="n">training</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_camera_model</span><span class="o">.</span><span class="n">extrinsic_matrices</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span>
+<span class="linenos">  8</span>        <span class="n">intrinsic_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_camera_model</span><span class="o">.</span><span class="n">intrinsic_params</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span> \
+<span class="linenos">  9</span>            <span class="k">if</span> <span class="n">training</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_camera_model</span><span class="o">.</span><span class="n">intrinsic_params</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span>
+<span class="linenos"> 10</span>        <span class="n">camera_center</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training_camera_model</span><span class="o">.</span><span class="n">camera_centers</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span> \
+<span class="linenos"> 11</span>            <span class="k">if</span> <span class="n">training</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">validation_camera_model</span><span class="o">.</span><span class="n">camera_centers</span><span class="p">(</span><span class="n">frame_idx_list</span><span class="p">)</span>
+<span class="linenos"> 12</span>
+<span class="hll"><span class="linenos"> 13</span>        <span class="c1"># 获得表面法向</span>
+</span><span class="hll"><span class="linenos"> 14</span>        <span class="n">point_normal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_normals</span>
+</span><span class="hll"><span class="linenos"> 15</span>        <span class="n">projected_normal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_normals</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 16</span>            <span class="n">point_normal</span><span class="p">,</span> <span class="n">camera_center</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">extrinsic_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+</span><span class="linenos"> 17</span>
+<span class="linenos"> 18</span>        <span class="n">render_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 19</span>            <span class="s2">&quot;extrinsic_matrix&quot;</span><span class="p">:</span> <span class="n">extrinsic_matrix</span><span class="p">,</span>
+<span class="linenos"> 20</span>            <span class="s2">&quot;intrinsic_params&quot;</span><span class="p">:</span> <span class="n">intrinsic_params</span><span class="p">,</span>
+<span class="linenos"> 21</span>            <span class="s2">&quot;camera_center&quot;</span><span class="p">:</span> <span class="n">camera_center</span><span class="p">,</span>
+<span class="linenos"> 22</span>            <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+<span class="linenos"> 23</span>            <span class="s2">&quot;opacity&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">get_opacity</span><span class="p">,</span>
+<span class="linenos"> 24</span>            <span class="s2">&quot;scaling&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">get_scaling</span><span class="p">,</span>
+<span class="linenos"> 25</span>            <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">,</span>
+<span class="linenos"> 26</span>            <span class="s2">&quot;shs&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">get_shs</span><span class="p">,</span>
+<span class="hll"><span class="linenos"> 27</span>            <span class="s2">&quot;normals&quot;</span><span class="p">:</span> <span class="n">projected_normal</span>
+</span><span class="linenos"> 28</span>        <span class="p">}</span>
+<span class="linenos"> 29</span>        <span class="k">return</span> <span class="n">render_dict</span>
+<span class="linenos"> 30</span>
+<span class="hll"><span class="linenos"> 31</span>    <span class="c1"># 通过高斯点云的最短轴得到表面法向</span>
+</span><span class="hll"><span class="linenos"> 32</span>    <span class="nd">@property</span>
+</span><span class="hll"><span class="linenos"> 33</span>    <span class="k">def</span> <span class="nf">get_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos"> 34</span>        <span class="n">scaling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">scaling</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos"> 35</span>        <span class="n">normal_arg_min</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">scaling</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 36</span>        <span class="n">normal_each</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">normal_arg_min</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 37</span>        <span class="n">normal_each</span> <span class="o">=</span> <span class="n">normal_each</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos"> 38</span>
+</span><span class="hll"><span class="linenos"> 39</span>        <span class="n">rotatation_matrix</span> <span class="o">=</span> <span class="n">unitquat_to_rotmat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">get_rotation</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 40</span>        <span class="n">normal_each</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 41</span>            <span class="n">rotatation_matrix</span><span class="p">,</span> <span class="n">normal_each</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 42</span>
+</span><span class="hll"><span class="linenos"> 43</span>        <span class="n">normal_each</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">normal_each</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 44</span>        <span class="k">return</span> <span class="n">normal_each</span>
+</span><span class="linenos"> 45</span>
+<span class="hll"><span class="linenos"> 46</span>    <span class="c1"># 将高斯点云的表面法向投影到相机坐标系</span>
+</span><span class="hll"><span class="linenos"> 47</span>    <span class="k">def</span> <span class="nf">process_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normals</span><span class="p">,</span> <span class="n">camera_center</span><span class="p">,</span> <span class="n">E</span><span class="p">):</span>
+</span><span class="hll"><span class="linenos"> 48</span>        <span class="n">xyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">position</span>
+</span><span class="hll"><span class="linenos"> 49</span>        <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera_center</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 50</span>            <span class="n">xyz</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="o">-</span> <span class="n">xyz</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+</span><span class="hll"><span class="linenos"> 51</span>        <span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">/</span> <span class="n">direction</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 52</span>        <span class="n">dot_for_judge</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">direction</span><span class="o">*</span><span class="n">normals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 53</span>        <span class="n">normals</span><span class="p">[</span><span class="n">dot_for_judge</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">normals</span><span class="p">[</span><span class="n">dot_for_judge</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos"> 54</span>        <span class="n">w2c</span> <span class="o">=</span> <span class="n">E</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+</span><span class="hll"><span class="linenos"> 55</span>        <span class="n">normals_image</span> <span class="o">=</span> <span class="n">normals</span> <span class="o">@</span> <span class="n">w2c</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">torch</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos"> 56</span>                <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">normals</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 57</span>            <span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 58</span>        <span class="k">return</span> <span class="n">normals_image</span>
+</span><span class="linenos"> 59</span>
+<span class="linenos"> 60</span>    <span class="k">def</span> <span class="nf">get_loss_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">render_results</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="linenos"> 61</span>        <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="linenos"> 62</span>        <span class="n">gt_images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+<span class="linenos"> 63</span>            <span class="p">[</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">))],</span>
+<span class="linenos"> 64</span>            <span class="n">dim</span><span class="o">=</span><span class="mi">0</span>
+<span class="linenos"> 65</span>        <span class="p">)</span>
+<span class="linenos"> 66</span>        <span class="n">normal_images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+<span class="linenos"> 67</span>            <span class="p">[</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;normal&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">))],</span>
+<span class="linenos"> 68</span>            <span class="n">dim</span><span class="o">=</span><span class="mi">0</span>
+<span class="linenos"> 69</span>        <span class="p">)</span>
+<span class="linenos"> 70</span>        <span class="n">L1_loss</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">],</span> <span class="n">gt_images</span><span class="p">)</span>
+<span class="linenos"> 71</span>        <span class="n">ssim_loss</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ssim</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">],</span> <span class="n">gt_images</span><span class="p">)</span>
+<span class="linenos"> 72</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">lambda_ssim</span><span class="p">)</span> <span class="o">*</span> <span class="n">L1_loss</span>
+<span class="linenos"> 73</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">lambda_ssim</span> <span class="o">*</span> <span class="n">ssim_loss</span>
+<span class="hll"><span class="linenos"> 74</span>        <span class="c1"># normal 监督的损失</span>
+</span><span class="hll"><span class="linenos"> 75</span>        <span class="n">normal_loss</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">],</span> <span class="n">normal_images</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos"> 76</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="n">normal_loss</span>
+</span><span class="linenos"> 77</span>        <span class="n">loss_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
+<span class="linenos"> 78</span>                     <span class="s2">&quot;L1_loss&quot;</span><span class="p">:</span> <span class="n">L1_loss</span><span class="p">,</span>
+<span class="linenos"> 79</span>                     <span class="s2">&quot;ssim_loss&quot;</span><span class="p">:</span> <span class="n">ssim_loss</span><span class="p">,</span>
+<span class="linenos"> 80</span>                     <span class="s2">&quot;normal_loss&quot;</span><span class="p">:</span> <span class="n">normal_loss</span><span class="p">}</span>
+<span class="linenos"> 81</span>        <span class="k">return</span> <span class="n">loss_dict</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+<span class="linenos"> 84</span>    <span class="k">def</span> <span class="nf">get_metric_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">render_results</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="linenos"> 85</span>        <span class="n">gt_images</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span>
+<span class="linenos"> 86</span>            <span class="p">[</span><span class="n">batch</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;image&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">))],</span>
+<span class="linenos"> 87</span>            <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="linenos"> 88</span>        <span class="n">rgb</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="linenos"> 89</span>        <span class="n">L1_loss</span> <span class="o">=</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">gt_images</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">double</span><span class="p">()</span>
+<span class="linenos"> 90</span>        <span class="n">psnr_test</span> <span class="o">=</span> <span class="n">psnr</span><span class="p">(</span><span class="n">rgb</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">gt_images</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">double</span><span class="p">()</span>
+<span class="linenos"> 91</span>        <span class="n">ssims_test</span> <span class="o">=</span> <span class="n">ssim</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">gt_images</span><span class="p">,</span> <span class="n">size_average</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="linenos"> 92</span>        <span class="n">lpips_vgg_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lpips_func</span><span class="p">(</span><span class="n">rgb</span><span class="p">,</span> <span class="n">gt_images</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="linenos"> 93</span>        <span class="n">metric_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;L1_loss&quot;</span><span class="p">:</span> <span class="n">L1_loss</span><span class="p">,</span>
+<span class="linenos"> 94</span>                       <span class="s2">&quot;psnr&quot;</span><span class="p">:</span> <span class="n">psnr_test</span><span class="p">,</span>
+<span class="linenos"> 95</span>                       <span class="s2">&quot;ssims&quot;</span><span class="p">:</span> <span class="n">ssims_test</span><span class="p">,</span>
+<span class="linenos"> 96</span>                       <span class="s2">&quot;lpips&quot;</span><span class="p">:</span> <span class="n">lpips_vgg_test</span><span class="p">,</span>
+<span class="linenos"> 97</span>                       <span class="s2">&quot;gt_images&quot;</span><span class="p">:</span> <span class="n">gt_images</span><span class="p">,</span>
+<span class="linenos"> 98</span>                       <span class="s2">&quot;images&quot;</span><span class="p">:</span> <span class="n">rgb</span><span class="p">,</span>
+<span class="linenos"> 99</span>                       <span class="s2">&quot;rgb_file_name&quot;</span><span class="p">:</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;camera&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rgb_file_name</span><span class="p">}</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span>        <span class="k">if</span> <span class="s1">&#39;depth&#39;</span> <span class="ow">in</span> <span class="n">render_results</span><span class="p">:</span>
+<span class="linenos">102</span>            <span class="n">depth</span> <span class="o">=</span> <span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span>
+<span class="linenos">103</span>            <span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">depth</span>
+<span class="linenos">104</span>
+<span class="hll"><span class="linenos">105</span>        <span class="k">if</span> <span class="s1">&#39;normal&#39;</span> <span class="ow">in</span> <span class="n">render_results</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">106</span>            <span class="n">normal</span> <span class="o">=</span> <span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">107</span>            <span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normal</span>
+</span><span class="hll"><span class="linenos">108</span>
+</span><span class="hll"><span class="linenos">109</span>        <span class="k">if</span> <span class="s1">&#39;normal&#39;</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+</span><span class="hll"><span class="linenos">110</span>            <span class="n">normal</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;normal&#39;</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">111</span>            <span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;normal_gt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normal</span>
+</span><span class="linenos">112</span>
+<span class="linenos">113</span>        <span class="k">return</span> <span class="n">metric_dict</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id4">
+<h2>渲染部分的修改<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>得益于Msplat 的多目标渲染，我们仅需要修改<code class="docutils literal notranslate"><span class="pre">render_iter</span></code>，即将点云模型输出的Normal特征加入渲染器即可, 同样，新修改后的渲染器需要
+使用注册器注册，以便于我们通过配置来索引它。其中14行的Normals即为模型forward的输出参数，Pointrix
+将自动对接：</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">我们高亮相较于MsplatRender修改的代码。</span><a class="headerlink" href="#id8" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nd">@RENDERER_REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+<span class="linenos"> 2</span><span class="k">class</span> <span class="nc">MsplatNormalRender</span><span class="p">(</span><span class="n">MsplatRender</span><span class="p">):</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 4</span><span class="sd">    A class for rendering point clouds using DPTR.</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="sd">    Parameters</span>
+<span class="linenos"> 7</span><span class="sd">    ----------</span>
+<span class="linenos"> 8</span><span class="sd">    cfg : dict</span>
+<span class="linenos"> 9</span><span class="sd">        The configuration dictionary.</span>
+<span class="linenos">10</span><span class="sd">    white_bg : bool</span>
+<span class="linenos">11</span><span class="sd">        Whether the background is white or not.</span>
+<span class="linenos">12</span><span class="sd">    device : str</span>
+<span class="linenos">13</span><span class="sd">        The device to use.</span>
+<span class="hll"><span class="linenos">14</span><span class="sd">    update_sh_iter : int, optional</span>
+</span><span class="linenos">15</span><span class="sd">        The iteration to update the spherical harmonics degree, by default 1000.</span>
+<span class="linenos">16</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>    <span class="k">def</span> <span class="nf">render_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+<span class="linenos">19</span>                    <span class="n">height</span><span class="p">,</span>
+<span class="linenos">20</span>                    <span class="n">width</span><span class="p">,</span>
+<span class="linenos">21</span>                    <span class="n">extrinsic_matrix</span><span class="p">,</span>
+<span class="linenos">22</span>                    <span class="n">intrinsic_params</span><span class="p">,</span>
+<span class="linenos">23</span>                    <span class="n">camera_center</span><span class="p">,</span>
+<span class="linenos">24</span>                    <span class="n">position</span><span class="p">,</span>
+<span class="linenos">25</span>                    <span class="n">opacity</span><span class="p">,</span>
+<span class="linenos">26</span>                    <span class="n">scaling</span><span class="p">,</span>
+<span class="linenos">27</span>                    <span class="n">rotation</span><span class="p">,</span>
+<span class="linenos">28</span>                    <span class="n">shs</span><span class="p">,</span>
+<span class="linenos">29</span>                    <span class="n">normals</span><span class="p">,</span>
+<span class="linenos">30</span>                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span>        <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">position</span> <span class="o">-</span>
+<span class="linenos">33</span>                     <span class="n">camera_center</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+<span class="linenos">34</span>        <span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">/</span> <span class="n">direction</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">35</span>        <span class="n">rgb</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">compute_sh</span><span class="p">(</span><span class="n">shs</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">direction</span><span class="p">)</span>
+<span class="linenos">36</span>        <span class="n">extrinsic_matrix</span> <span class="o">=</span> <span class="n">extrinsic_matrix</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:]</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span>        <span class="p">(</span><span class="n">uv</span><span class="p">,</span> <span class="n">depth</span><span class="p">)</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">project_point</span><span class="p">(</span>
+<span class="linenos">39</span>            <span class="n">position</span><span class="p">,</span>
+<span class="linenos">40</span>            <span class="n">intrinsic_params</span><span class="p">,</span>
+<span class="linenos">41</span>            <span class="n">extrinsic_matrix</span><span class="p">,</span>
+<span class="linenos">42</span>            <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span>
+<span class="linenos">43</span>
+<span class="linenos">44</span>        <span class="n">visible</span> <span class="o">=</span> <span class="n">depth</span> <span class="o">!=</span> <span class="mi">0</span>
+<span class="linenos">45</span>
+<span class="linenos">46</span>        <span class="c1"># compute cov3d</span>
+<span class="linenos">47</span>        <span class="n">cov3d</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">compute_cov3d</span><span class="p">(</span><span class="n">scaling</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">visible</span><span class="p">)</span>
+<span class="linenos">48</span>
+<span class="linenos">49</span>        <span class="c1"># ewa project</span>
+<span class="linenos">50</span>        <span class="p">(</span><span class="n">conic</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">tiles_touched</span><span class="p">)</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">ewa_project</span><span class="p">(</span>
+<span class="hll"><span class="linenos">51</span>            <span class="n">position</span><span class="p">,</span>
+</span><span class="linenos">52</span>            <span class="n">cov3d</span><span class="p">,</span>
+<span class="linenos">53</span>            <span class="n">intrinsic_params</span><span class="p">,</span>
+<span class="linenos">54</span>            <span class="n">extrinsic_matrix</span><span class="p">,</span>
+<span class="linenos">55</span>            <span class="n">uv</span><span class="p">,</span>
+<span class="linenos">56</span>            <span class="n">width</span><span class="p">,</span>
+<span class="linenos">57</span>            <span class="n">height</span><span class="p">,</span>
+<span class="linenos">58</span>            <span class="n">visible</span>
+<span class="linenos">59</span>        <span class="p">)</span>
+<span class="linenos">60</span>
+<span class="linenos">61</span>        <span class="c1"># sort</span>
+<span class="linenos">62</span>        <span class="p">(</span><span class="n">gaussian_ids_sorted</span><span class="p">,</span> <span class="n">tile_range</span><span class="p">)</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">sort_gaussian</span><span class="p">(</span>
+<span class="linenos">63</span>            <span class="n">uv</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">tiles_touched</span>
+<span class="linenos">64</span>        <span class="p">)</span>
+<span class="linenos">65</span>
+<span class="linenos">66</span>        <span class="n">Render_Features</span> <span class="o">=</span> <span class="n">RenderFeatures</span><span class="p">(</span><span class="n">rgb</span><span class="o">=</span><span class="n">rgb</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="n">normals</span><span class="p">)</span>
+<span class="hll"><span class="linenos">67</span>        <span class="n">render_features</span> <span class="o">=</span> <span class="n">Render_Features</span><span class="o">.</span><span class="n">combine</span><span class="p">()</span>
+</span><span class="linenos">68</span>
+<span class="hll"><span class="linenos">69</span>        <span class="n">ndc</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">uv</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">70</span>        <span class="k">try</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">71</span>            <span class="n">ndc</span><span class="o">.</span><span class="n">retain_grad</span><span class="p">()</span>
+</span><span class="linenos">72</span>        <span class="k">except</span><span class="p">:</span>
+<span class="hll"><span class="linenos">73</span>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ndc does not have grad&quot;</span><span class="p">)</span>
+</span><span class="linenos">74</span>
+<span class="linenos">75</span>        <span class="c1"># alpha blending</span>
+<span class="linenos">76</span>        <span class="n">rendered_features</span> <span class="o">=</span> <span class="n">msplat</span><span class="o">.</span><span class="n">alpha_blending</span><span class="p">(</span>
+<span class="linenos">77</span>            <span class="n">uv</span><span class="p">,</span> <span class="n">conic</span><span class="p">,</span> <span class="n">opacity</span><span class="p">,</span> <span class="n">render_features</span><span class="p">,</span>
+<span class="linenos">78</span>            <span class="n">gaussian_ids_sorted</span><span class="p">,</span> <span class="n">tile_range</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bg_color</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">ndc</span>
+<span class="linenos">79</span>        <span class="p">)</span>
+<span class="linenos">80</span>        <span class="n">rendered_features_split</span> <span class="o">=</span> <span class="n">Render_Features</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rendered_features</span><span class="p">)</span>
+<span class="linenos">81</span>
+<span class="linenos">82</span>        <span class="n">normals</span> <span class="o">=</span> <span class="n">rendered_features_split</span><span class="p">[</span><span class="s2">&quot;normal&quot;</span><span class="p">]</span>
+<span class="linenos">83</span>        
+<span class="linenos">84</span>        <span class="c1"># convert normals from [-1,1] to [0,1]</span>
+<span class="linenos">85</span>        <span class="n">normals_im</span> <span class="o">=</span> <span class="n">normals</span> <span class="o">/</span> <span class="n">normals</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">86</span>        <span class="n">normals_im</span> <span class="o">=</span> <span class="p">(</span><span class="n">normals_im</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="linenos">87</span>        
+<span class="linenos">88</span>        <span class="n">rendered_features_split</span><span class="p">[</span><span class="s2">&quot;normal&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normals_im</span>
+<span class="linenos">89</span>
+<span class="linenos">90</span>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;rendered_features_split&quot;</span><span class="p">:</span> <span class="n">rendered_features_split</span><span class="p">,</span>
+<span class="linenos">91</span>                <span class="s2">&quot;uv_points&quot;</span><span class="p">:</span> <span class="n">ndc</span><span class="p">,</span>
+<span class="linenos">92</span>                <span class="s2">&quot;visibility&quot;</span><span class="p">:</span> <span class="n">radius</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+<span class="linenos">93</span>                <span class="s2">&quot;radii&quot;</span><span class="p">:</span> <span class="n">radius</span>
+<span class="linenos">94</span>                <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="hook">
+<h2>利用Hook 函数添加相关的日志<a class="headerlink" href="#hook" title="Link to this heading">#</a></h2>
+<p>最后，我们希望每次验证过程中，可视化模型预测的表面法向图片，因此我们需要修改对应的钩子函数，来达到每次验证后可视化表面法向的效果：</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">我们高亮相较于LogHook修改的代码。</span><a class="headerlink" href="#id9" title="Link to this code">#</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nd">@HOOK_REGISTRY</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+<span class="linenos"> 2</span><span class="k">class</span> <span class="nc">NormalLogHook</span><span class="p">(</span><span class="n">LogHook</span><span class="p">):</span>
+<span class="linenos"> 3</span>    <span class="k">def</span> <span class="nf">after_val_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainner</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 4</span>        <span class="bp">self</span><span class="o">.</span><span class="n">progress_bar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="linenos"> 5</span>        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="linenos"> 6</span>            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">losses_test</span><span class="p">:</span>
+<span class="linenos"> 7</span>                <span class="bp">self</span><span class="o">.</span><span class="n">losses_test</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="n">value</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span>        <span class="n">image_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;rgb_file_name&#39;</span><span class="p">])</span>
+<span class="linenos">10</span>        <span class="n">iteration</span> <span class="o">=</span> <span class="n">trainner</span><span class="o">.</span><span class="n">global_step</span>
+<span class="linenos">11</span>        <span class="k">if</span> <span class="s1">&#39;depth&#39;</span> <span class="ow">in</span> <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">:</span>
+<span class="linenos">12</span>            <span class="n">visual_depth</span> <span class="o">=</span> <span class="n">visualize_depth</span><span class="p">(</span><span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;depth&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">tensorboard</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos">13</span>            <span class="n">trainner</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+<span class="linenos">14</span>            <span class="s2">&quot;test&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_view_</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">/depth&quot;</span><span class="p">,</span>
+<span class="linenos">15</span>            <span class="n">visual_depth</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+<span class="linenos">16</span>        <span class="n">trainner</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+<span class="linenos">17</span>            <span class="s2">&quot;test&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_view_</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">/render&quot;</span><span class="p">,</span>
+<span class="linenos">18</span>            <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+<span class="linenos">19</span>            <span class="n">step</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>        <span class="n">trainner</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+<span class="linenos">22</span>            <span class="s2">&quot;test&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_view_</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">/ground_truth&quot;</span><span class="p">,</span>
+<span class="linenos">23</span>            <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;gt_images&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+<span class="linenos">24</span>            <span class="n">step</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+<span class="linenos">25</span>        
+<span class="hll"><span class="linenos">26</span>        <span class="n">trainner</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">27</span>            <span class="s2">&quot;test&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_view_</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">/normal&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">28</span>            <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+</span><span class="hll"><span class="linenos">29</span>            <span class="n">step</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+</span><span class="hll"><span class="linenos">30</span>        <span class="n">trainner</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">write_image</span><span class="p">(</span>
+</span><span class="hll"><span class="linenos">31</span>            <span class="s2">&quot;test&quot;</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_view_</span><span class="si">{</span><span class="n">image_name</span><span class="si">}</span><span class="s2">/normal_gt&quot;</span><span class="p">,</span>
+</span><span class="hll"><span class="linenos">32</span>            <span class="n">trainner</span><span class="o">.</span><span class="n">metric_dict</span><span class="p">[</span><span class="s1">&#39;normal_gt&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+</span><span class="hll"><span class="linenos">33</span>            <span class="n">step</span><span class="o">=</span><span class="n">iteration</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<p>最后，我们需要修改我们的配置，从而将修改后的模型，渲染器，数据集，钩子函数添加到Pointrix 训练流中：</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">我们高亮相较于默认配置修改的配置。</span><a class="headerlink" href="#id10" title="Link to this code">#</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;garden&quot;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="nt">trainer</span><span class="p">:</span>
+<span class="linenos"> 4</span><span class="w">  </span><span class="nt">output_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/clz/log/garden&quot;</span>
+<span class="linenos"> 5</span><span class="w">  </span><span class="nt">max_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30000</span>
+<span class="linenos"> 6</span><span class="w">  </span><span class="nt">val_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+<span class="linenos"> 7</span><span class="w">  </span><span class="nt">training</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">  </span><span class="nt">model</span><span class="p">:</span>
+<span class="hll"><span class="linenos">10</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NormalModel</span>
+</span><span class="linenos">11</span><span class="w">    </span><span class="nt">lambda_ssim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nt">point_cloud</span><span class="p">:</span>
+<span class="linenos">13</span><span class="w">      </span><span class="nt">point_cloud_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GaussianPointCloud&quot;</span><span class="w">  </span>
+<span class="linenos">14</span><span class="w">      </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="linenos">15</span><span class="w">      </span><span class="nt">trainable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="linenos">16</span><span class="w">      </span><span class="nt">unwarp_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;point_cloud&quot;</span>
+<span class="linenos">17</span><span class="w">      </span><span class="nt">initializer</span><span class="p">:</span>
+<span class="linenos">18</span><span class="w">        </span><span class="nt">init_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;colmap&#39;</span>
+<span class="linenos">19</span><span class="w">        </span><span class="nt">feat_dim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="linenos">20</span><span class="w">    </span><span class="nt">camera_model</span><span class="p">:</span>
+<span class="linenos">21</span><span class="w">      </span><span class="nt">enable_training</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">22</span><span class="w">  </span>
+<span class="linenos">23</span><span class="w">  </span><span class="nt">controller</span><span class="p">:</span>
+<span class="linenos">24</span><span class="w">    </span><span class="nt">normalize_grad</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">25</span><span class="w">    </span><span class="nt">control_module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str = &quot;point_cloud&quot;</span>
+<span class="linenos">26</span><span class="w">    </span><span class="nt">split_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 2</span>
+<span class="linenos">27</span><span class="w">    </span><span class="nt">prune_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 100</span>
+<span class="linenos">28</span><span class="w">    </span><span class="nt">min_opacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.005</span>
+<span class="linenos">29</span><span class="w">    </span><span class="nt">percent_dense</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.01</span>
+<span class="linenos">30</span><span class="w">    </span><span class="nt">min_opacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.005</span>
+<span class="linenos">31</span><span class="w">    </span><span class="nt">densify_grad_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.0002</span>
+<span class="linenos">32</span><span class="w">    </span><span class="nt">duplicate_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 100</span>
+<span class="linenos">33</span><span class="w">    </span><span class="nt">densify_start_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 500</span>
+<span class="linenos">34</span><span class="w">    </span><span class="nt">densify_stop_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 15000</span>
+<span class="linenos">35</span><span class="w">    </span><span class="nt">opacity_reset_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 3000</span>
+<span class="linenos">36</span><span class="w">    </span><span class="nt">optimizer_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str = &quot;optimizer_1&quot;</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="w">  </span><span class="nt">optimizer</span><span class="p">:</span>
+<span class="linenos">39</span><span class="w">    </span><span class="nt">optimizer_1</span><span class="p">:</span>
+<span class="linenos">40</span><span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BaseOptimizer</span>
+<span class="linenos">41</span><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adam</span>
+<span class="linenos">42</span><span class="w">      </span><span class="nt">args</span><span class="p">:</span>
+<span class="linenos">43</span><span class="w">        </span><span class="nt">eps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-15</span>
+<span class="linenos">44</span><span class="w">      </span><span class="nt">extra_cfg</span><span class="p">:</span>
+<span class="linenos">45</span><span class="w">        </span><span class="nt">backward</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">46</span><span class="w">      </span><span class="nt">params</span><span class="p">:</span>
+<span class="linenos">47</span><span class="w">        </span><span class="nt">point_cloud.position</span><span class="p">:</span>
+<span class="linenos">48</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.00016</span>
+<span class="linenos">49</span><span class="w">        </span><span class="nt">point_cloud.features</span><span class="p">:</span>
+<span class="linenos">50</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0025</span>
+<span class="linenos">51</span><span class="w">        </span><span class="nt">point_cloud.features_rest</span><span class="p">:</span>
+<span class="linenos">52</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.000125</span><span class="w"> </span><span class="c1"># features/20</span>
+<span class="linenos">53</span><span class="w">        </span><span class="nt">point_cloud.scaling</span><span class="p">:</span>
+<span class="linenos">54</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.005</span>
+<span class="linenos">55</span><span class="w">        </span><span class="nt">point_cloud.rotation</span><span class="p">:</span>
+<span class="linenos">56</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
+<span class="linenos">57</span><span class="w">        </span><span class="nt">point_cloud.opacity</span><span class="p">:</span>
+<span class="linenos">58</span><span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
+<span class="linenos">59</span><span class="w">      </span><span class="nt">camera_params</span><span class="p">:</span>
+<span class="linenos">60</span><span class="w">        </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-3</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="w">  </span><span class="nt">scheduler</span><span class="p">:</span>
+<span class="linenos">63</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ExponLRScheduler&quot;</span>
+<span class="linenos">64</span><span class="w">    </span><span class="nt">params</span><span class="p">:</span>
+<span class="linenos">65</span><span class="w">      </span><span class="nt">point_cloud.position</span><span class="p">:</span>
+<span class="linenos">66</span><span class="w">        </span><span class="nt">init</span><span class="p">:</span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">0.00016</span>
+<span class="linenos">67</span><span class="w">        </span><span class="nt">final</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0000016</span>
+<span class="linenos">68</span><span class="w">        </span><span class="nt">max_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.max_steps}</span>
+<span class="linenos">69</span><span class="w">  </span>
+<span class="linenos">70</span><span class="w">  </span><span class="nt">datapipeline</span><span class="p">:</span>
+<span class="linenos">71</span><span class="w">    </span><span class="nt">data_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/gj/data/garden&quot;</span>
+<span class="hll"><span class="linenos">72</span><span class="w">    </span><span class="nt">data_set</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ColmapDepthNormalDataset&quot;</span>
+</span><span class="linenos">73</span><span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="linenos">74</span><span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="linenos">75</span><span class="w">    </span><span class="nt">num_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="linenos">76</span><span class="w">    </span><span class="nt">dataset</span><span class="p">:</span>
+<span class="linenos">77</span><span class="w">      </span><span class="nt">cached_metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.training}</span>
+<span class="linenos">78</span><span class="w">      </span><span class="nt">scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
+<span class="linenos">79</span><span class="w">      </span><span class="nt">white_bg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="linenos">80</span>
+<span class="linenos">81</span><span class="w">  </span><span class="nt">renderer</span><span class="p">:</span>
+<span class="hll"><span class="linenos">82</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DPTRNormalRender&quot;</span>
+</span><span class="linenos">83</span><span class="w">    </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.model.point_cloud.max_sh_degree}</span>
+<span class="linenos">84</span><span class="w">  </span><span class="nt">writer</span><span class="p">:</span>
+<span class="linenos">85</span><span class="w">    </span><span class="nt">writer_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;WandbWriter&quot;</span>
+<span class="linenos">86</span><span class="w">  </span>
+<span class="linenos">87</span><span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
+<span class="linenos">88</span><span class="w">    </span><span class="nt">LogHook</span><span class="p">:</span>
+<span class="hll"><span class="linenos">89</span><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NormalLogHook</span>
+</span><span class="linenos">90</span><span class="w">    </span><span class="nt">CheckPointHook</span><span class="p">:</span>
+<span class="linenos">91</span><span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CheckPointHook</span>
+</pre></div>
+</div>
+</div>
+<p>经过上述修改（所有代码的高亮部分），我们即完成了对高斯点云表面法向的监督。所有的代码在<code class="docutils literal notranslate"><span class="pre">example/supervise</span></code> 文件夹下。</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../get_started_cn/render_novel_view_gui.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">使用 Pointflicks (GUI) 可视化</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../framework_cn/overall.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">总览</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">数据部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">模型部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">渲染部分的修改</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hook">利用Hook 函数添加相关的日志</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Pointrix-Group
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Pointrix-Group.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
