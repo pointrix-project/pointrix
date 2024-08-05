@@ -1,10 +1,11 @@
 <div align="center">
   <p align="center">
       <picture>
-      <source srcset="https://github.com/pointrix-project/pointrix/assets/32637882/cf58c589-8808-4b8f-8941-982b8a688b8c" media="(prefers-color-scheme: dark)">
-      <source srcset="https://github.com/pointrix-project/pointrix/assets/32637882/e0bd7ce3-fbf3-40f3-889c-7c882f3eed20" media="(prefers-color-scheme: light)">
-      <img alt="Pointrix" src="https://github.com/pointrix-project/pointrix/assets/32637882/e0bd7ce3-fbf3-40f3-889c-7c882f3eed20" width="80%">
+      <source srcset="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" media="(prefers-color-scheme: dark)">
+      <source srcset="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" media="(prefers-color-scheme: light)">
+      <img alt="Pointrix" src="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" width="80%">
       </picture>
+
   </p>
   <p align="center">
     A differentiable point-based rendering library.
@@ -45,12 +46,6 @@ Pointrix is a differentiable point-based rendering library which has following p
   - Support Dynmamic scene reconstruction task and Generation task (WIP).
   - Support mesh extraction and different type of initialization (WIP)
 
-<div style="display:flex;">
-  <img src="https://github.com/pointrix-project/pointrix/assets/32637882/61795e5a-f91a-4a2a-b6ce-9a341a16145e" width="30%" />
-  <img src="https://github.com/pointrix-project/pointrix/assets/32637882/616b7af8-3a8a-455a-ac1e-a62e9dc146d2" width="30%" />
-  <img src="https://github.com/pointrix-project/pointrix/assets/32637882/928a142e-38cb-48e6-847b-1c6d4b95f7a3" width="30%" />
-</div>
-
 <!-- ## Comparation with original 3D gaussian code
 
 ### nerf_synthetic dataset (PSNR)
@@ -87,13 +82,23 @@ conda install pytorch==2.1.1 torchvision==0.16.1 pytorch-cuda=12.1 -c pytorch -c
 Install Pointrix and MSplat:
 
 ```bash
-cd ../..
 cd msplat
 pip install .
 
 cd ..
 pip install -r requirements.txt
 pip install -e .
+```
+
+(Optional) You can also install gsplat or diff-gaussian-rasterization:
+
+```bash
+pip install gsplat
+
+git clone https://github.com/graphdeco-inria/diff-gaussian-rasterization.git
+cd diff-gaussian-rasterization
+python setup.py install
+pip install .
 ```
 
 
@@ -142,6 +147,8 @@ To enable camera optimization, you should set trainer.model.camera_model.enable_
 ```bash
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=1.0 trainer.output_path=your_log_path trainer.renderer.name=MsplatRender trainer.model.camera_model.enable_training=True trainer.optimizer.optimizer_1.camera_params.lr=1e-3
 ```
+
+![pose](https://github.com/user-attachments/assets/42f20422-45be-463a-8b4b-744ede05de84)
 
 #### Mesh exstraction (WIP)
 
