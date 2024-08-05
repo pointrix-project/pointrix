@@ -12,6 +12,8 @@
     <br />
     <a href="https://pointrix-project.github.io/pointrix/">
     <strong>Document🏠</strong></a>  | 
+    <a href="https://pointrix-project.github.io/pointrix/index_cn.html">
+    <strong>中文文档🏠</strong></a> | 
     <a href="https://pointrix-project.github.io/pointrix/">
     <strong>Paper(Comming soon)📄</strong></a> | 
     <a href="https://github.com/pointrix-project/msplat">
