@@ -70,15 +70,10 @@ def gaussian(window_size, sigma):
     gauss = torch.Tensor([exp(-(x - window_size // 2) ** 2 / float(2 * sigma ** 2)) for x in range(window_size)])
     return gauss / gauss.sum()
 
-def create_window(window_size, channel):
-    _1D_window = gaussian(window_size, 1.5).unsqueeze(1)
-    _2D_window = _1D_window.mm(_1D_window.t()).float().unsqueeze(0).unsqueeze(0)
-    window = Variable(_2D_window.expand(channel, 1, window_size, window_size).contiguous())
-    return window
-
 def ssim(img1:Float[Tensor, "H W C"], img2:Float[Tensor, "H W C"], window_size=11, size_average=True):
     """
-    Compute the SSIM between two images.
+    Compute the SSIM between two images, 
+    adapted from https://github.com/Po-Hsun-Su/pytorch-ssim/blame/3add4532d3f633316cba235da1c69e90f0dfb952/pytorch_ssim/__init__.py#L65
 
     Parameters
     ----------
@@ -121,6 +116,12 @@ def _ssim(img1, img2, window, window_size, channel, size_average=True):
         return ssim_map.mean()
     else:
         return ssim_map.mean(1).mean(1).mean(1)
+    
+def create_window(window_size, channel):
+    _1D_window = gaussian(window_size, 1.5).unsqueeze(1)
+    _2D_window = _1D_window.mm(_1D_window.t()).float().unsqueeze(0).unsqueeze(0)
+    window = Variable(_2D_window.expand(channel, 1, window_size, window_size).contiguous())
+    return window
     
 class LPIPS(object):
     def __init__(self, device='cuda', net='vgg'):
