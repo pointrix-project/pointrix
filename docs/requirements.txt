@@ -16,3 +16,5 @@ plyfile
 opencv-python
 matplotlib
 roma
+scikit-learn
+gsplat
