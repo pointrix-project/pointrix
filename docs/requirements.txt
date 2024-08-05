@@ -17,5 +17,4 @@ opencv-python
 matplotlib
 roma
 scikit-learn
-gsplat
 sphinx_book_theme
