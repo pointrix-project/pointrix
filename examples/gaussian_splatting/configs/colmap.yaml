@@ -19,6 +19,9 @@ trainer:
         feat_dim: 3
     camera_model:
       enable_training: False
+    renderer:
+      name: "GaussianSplattingRender"
+      max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
   controler:
     normalize_grad: False
@@ -66,9 +69,6 @@ trainer:
       scale: 0.25
       white_bg: False
 
-  renderer:
-    name: "GaussianSplattingRender"
-    max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
     writer_type: "TensorboardWriter"
   

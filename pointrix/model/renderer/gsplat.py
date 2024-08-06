@@ -2,9 +2,9 @@ import torch
 import math
 from dataclasses import dataclass
 
-from ..utils.base import BaseObject
-from ..utils.pose import Fov2ProjectMat
-from ..logger import Logger
+from ...utils.base import BaseObject
+from ...utils.pose import Fov2ProjectMat
+from ...logger import Logger
 from .msplat import RENDERER_REGISTRY, MsplatRender
 
 from gsplat.rendering import rasterization

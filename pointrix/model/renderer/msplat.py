@@ -3,10 +3,10 @@ import msplat
 
 from typing import List
 from dataclasses import dataclass
-from ..utils.base import BaseObject
-from ..utils.registry import Registry
+from ...utils.base import BaseObject
+from ...utils.registry import Registry
 from .utils.renderer_utils import RenderFeatures
-RENDERER_REGISTRY = Registry("RENDERER", modules=["pointrix.renderer"])
+RENDERER_REGISTRY = Registry("RENDERER", modules=["pointrix.model.renderer"])
 
 
 @RENDERER_REGISTRY.register()

@@ -9,7 +9,6 @@ from abc import abstractmethod
 from ..model import parse_model
 from ..logger import parse_writer, Logger
 from ..hook import parse_hooks
-from ..renderer import parse_renderer
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
@@ -37,7 +36,6 @@ class BaseTrainer:
         # Modules
         model: dict = field(default_factory=dict)
         optimizer: dict = field(default_factory=dict)
-        renderer: dict = field(default_factory=dict)
         scheduler: Optional[dict] = field(default_factory=dict)
         writer: dict = field(default_factory=dict)
         hooks: dict = field(default_factory=dict)
@@ -82,13 +80,11 @@ class BaseTrainer:
         # build datapipeline
         self.datapipeline = BaseDataPipeline(self.cfg.datapipeline, device=self.device)
 
-        # build render and point cloud model
+        # build point cloud model
         self.white_bg = self.datapipeline.white_bg
-        self.renderer = parse_renderer(
-            self.cfg.renderer, white_bg=self.white_bg, device=self.device)
-
         self.model = parse_model(
             self.cfg.model, self.datapipeline, device=self.device)
+        
         # build logger and hooks
         self.writer = parse_writer(self.cfg.writer, exp_dir, experiment_name=name, logcfg=self.cfg)
 
@@ -158,7 +154,7 @@ class BaseTrainer:
             "global_step": self.global_step,
             "optimizer": self.optimizer.state_dict(),
             "model": self.model.get_state_dict(),
-            "renderer": self.renderer.state_dict()
+            "renderer": self.model.renderer.state_dict()
         }
         torch.save(data_list, path)
 
