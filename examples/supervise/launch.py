@@ -6,10 +6,6 @@ from pointrix.utils.config import load_config
 from pointrix.engine.default_trainer import DefaultTrainer
 from pointrix.logger.writer import logproject, Logger
 
-from dataset import ColmapDepthNormalDataset
-from model import NormalModel
-from renderer import MsplatNormalRender
-from hook import NormalLogHook
 
 def main(args, extras) -> None:
 
@@ -17,6 +13,8 @@ def main(args, extras) -> None:
     project_path = os.path.dirname(os.path.abspath(__file__))
 
     logproject(project_path, os.path.join(cfg.exp_dir, 'project_file'), ['py', 'yaml'])
+
+    
     try:
         gaussian_trainer = DefaultTrainer(
                             cfg.trainer,
@@ -34,8 +32,10 @@ def main(args, extras) -> None:
         else:
             gaussian_trainer.test(cfg.trainer.test_model_path)
         Logger.print("\nTraining complete.")
-    except KeyboardInterrupt:
-        Logger.print("You have entered CTRL+C.. Wait to finalize")
+    except:
+        Logger.print_exception(show_locals=True)
+        for hook in gaussian_trainer.hooks:
+            hook.exception()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

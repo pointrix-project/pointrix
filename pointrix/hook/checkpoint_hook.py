@@ -41,3 +41,9 @@ class CheckPointHook(Hook):
             trainner.exp_dir, 
             "chkpnt" + "{:0>5}.pth".format(trainner.global_step))
         torch.save(data_list, path)
+        
+    def exception(self) -> None:
+        """
+        some operations when exception occurs.
+        """
+        pass

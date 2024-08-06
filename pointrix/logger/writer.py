@@ -141,8 +141,6 @@ class ProgressLogger:
         log : Optional[Dict[str, Any]], optional
             The log dictionary, by default None
         """
-
-        self.progress.update(self.tasks[name], **log)
         self.progress.advance(self.tasks[name], advance=step)
 
     def start(self):

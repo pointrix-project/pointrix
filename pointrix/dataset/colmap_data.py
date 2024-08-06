@@ -89,19 +89,18 @@ class ColmapDataset(BaseDataset):
         """
         cached_progress = ProgressLogger(description='transforming cached meta', suffix='iters/s')
         cached_progress.add_task(f'Transforming', f'Transforming {split} cached meta', len(meta))
-        cached_progress.start()
-        for i in range(len(meta)):
-            # Transform Image
-            image = meta[i]['image']
-            w, h = image.size
-            image = image.resize((int(w * self.scale), int(h * self.scale)))
-            image = np.array(image) / 255.
-            if image.shape[2] == 4:
-                image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
-            meta[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
-            cached_progress.update(f'Transforming', step=1)
-        cached_progress.stop()
-        return meta
+        with cached_progress.progress as progress:
+            for i in range(len(meta)):
+                # Transform Image
+                image = meta[i]['image']
+                w, h = image.size
+                image = image.resize((int(w * self.scale), int(h * self.scale)))
+                image = np.array(image) / 255.
+                if image.shape[2] == 4:
+                    image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
+                meta[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
+                cached_progress.update(f'Transforming', step=1)
+            return meta
     
     def _load_metadata(self, split):
         """
@@ -126,15 +125,14 @@ class ColmapDataset(BaseDataset):
             meta_file_names_split = [meta_file_names[i] for i in self.train_index] if split == "train" else [meta_file_names[i] for i in self.val_index]
             cached_progress = ProgressLogger(description='Loading cached meta', suffix='iters/s')
             cached_progress.add_task(f'cache_{k}', f'Loading {split} cached {k}', len(meta_file_names_split))
-            cached_progress.start()
-            for idx, file in enumerate(meta_file_names_split):
-                if len(meta_data) <= idx:
-                    meta_data.append({})
-                if file.endswith('.npy'):
-                    meta_data[idx].update({k: np.load(meta_path / Path(file))})
-                elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
-                    meta_data[idx].update({k: Image.open(meta_path / Path(file))})
-                cached_progress.update(f'cache_{k}', step=1)
-            cached_progress.stop()
+            with cached_progress.progress as progress:
+                for idx, file in enumerate(meta_file_names_split):
+                    if len(meta_data) <= idx:
+                        meta_data.append({})
+                    if file.endswith('.npy'):
+                        meta_data[idx].update({k: np.load(meta_path / Path(file))})
+                    elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
+                        meta_data[idx].update({k: Image.open(meta_path / Path(file))})
+                    cached_progress.update(f'cache_{k}', step=1)
         return meta_data
 

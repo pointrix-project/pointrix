@@ -127,3 +127,9 @@ class Hook:
         trainner : Trainer
             The trainer object.
         """
+        
+    def exception(self) -> None:
+        """
+        some operations when exception occurs.
+        """
+        pass

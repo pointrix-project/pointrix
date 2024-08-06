@@ -158,7 +158,7 @@ trainer:
   - white_bg: 是否白色背景
 
 ### renderer
-- name: DPTR 或原始高斯核，将由注册表找到。
+- name: MSplat, GSplat 或原始高斯核，将由注册表找到。
 - max_sh_degree: 最大的 sh 阶数。
 
 ### writer

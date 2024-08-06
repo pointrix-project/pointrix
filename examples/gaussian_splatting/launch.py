@@ -32,8 +32,10 @@ def main(args, extras) -> None:
         else:
             gaussian_trainer.test(cfg.trainer.test_model_path)
         Logger.print("\nTraining complete.")
-    except KeyboardInterrupt:
-        Logger.print("You have entered CTRL+C.. Wait to finalize")
+    except:
+        Logger.print_exception(show_locals=True)
+        for hook in gaussian_trainer.hooks:
+            hook.exception()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

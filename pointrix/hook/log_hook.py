@@ -160,3 +160,6 @@ class LogHook(Hook):
     
     def after_train(self, trainner) -> None:
         self.progress_bar.stop()
+        
+    def exception(self) -> None:
+        self.progress_bar.stop()
