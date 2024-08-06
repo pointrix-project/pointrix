@@ -1,7 +1,6 @@
 from .colmap_data import ColmapDataset
 # from .nerf_data import NerfReFormat
 from .base_data import DATA_SET_REGISTRY, BaseDataset
-from .nerf_synthetic import NerfSyntheticDataset
 
 
 def parse_data_set(cfg: dict, device: str):
