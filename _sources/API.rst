@@ -4,7 +4,6 @@ API
 TODO: Explanation of each component
 
 .. toctree::
-
     code/dataset
     code/point_cloud
     code/exporter

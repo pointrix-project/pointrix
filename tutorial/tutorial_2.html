@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Adding Supervision for 3D GS &#8212; Pointrix</title>
+    <title>Adding Supervision for 3DGS &#8212; Pointrix</title>
   
   
   
@@ -166,7 +166,7 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Adding Supervision for 3D GS</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Adding Supervision for 3DGS</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Framework</span></p>
 <ul class="nav bd-sidenav">
@@ -337,7 +337,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Adding Supervision for 3D GS</h1>
+    <h1>Adding Supervision for 3DGS</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -362,8 +362,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="adding-supervision-for-3d-gs">
-<h1>Adding Supervision for 3D GS<a class="headerlink" href="#adding-supervision-for-3d-gs" title="Link to this heading">#</a></h1>
+  <section id="adding-supervision-for-3dgs">
+<h1>Adding Supervision for 3DGS<a class="headerlink" href="#adding-supervision-for-3dgs" title="Link to this heading">#</a></h1>
 <p>We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. The data download link for this tutorial is provided below:
 We employ the DSINE model to generate normals for the truck scene in the Tanks and Temple dataset.</p>
 <section id="modification-of-data-section">
@@ -495,7 +495,7 @@ To read the normal prior outputs of the DSINE model, we first need to modify the
 </span><span class="linenos"> 28</span>        <span class="p">}</span>
 <span class="linenos"> 29</span>        <span class="k">return</span> <span class="n">render_dict</span>
 <span class="linenos"> 30</span>
-<span class="hll"><span class="linenos"> 31</span>    <span class="c1"># 通过高斯点云的最短轴得到表面法向</span>
+<span class="hll"><span class="linenos"> 31</span>    <span class="c1"># get the normal from min scale</span>
 </span><span class="hll"><span class="linenos"> 32</span>    <span class="nd">@property</span>
 </span><span class="hll"><span class="linenos"> 33</span>    <span class="k">def</span> <span class="nf">get_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><span class="hll"><span class="linenos"> 34</span>        <span class="n">scaling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">scaling</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
@@ -510,7 +510,7 @@ To read the normal prior outputs of the DSINE model, we first need to modify the
 </span><span class="hll"><span class="linenos"> 43</span>        <span class="n">normal_each</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">normal_each</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos"> 44</span>        <span class="k">return</span> <span class="n">normal_each</span>
 </span><span class="linenos"> 45</span>
-<span class="hll"><span class="linenos"> 46</span>    <span class="c1"># 将高斯点云的表面法向投影到相机坐标系</span>
+<span class="hll"><span class="linenos"> 46</span>    <span class="c1"># project the surface normal to the camera coordinates</span>
 </span><span class="hll"><span class="linenos"> 47</span>    <span class="k">def</span> <span class="nf">process_normals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normals</span><span class="p">,</span> <span class="n">camera_center</span><span class="p">,</span> <span class="n">E</span><span class="p">):</span>
 </span><span class="hll"><span class="linenos"> 48</span>        <span class="n">xyz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">point_cloud</span><span class="o">.</span><span class="n">position</span>
 </span><span class="hll"><span class="linenos"> 49</span>        <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">camera_center</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
@@ -538,7 +538,7 @@ To read the normal prior outputs of the DSINE model, we first need to modify the
 <span class="linenos"> 71</span>        <span class="n">ssim_loss</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ssim</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;rgb&#39;</span><span class="p">],</span> <span class="n">gt_images</span><span class="p">)</span>
 <span class="linenos"> 72</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">lambda_ssim</span><span class="p">)</span> <span class="o">*</span> <span class="n">L1_loss</span>
 <span class="linenos"> 73</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">lambda_ssim</span> <span class="o">*</span> <span class="n">ssim_loss</span>
-<span class="hll"><span class="linenos"> 74</span>        <span class="c1"># normal 监督的损失</span>
+<span class="hll"><span class="linenos"> 74</span>        <span class="c1"># normal loss</span>
 </span><span class="hll"><span class="linenos"> 75</span>        <span class="n">normal_loss</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">l1_loss</span><span class="p">(</span><span class="n">render_results</span><span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">],</span> <span class="n">normal_images</span><span class="p">)</span>
 </span><span class="hll"><span class="linenos"> 76</span>        <span class="n">loss</span> <span class="o">+=</span> <span class="n">normal_loss</span>
 </span><span class="linenos"> 77</span>        <span class="n">loss_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>

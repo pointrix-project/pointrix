@@ -1,4 +1,4 @@
-# Adding Supervision for 3D GS
+# Adding Supervision for 3DGS
 We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. The data download link for this tutorial is provided below:
 We employ the DSINE model to generate normals for the truck scene in the Tanks and Temple dataset.
 
@@ -147,7 +147,7 @@ class NormalModel(BaseModel):
         }
         return render_dict
 
-    # 通过高斯点云的最短轴得到表面法向
+    # get the normal from min scale
     @property
     def get_normals(self):
         scaling = self.point_cloud.scaling.clone()
@@ -162,7 +162,7 @@ class NormalModel(BaseModel):
         normal_each = F.normalize(normal_each, dim=-1)
         return normal_each
 
-    # 将高斯点云的表面法向投影到相机坐标系
+    # project the surface normal to the camera coordinates
     def process_normals(self, normals, camera_center, E):
         xyz = self.point_cloud.position
         direction = (camera_center.repeat(
@@ -190,7 +190,7 @@ class NormalModel(BaseModel):
         ssim_loss = 1.0 - ssim(render_results['rgb'], gt_images)
         loss += (1.0 - self.cfg.lambda_ssim) * L1_loss
         loss += self.cfg.lambda_ssim * ssim_loss
-        # normal 监督的损失
+        # normal loss
         normal_loss = 0.1 * l1_loss(render_results['normal'], normal_images)
         loss += normal_loss
         loss_dict = {"loss": loss,
