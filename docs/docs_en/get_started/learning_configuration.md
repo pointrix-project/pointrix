@@ -98,7 +98,7 @@ trainer:
       name: CheckPointHook
 ```
 
-# Configuration Files in Pointrix
+## Configuration Files in Pointrix
 
 In Pointrix, common configurations include:
 
@@ -161,7 +161,7 @@ We can see that the Pointrix trainer consists of **model, controller, optimizer,
   - white_bg: Whether to use a white background.
 
 ### renderer
-- name: DPTR or original Gaussian kernel, found in the registry.
+- name: msplat or original Gaussian kernel, indexed by registry.
 - max_sh_degree: Maximum SH order.
 
 ### writer

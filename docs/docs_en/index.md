@@ -176,7 +176,7 @@ API
 |                                                            |                        |
 | ---------------------------------------------------------- | ---------------------- |
 | [Github](https://github.com/pointrix-project/pointrix)     | Official Pointrix      |
-| [Github](https://github.com/pointrix-project/dptr)         | DPTR                   |
+| [Github](https://github.com/pointrix-project/msplat)         | Msplat                   |
 
 ## Contributors:
 ### Pointrix:
@@ -185,7 +185,7 @@ API
 </a>
 
 
-### DPTR:
+### Msplat:
 <a href="https://github.com/pointrix-project/dptr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=pointrix-project/dptr" />
 </a>

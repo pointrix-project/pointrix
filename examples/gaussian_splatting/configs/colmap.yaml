@@ -56,12 +56,12 @@ trainer:
         max_steps: ${trainer.max_steps}
   
   datapipeline:
-    data_path: "/home/linzhuo/gj/data/garden"
     data_set: "ColmapDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
+      data_path: "/home/linzhuo/gj/data/garden"
       cached_metadata: ${trainer.training}
       scale: 0.25
       white_bg: False

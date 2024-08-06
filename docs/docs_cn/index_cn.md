@@ -52,7 +52,7 @@ Get Started
 :gutter: 1 1 1 2
 
 :::{grid-item-card} {octicon}`plug;1.5em;sd-mr-1` 高度可扩展性
-:link: tutorial_cn/tutorial
+:link: tutorial_cn/tutorial_2
 :link-type: doc
 
 Pointrix 采用模块化设计，具有清晰的结构和强大的扩展性。
@@ -176,7 +176,7 @@ API
 </a>
 
 
-### DPTR:
+### Msplat:
 <a href="https://github.com/pointrix-project/dptr/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=pointrix-project/dptr" />
 </a>
@@ -186,7 +186,7 @@ API
 |                                                            |                        |
 | ---------------------------------------------------------- | ---------------------- |
 | [Github Page](https://github.com/pointrix-project/pointrix)     | Pointrix      |
-| [Github Page](https://github.com/pointrix-project/dptr)         | DPTR                   |
+| [Github Page](https://github.com/pointrix-project/msplat)         | Msplat                   |
 
 ```{toctree}
 :maxdepth: 1
