@@ -192,7 +192,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/optimizer.html">optimizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/render.html">renderer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/trainer.html">trainer</a></li>
 </ul>
 </details></li>
@@ -369,14 +368,9 @@ document.write(`
 <li><p>下载Mip-Nerf 360:http://storage.googleapis.com/gresearch/refraw360/360_v2.zip 数据到你的文件夹下:</p></li>
 <li><p>运行以下命令来训练你的模型 (…数据路径在配置文件下…):</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>Pointrix
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-<span class="nb">cd</span><span class="w"> </span>projects/gaussian_splatting
-<span class="c1"># the default scale of Garden is 0.25</span>
-python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap_dptr.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.data_path<span class="o">=</span>your_data_path<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.renderer.name<span class="o">=</span>GaussianSplattingRender
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pointrix/examples/gaussian_splatting
+<span class="c1"># For Mip-NeRF 360 data which have high-res images and need to downsample.</span>
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
 </pre></div>
 </div>
 <p>如果你运行成功，你会看到下方界面：</p>
@@ -387,16 +381,11 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
 这些显示的内容同样是可以自定义的。</p>
 </div>
 <p>如果你想换用其他的渲染内核，可以通过修改上述命令中的trainer.renderer.name 来实现。</p>
-<p>如果你想换用其他的渲染内核，例如Gsplat, 或者diff-gaussian-rasterization,可以运行下面的命令：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap_dptr.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.data_path<span class="o">=</span>your_data_path<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.renderer.name<span class="o">=</span>GsplatRender
+<p>如果你想换用其他的渲染内核，例如Gsplat, 或者Msplat可以运行下面的命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can also use Msplat renderer or GSplat renderer</span>
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>MsplatRender
 
-python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap_dptr.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.data_path<span class="o">=</span>your_data_path<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span><span class="se">\</span>
-<span class="w">                </span>trainer.renderer.name<span class="o">=</span>GaussianSplattingRender
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.conrtroler.normalize_grad<span class="o">=</span>True<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>GsplatRender
 </pre></div>
 </div>
 </section>
