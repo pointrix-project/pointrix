@@ -28,8 +28,8 @@ class BaseDataset(Dataset):
     class Config:
         data_path: str = "data"
         data_set: str = "BaseImageDataset"
-        meta_dirs_dict: Dict[str, str] = field(default_factory=lambda: dict({"image": "images"}))
-        cached_metadata: bool = True
+        observed_data_dirs_dict: Dict[str, str] = field(default_factory=lambda: dict({"image": "images"}))
+        cached_observed_data: bool = True
         white_bg: bool = False
         enable_camera_training: bool = False
         scale: float = 1.0
@@ -41,17 +41,17 @@ class BaseDataset(Dataset):
         self.data_root = Path(self.cfg.data_path)
         self.split = split
         self.scale = self.cfg.scale
-        self.meta_dirs_dict = self.cfg.meta_dirs_dict
+        self.observed_data_dirs_dict = self.cfg.observed_data_dirs_dict
         self.enable_camera_training = self.cfg.enable_camera_training
-        self.cached_metadata = self.cfg.cached_metadata
+        self.cached_observed_data = self.cfg.cached_observed_data
         self.device = self.cfg.device
 
-        self.camera_list, self.meta, self.pointcloud = self._load_data_list(split)
+        self.camera_list, self.observed_data, self.pointcloud = self._load_data_list(split)
 
         self.cameras = CamerasPrior(self.camera_list)
         self.radius = self.cameras.radius.detach().cpu().numpy() * 1.1
-        self.bg = [1., 1., 1.] if self.cfg.white_bg else [0., 0., 0.]
-        self.meta = self._transform_metadata(self.meta, split)
+        self.background_color = [1., 1., 1.] if self.cfg.white_bg else [0., 0., 0.]
+        self.observed_data = self._transform_observed_data(self.observed_data, split)
         
         self.frame_idx_list = np.arange(len(self.camera_list))
 
@@ -64,9 +64,9 @@ class BaseDataset(Dataset):
         split: The split of the data.
         """
         camera = self._load_camera_prior(split=split)
-        metadata = self._load_metadata(split=split)
+        observed_data = self._load_observed_data(split=split)
         pointcloud = self._load_pointcloud_prior()
-        return camera, metadata, pointcloud
+        return camera, observed_data, pointcloud
 
     @abstractmethod
     def _load_camera_prior(self, split) -> List[CameraPrior]:
@@ -85,11 +85,11 @@ class BaseDataset(Dataset):
         """
         return None
 
-    def _load_metadata(self, split) -> Dict[str, Any]:
+    def _load_observed_data(self, split) -> Dict[str, Any]:
         raise NotImplementedError
 
     @abstractmethod
-    def _transform_metadata(self, meta, split):
+    def _transform_observed_data(self, observed_data, split):
         raise NotImplementedError
 
     # TODO: full init
@@ -98,12 +98,12 @@ class BaseDataset(Dataset):
 
     def __getitem__(self, idx):
         camera = self.camera_list[idx]
-        meta = self.meta[idx]
+        observed_data = self.observed_data[idx]
         frame_idx = self.frame_idx_list[idx]
-        for key, value in meta.items():
-            meta[key] = value.to(self.device)
+        for key, value in observed_data.items():
+            observed_data[key] = value.to(self.device)
         return {
-            **meta,
+            **observed_data,
             "camera": camera,
             "frame_idx": frame_idx,
             "camera_idx": int(camera.idx),

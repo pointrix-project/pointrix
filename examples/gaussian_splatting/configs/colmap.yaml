@@ -76,7 +76,7 @@ trainer:
     num_workers: 0
     dataset:
       data_path: "/home/linzhuo/gj/data/garden"
-      cached_metadata: ${trainer.training}
+      cached_observed_data: True
       scale: 0.25
       white_bg: False
 

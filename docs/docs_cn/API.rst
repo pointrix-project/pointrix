@@ -12,7 +12,6 @@ TODO: Explanation of each component
     code/logger
     code/model
     code/optimizer
-    code/render
     code/trainer
 
 .. .. include:: gen_modules/backreferences/SampleModule.module.fun_power.examples

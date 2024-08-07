@@ -14,10 +14,6 @@ class BaseDataPipeline:
         The path to the data
     data_set: str
         The dataset used in the pipeline
-    meta_dirs_dict: Dict[str, str]
-        The dictionary for the metadata directories
-    cached_metadata: bool
-        Whether cache the metadata
     shuffle: bool
         Whether shuffle the data
     batch_size: int
@@ -45,7 +41,6 @@ class BaseDataPipeline:
         data_set: str = "BaseImageDataset"
         shuffle: bool = True
         batch_size: int = 1
-        white_bg: bool=False
         num_workers: int = 1
         use_dataloader: bool = True
         dataset: dict = field(default_factory=dict)
@@ -57,7 +52,7 @@ class BaseDataPipeline:
         Dataset = parse_data_set(self.cfg, self.device)
         # load camera to device
         self.device = device
-        self.white_bg = self.cfg.white_bg
+        self.white_bg = self.cfg.dataset.white_bg
         self.use_dataloader = self.cfg.use_dataloader
 
         self.training_dataset = Dataset(self.cfg.dataset, split="train")

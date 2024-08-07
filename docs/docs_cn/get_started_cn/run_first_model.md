@@ -7,14 +7,9 @@
 - 运行以下命令来训练你的模型 (...数据路径在配置文件下...):
 
 ```bash
-cd Pointrix
-pip install -e .
-cd projects/gaussian_splatting
-# the default scale of Garden is 0.25
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GaussianSplattingRender
+cd pointrix/examples/gaussian_splatting
+# For Mip-NeRF 360 data which have high-res images and need to downsample.
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path
 ```
 
 如果你运行成功，你会看到下方界面：
@@ -33,16 +28,11 @@ python launch.py --config ./configs/colmap_dptr.yaml \
 如果你想换用其他的渲染内核，可以通过修改上述命令中的trainer.renderer.name 来实现。
 
 
-如果你想换用其他的渲染内核，例如Gsplat, 或者diff-gaussian-rasterization,可以运行下面的命令：
+如果你想换用其他的渲染内核，例如Gsplat, 或者Msplat可以运行下面的命令：
 
 ```bash
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GsplatRender
+# you can also use Msplat renderer or GSplat renderer
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender
 
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GaussianSplattingRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```
