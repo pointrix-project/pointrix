@@ -115,15 +115,22 @@ cd pointrix/examples/gaussian_splatting
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path
 
 # you can also use Msplat renderer or GSplat renderer
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.renderer.name=MsplatRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender
 
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.renderer.name=GsplatRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```
 
 For other colmap dataset which do not need to downsample:
 
 ```bash
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=1.0 trainer.output_path=your_log_path
+```
+if you want test your model:
+
+```bash
+cd pointrix/examples/gaussian_splatting
+# For Mip-NeRF 360 data which have high-res images and need to downsample.
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.training=False trainer.test_model_path=your_model_path
 ```
 
 <!-- #### Training Colmap dataset with Optimizing pose (Beta)
@@ -145,9 +152,10 @@ We add noise on colmap camera pose and then optimize it. The visualization of tr
 #### Camera optimization
 
 To enable camera optimization, you should set trainer.model.camera_model.enable_training=True and trainer.optimizer.optimizer_1.camera_params.lr=1e-3:
+The renderer must be setted as MsplatRender.
 
 ```bash
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=1.0 trainer.output_path=your_log_path trainer.renderer.name=MsplatRender trainer.model.camera_model.enable_training=True trainer.optimizer.optimizer_1.camera_params.lr=1e-3
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=1.0 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender trainer.model.camera_model.enable_training=True trainer.optimizer.optimizer_1.camera_params.lr=1e-3
 ```
 
 ![pose](https://github.com/user-attachments/assets/42f20422-45be-463a-8b4b-744ede05de84)

@@ -7,6 +7,7 @@ from ..point_cloud import parse_point_cloud
 from .loss import l1_loss, ssim, psnr, LPIPS
 from ..utils.registry import Registry
 from .camera import parse_camera_model
+from .renderer import parse_renderer
 
 MODEL_REGISTRY = Registry("MODEL", modules=["pointrix.model"])
 MODEL_REGISTRY.__doc__ = ""
@@ -30,6 +31,7 @@ class BaseModel(BaseModule):
     class Config:
         camera_model: dict = field(default_factory=dict)
         point_cloud: dict = field(default_factory=dict)
+        renderer: dict = field(default_factory=dict)
         lambda_ssim: float = 0.2
     cfg: Config
 
@@ -38,6 +40,8 @@ class BaseModel(BaseModule):
                                              datapipeline).to(device)
         self.training_camera_model = parse_camera_model(self.cfg.camera_model, datapipeline, device, training=True)
         self.validation_camera_model = parse_camera_model(self.cfg.camera_model, datapipeline, device, training=False)
+        self.renderer = parse_renderer(self.cfg.renderer, white_bg=datapipeline.white_bg, device=device)
+
         self.point_cloud.set_prefix_name("point_cloud")
         self.device = device
         self.lpips_func = LPIPS()
@@ -75,7 +79,10 @@ class BaseModel(BaseModule):
             "rotation": self.point_cloud.get_rotation,
             "shs": self.point_cloud.get_shs,
         }
-        return render_dict
+
+        render_results = self.renderer.render_batch(render_dict, batch)
+
+        return render_results
 
     def get_loss_dict(self, render_results, batch) -> dict:
         """
@@ -151,7 +158,7 @@ class BaseModel(BaseModule):
         rgb = torch.clamp(render_results['rgb'], 0.0, 1.0)
         L1_loss = l1_loss(rgb, gt_images).mean().double()
         psnr_test = psnr(rgb.squeeze(), gt_images.squeeze()).mean().double()
-        ssims_test = ssim(rgb, gt_images, size_average=True).mean().item()
+        ssims_test = ssim(rgb, gt_images, size_average=True).mean().item() 
         lpips_vgg_test = self.lpips_func(rgb, gt_images).mean().item()
         metric_dict = {"L1_loss": L1_loss,
                        "psnr": psnr_test,
@@ -183,12 +190,14 @@ class BaseModel(BaseModule):
 
         if num_pts != len(self.point_cloud):
             self.point_cloud.re_init(num_pts)
-
+            
+        self.renderer.load_state_dict(state_dict)
+        state_dict.pop("sh_degree")
         return super().load_state_dict(state_dict, strict)
 
     def get_state_dict(self):
         additional_info = {'num_pts': len(self.point_cloud)}
-        return {**super().state_dict(), **additional_info}
+        return {**super().state_dict(), **additional_info, **self.renderer.state_dict()}
 
 
 

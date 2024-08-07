@@ -12,7 +12,7 @@ from ..model.loss import psnr, ssim, LPIPS, l1_loss
 
 
 @torch.no_grad()
-def test_view_render(model, renderer, datapipeline, output_path, device='cuda'):
+def test_view_render(model, datapipeline, output_path, device='cuda'):
     """
     Render the test view and save the images to the output path.
 
@@ -20,8 +20,6 @@ def test_view_render(model, renderer, datapipeline, output_path, device='cuda'):
     ----------
     model : BaseModel
         The point cloud model.
-    renderer : Renderer
-        The renderer object.
     datapipeline : DataPipeline
         The data pipeline object.
     output_path : str
@@ -44,9 +42,8 @@ def test_view_render(model, renderer, datapipeline, output_path, device='cuda'):
 
     for i in range(0, val_dataset_size):
         batch = datapipeline.next_val(i)
-        atributes_dict = model(batch, training=False)
+        render_results = model(batch, training=False)
         image_name = os.path.basename(batch[0]['camera'].rgb_file_name)
-        render_results = renderer.render_batch(atributes_dict, batch)
         gt_image = torch.clamp(batch[0]['image'].to("cuda").float(), 0.0, 1.0)
         image = torch.clamp(
             render_results['rgb'], 0.0, 1.0).squeeze()

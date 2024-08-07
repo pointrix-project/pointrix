@@ -8,7 +8,6 @@ from pathlib import Path
 from ..model import parse_model
 from ..logger import parse_writer, Logger
 from ..hook import parse_hooks
-from ..renderer import parse_renderer
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
@@ -45,14 +44,14 @@ class DefaultTrainer(BaseTrainer):
             # structure of batch {"frame_index": frame_index, "image": image, "depth": depth}
             batch = self.datapipeline.next_train(self.global_step)
             # update the sh degree of renderer
-            self.renderer.update_sh_degree(iteration)
+            self.model.renderer.update_sh_degree(iteration)
             # update learning rate
             self.schedulers.step(self.global_step, self.optimizer)
             # model forward step
             self.train_step(batch)
             # update optimizer and densify point cloud
             with torch.no_grad():
-                self.controler.f_step(**self.optimizer_dict)
+                self.controller.f_step(**self.optimizer_dict)
                 self.optimizer.update_model(**self.optimizer_dict)
             self.call_hook("after_train_iter")
             self.global_step += 1
@@ -84,14 +83,14 @@ class DefaultTrainer(BaseTrainer):
         #     "rotation": self.point_cloud.get_rotation,
         #     "shs": self.point_cloud.get_shs,
         # }
-        render_dict = self.model(batch)
+        render_results = self.model(batch)
         # structure of render_results: {}
         # example of render_results = {
         #     "rgb": rgb,
         #     "depth": depth,
         #     "normal": normal, ....
         # }
-        render_results = self.renderer.render_batch(render_dict, batch)
+
         self.loss_dict = self.model.get_loss_dict(render_results, batch)
         self.loss_dict['loss'].backward()
         # structure of optimizer_dict: {}
@@ -112,8 +111,7 @@ class DefaultTrainer(BaseTrainer):
         for i in range(0, self.val_dataset_size):
             self.call_hook("before_val_iter")
             batch = self.datapipeline.next_val(i)
-            render_dict = self.model(batch, training=False)
-            render_results = self.renderer.render_batch(render_dict, batch)
+            render_results = self.model(batch, training=False)
             self.metric_dict = self.model.get_metric_dict(render_results, batch)
             self.call_hook("after_val_iter")
 
@@ -128,7 +126,7 @@ class DefaultTrainer(BaseTrainer):
         model_path = Path(model_path)
         self.load_model(model_path)
         self.model.to(self.device)
-        test_view_render(self.model, self.renderer,
+        test_view_render(self.model,
                          self.datapipeline, output_path=self.cfg.output_path)
         # novel_view_render(self.model, self.renderer,
         #                   self.datapipeline, output_path=self.cfg.output_path)
