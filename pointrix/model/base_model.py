@@ -158,7 +158,7 @@ class BaseModel(BaseModule):
         rgb = torch.clamp(render_results['rgb'], 0.0, 1.0)
         L1_loss = l1_loss(rgb, gt_images).mean().double()
         psnr_test = psnr(rgb.squeeze(), gt_images.squeeze()).mean().double()
-        ssims_test = ssim(rgb, gt_images, size_average=True).mean().item()
+        ssims_test = ssim(rgb, gt_images, size_average=True).mean().item() 
         lpips_vgg_test = self.lpips_func(rgb, gt_images).mean().item()
         metric_dict = {"L1_loss": L1_loss,
                        "psnr": psnr_test,
@@ -190,12 +190,14 @@ class BaseModel(BaseModule):
 
         if num_pts != len(self.point_cloud):
             self.point_cloud.re_init(num_pts)
-
+            
+        self.renderer.load_state_dict(state_dict)
+        state_dict.pop("sh_degree")
         return super().load_state_dict(state_dict, strict)
 
     def get_state_dict(self):
         additional_info = {'num_pts': len(self.point_cloud)}
-        return {**super().state_dict(), **additional_info}
+        return {**super().state_dict(), **additional_info, **self.renderer.state_dict()}
 
 
 

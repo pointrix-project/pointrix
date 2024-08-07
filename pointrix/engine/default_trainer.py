@@ -51,7 +51,7 @@ class DefaultTrainer(BaseTrainer):
             self.train_step(batch)
             # update optimizer and densify point cloud
             with torch.no_grad():
-                self.controler.f_step(**self.optimizer_dict)
+                self.controller.f_step(**self.optimizer_dict)
                 self.optimizer.update_model(**self.optimizer_dict)
             self.call_hook("after_train_iter")
             self.global_step += 1

@@ -23,8 +23,19 @@ trainer:
       name: "GaussianSplattingRender"
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
-  controler:
+  controller:
     normalize_grad: False
+    control_module: "point_cloud"
+    split_num: 2
+    prune_interval: 100
+    min_opacity: 0.005
+    percent_dense: 0.01
+    densify_grad_threshold: 0.0002
+    duplicate_interval: 100
+    densify_start_iter: 500
+    densify_stop_iter: 15000
+    opacity_reset_interval: 3000
+    optimizer_name: "optimizer_1"
 
   optimizer:
     optimizer_1:

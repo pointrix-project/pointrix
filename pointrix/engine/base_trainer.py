@@ -40,7 +40,7 @@ class BaseTrainer:
         writer: dict = field(default_factory=dict)
         hooks: dict = field(default_factory=dict)
         exporter: dict = field(default_factory=dict)
-        controler: dict = field(default_factory=dict)
+        controller: dict = field(default_factory=dict)
         # Dataset
         dataset_name: str = "NeRFDataset"
         datapipeline: dict = field(default_factory=dict)
@@ -101,7 +101,7 @@ class BaseTrainer:
                                             self.model, datapipeline=self.datapipeline,
                                             cameras_extent=cameras_extent)
             
-            self.controler = DensificationController(self.cfg.controler, self.optimizer, self.model, cameras_extent=cameras_extent)
+            self.controller = DensificationController(self.cfg.controller, self.optimizer, self.model, cameras_extent=cameras_extent)
 
     @abstractmethod
     def train_loop(self) -> None:
@@ -154,7 +154,6 @@ class BaseTrainer:
             "global_step": self.global_step,
             "optimizer": self.optimizer.state_dict(),
             "model": self.model.get_state_dict(),
-            "renderer": self.model.renderer.state_dict()
         }
         torch.save(data_list, path)
 
