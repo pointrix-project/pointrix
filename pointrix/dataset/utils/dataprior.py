@@ -89,7 +89,6 @@ class CameraPrior:
         self.camera_center = GetCamcenter(self.extrinsic_matrix).to(self.device)
         
 @dataclass()
-
 class PointsPrior:
     """
     Point cloud initialization used in data Pipeline

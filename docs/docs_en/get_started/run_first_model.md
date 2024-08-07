@@ -12,14 +12,9 @@ We'll use the Mip-Nerf 360 dataset as an example:
 - Run the following command to train your model (... replace data paths in the configuration file ...):
 
 ```bash
-cd Pointrix
-pip install -e .
-cd projects/gaussian_splatting
-# the default scale of Garden is 0.25
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GaussianSplattingRender
+cd pointrix/examples/gaussian_splatting
+# For Mip-NeRF 360 data which have high-res images and need to downsample.
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path
 ```
 
 If successful, you will see the interface below:
@@ -38,16 +33,11 @@ These displays can also be customized.
 
 If you want to switch to another rendering kernel, modify `trainer.renderer.name` in the command above.
 
-To use other rendering kernels such as Gsplat or diff-gaussian-rasterization, run the following commands:
+To use other rendering kernels such as Gsplat or Msplat, run the following commands:
 
 ```bash
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GsplatRender
+# you can also use Msplat renderer or GSplat renderer
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender
 
-python launch.py --config ./configs/colmap_dptr.yaml \
-                trainer.datapipeline.data_path=your_data_path \
-                trainer.datapipeline.dataset.scale=0.25 \
-                trainer.renderer.name=GaussianSplattingRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```

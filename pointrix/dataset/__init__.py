@@ -1,5 +1,5 @@
 from .colmap_data import ColmapDataset
-# from .nerf_data import NerfReFormat
+from .nerf_synthetic import NerfSyntheticDataset
 from .base_data import DATA_SET_REGISTRY, BaseDataset
 
 

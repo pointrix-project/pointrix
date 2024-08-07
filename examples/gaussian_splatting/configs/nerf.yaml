@@ -21,9 +21,23 @@ trainer:
         radius: 1.3
     camera_model:
       enable_training: False
+    renderer:
+      name: "GaussianSplattingRender"
+      max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
-  controler:
+  controller:
     normalize_grad: False
+    control_module: "point_cloud"
+    split_num: 2
+    prune_interval: 100
+    min_opacity: 0.005
+    percent_dense: 0.01
+    densify_grad_threshold: 0.0002
+    duplicate_interval: 100
+    densify_start_iter: 500
+    densify_stop_iter: 15000
+    opacity_reset_interval: 3000
+    optimizer_name: "optimizer_1"
 
   optimizer:
     optimizer_1:
@@ -58,21 +72,18 @@ trainer:
         max_steps: ${trainer.max_steps}
   
   datapipeline:
-    data_path: "/home/linzhuo/gj/data/garden"
     data_set: "NerfSyntheticDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
-      cached_metadata: ${trainer.training}
+      data_path: "/home/linzhuo/gj/data/garden"
+      cached_observed_data: True
       scale: 1.0
       white_bg: True
 
-  renderer:
-    name: "GaussianSplattingRender"
-    max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
-    writer_type: "WandbWriter"
+    writer_type: "TensorboardWriter"
   
   hooks:
     LogHook:

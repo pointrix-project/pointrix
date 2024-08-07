@@ -133,19 +133,26 @@ cd pointrix/examples/gaussian_splatting
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.training=False trainer.test_model_path=your_model_path
 ```
 
-<!-- #### Training Colmap dataset with Optimizing pose (Beta)
+#### NeRF-Lego (NeRF-Synthetic format dataset)
+Download the lego data:
+
+```bash
+wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip
+```
+
+Run the following (with adjusted data path):
 
 ```bash
 cd pointrix/projects/gaussian_splatting
-python launch.py --config ./configs/colmap_dptr_pose_opt.yaml trainer.dataset.data_path=your_data_path
+python launch.py --config ./configs/nerf.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
 
-We add noise on colmap camera pose and then optimize it. The visualization of training process shows below:
-<details>
-<picture>
-      <img alt="Pointrix" src="./docs/images/pose.gif" width="80%">
-  </picture>
-</details> -->
+if you want to test the model:
+
+```bash
+cd pointrix/projects/gaussian_splatting
+python launch.py --config ./configs/nerf.yaml trainer.training=False trainer.datapipeline.dataset.data_path=your_data_path trainer.test_model_path=your_model_path
+```
 
 ## Advanced Approaches
 
@@ -165,7 +172,7 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 #### Dust3r initialization (WIP)
 
 ## Release Plans
-- [ ] Nerf_synthetic dataset (this week).
+- [x] Nerf_synthetic dataset (this week).
 - [ ] Dust3r initialization (this week).
 - [ ] Mesh exstraction (this week).
 - [ ] Introduction video (this week)
