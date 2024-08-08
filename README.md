@@ -176,6 +176,7 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 - [ ] Dust3r initialization (this week).
 - [ ] Mesh exstraction (this week).
 - [ ] Introduction video (this week)
+- [ ] reformat the document (this week)
 - [ ] Dynamic Gaussian Project(next week).
 
 Welcome to discuss with us and submit PR on new ideas and methods.
