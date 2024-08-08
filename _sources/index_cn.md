@@ -26,7 +26,7 @@ sd_hide_title: true
 :child-align: justify
 :class: sd-text-white sd-fs-3
 
-一个可微分点云渲染库
+一个轻量可微分点云渲染框架
 
 ```{button-ref} get_started_cn/installation
 :ref-type: doc
@@ -44,7 +44,7 @@ Get Started
 
 ## Overview
 
-[Pointrix](https://github.com/pointrix-project/pointrix) 是一个 **可微分点云渲染库** 并具有以下几个特点:
+[Pointrix](https://github.com/pointrix-project/pointrix) 是一个 **可微分点云渲染框架** 并具有以下几个特点:
 
 ---
 
