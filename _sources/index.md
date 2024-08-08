@@ -44,7 +44,7 @@ Get Started
 
 ## Overview
 
-[Pointrix](https://github.com/pointrix-project/pointrix) is a **differentiable point-based rendering library** which has following properties:
+[Pointrix](https://github.com/pointrix-project/pointrix) is a **light-weight differentiable point-based rendering framework** which has following properties:
 
 ---
 
