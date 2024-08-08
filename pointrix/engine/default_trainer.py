@@ -128,6 +128,6 @@ class DefaultTrainer(BaseTrainer):
         self.model.to(self.device)
         test_view_render(self.model,
                          self.datapipeline, output_path=self.cfg.output_path)
-        # novel_view_render(self.model, self.renderer,
-        #                   self.datapipeline, output_path=self.cfg.output_path)
+        novel_view_render(self.model,
+                          self.datapipeline, output_path=self.cfg.output_path)
         # self.exporter(self.model, self.datapipeline, self.renderer, model_path.parent)

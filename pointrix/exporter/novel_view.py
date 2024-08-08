@@ -47,9 +47,8 @@ def test_view_render(model, datapipeline, output_path, device='cuda'):
         gt_image = torch.clamp(batch[0]['image'].to("cuda").float(), 0.0, 1.0)
         image = torch.clamp(
             render_results['rgb'], 0.0, 1.0).squeeze()
-
         visualize_feature = ['rgb']
-        
+
         for feat_name in visualize_feature:
             feat = render_results[feat_name]
             visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
@@ -69,10 +68,11 @@ def test_view_render(model, datapipeline, output_path, device='cuda'):
     psnr_test /= val_dataset_size
     ssim_test /= val_dataset_size
     lpips_test /= val_dataset_size
-    print(f"Test results: L1 {l1_test:.5f} PSNR {psnr_test:.5f} SSIM {ssim_test:.5f} LPIPS (VGG) {lpips_test:.5f}")
+    print(
+        f"Test results: L1 {l1_test:.5f} PSNR {psnr_test:.5f} SSIM {ssim_test:.5f} LPIPS (VGG) {lpips_test:.5f}")
 
 
-def novel_view_render(model, renderer, datapipeline, output_path, novel_view_list=["Dolly", "Zoom", "Spiral"], device='cuda'):
+def novel_view_render(model, datapipeline, output_path, novel_view_list=["Dolly", "Zoom", "Spiral"], device='cuda'):
     """
     Render the novel view and save the images to the output path.
 
@@ -80,8 +80,6 @@ def novel_view_render(model, renderer, datapipeline, output_path, novel_view_lis
     ----------
     model : BaseModel
         The point cloud model.
-    renderer : Renderer
-        The renderer object.
     datapipeline : DataPipeline
         The data pipeline object.
     output_path : str
@@ -95,8 +93,7 @@ def novel_view_render(model, renderer, datapipeline, output_path, novel_view_lis
         feat_frame = {}
         novel_view_camera_list = cameras.generate_camera_path(50, novel_view)
         for i, camera in enumerate(novel_view_camera_list):
-
-            atributes_dict = model(camera)
+            atributes_dict = model(training=False, render=False)
             render_dict = {
                 "camera": camera,
                 "height": int(camera.image_height),
@@ -105,8 +102,8 @@ def novel_view_render(model, renderer, datapipeline, output_path, novel_view_lis
                 "intrinsic_params": camera.intrinsic_params.to(device),
                 "camera_center": camera.camera_center.to(device),
             }
-            render_dict.update(atributes_dict)
-            render_results = renderer.render_iter(**render_dict)
+            atributes_dict.update(render_dict)
+            render_results = model.renderer.render_iter(**atributes_dict)
             for feat_name, feat in render_results['rendered_features_split'].items():
                 visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
                 if feat_name not in feat_frame:
@@ -117,9 +114,7 @@ def novel_view_render(model, renderer, datapipeline, output_path, novel_view_lis
                         output_path, f'{novel_view}_{feat_name}'))
                 imageio.imwrite(os.path.join(
                     output_path, f'{novel_view}_{feat_name}', "{:0>3}.png".format(i)), visual_feat)
-    
-        for feat_name, feat in feat_frame.items():
-            imageio.mimwrite(os.path.join(output_path, f'{novel_view}_{feat_name}', f'{novel_view}_{feat_name}.mp4'), feat, fps=30, quality=8)
-            
-    
 
+        for feat_name, feat in feat_frame.items():
+            imageio.mimwrite(os.path.join(
+                output_path, f'{novel_view}_{feat_name}', f'{novel_view}_{feat_name}.mp4'), feat, fps=30, quality=8)
