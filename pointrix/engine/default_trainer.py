@@ -12,7 +12,7 @@ from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
 from ..exporter.novel_view import test_view_render, novel_view_render
-# from ..exporter import parse_exporter
+from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 from .base_trainer import BaseTrainer
@@ -126,8 +126,8 @@ class DefaultTrainer(BaseTrainer):
         model_path = Path(model_path)
         self.load_model(model_path)
         self.model.to(self.device)
-        test_view_render(self.model,
-                         self.datapipeline, output_path=self.cfg.output_path)
-        novel_view_render(self.model,
-                          self.datapipeline, output_path=self.cfg.output_path)
-        # self.exporter(self.model, self.datapipeline, self.renderer, model_path.parent)
+        # test_view_render(self.model,
+        #                  self.datapipeline, output_path=self.cfg.output_path)
+        # novel_view_render(self.model,
+        #                   self.datapipeline, output_path=self.cfg.output_path)
+        self.exporter(model_path.parent)
