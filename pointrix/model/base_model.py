@@ -46,7 +46,7 @@ class BaseModel(BaseModule):
         self.device = device
         self.lpips_func = LPIPS()
 
-    def forward(self, batch=None, training=True) -> dict:
+    def forward(self, batch=None, training=True, render=True) -> dict:
         """
         Forward pass of the model.
 
@@ -60,7 +60,13 @@ class BaseModel(BaseModule):
         dict
             The render results which will be the input of renderers.
         """
-
+        if batch is None:
+            return {
+                "position": self.point_cloud.position,
+                "opacity": self.point_cloud.get_opacity,
+                "scaling": self.point_cloud.get_scaling,
+                "rotation": self.point_cloud.get_rotation,
+                "shs": self.point_cloud.get_shs}
         frame_idx_list = [batch[i]["frame_idx"] for i in range(len(batch))]
         extrinsic_matrix = self.training_camera_model.extrinsic_matrices(frame_idx_list) \
                             if training else self.validation_camera_model.extrinsic_matrices(frame_idx_list)
@@ -79,10 +85,10 @@ class BaseModel(BaseModule):
             "rotation": self.point_cloud.get_rotation,
             "shs": self.point_cloud.get_shs,
         }
-
-        render_results = self.renderer.render_batch(render_dict, batch)
-
-        return render_results
+        if render:
+            render_results = self.renderer.render_batch(render_dict, batch)
+            return render_results
+        return render_dict
 
     def get_loss_dict(self, render_results, batch) -> dict:
         """

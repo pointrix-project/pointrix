@@ -179,3 +179,268 @@ class CamerasPrior:
         dist = torch.linalg.norm(self.camera_centers - cams_center, dim=1)
         camera_radius = torch.max(dist) 
         return camera_radius
+
+    def generate_camera_path(self, num_frames: int, mode: str = "Dolly"):
+        """
+        Generate the camera path.
+
+        Parameters
+        ----------
+        num_frames: int
+            The number of frames of the camera path.
+
+        Returns
+        -------
+        camera_path: Float[Tensor, "num_frames 4 4"]
+            The camera path.
+        """
+        SE3_poses = torch.zeros(self.num_cameras, 3, 4)
+        for i in range(self.num_cameras):
+            SE3_poses[i, :3, :3] = self.cameras[i].R
+            SE3_poses[i, :3, 3] = self.cameras[i].T
+
+        mean_pose = torch.mean(SE3_poses[:, :, 3], 0)
+
+        # Select the best idx for rendering
+        render_idx = 0
+        best_dist = 1000000000
+        for iidx in range(SE3_poses.shape[0]):
+            cur_dist = torch.mean((SE3_poses[iidx, :, 3] - mean_pose) ** 2)
+            if cur_dist < best_dist:
+                best_dist = cur_dist
+                render_idx = iidx
+
+        c2w = SE3_poses.cpu().detach().numpy()[render_idx]
+
+        fx = self.cameras[render_idx].fx
+        fy = self.cameras[render_idx].fy
+        width = self.cameras[render_idx].image_width
+        height = self.cameras[render_idx].image_height
+
+        if mode == "Dolly":
+            return self.dolly(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+        elif mode == "Zoom":
+            return self.zoom(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+        elif mode == "Spiral":
+            return self.spiral(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+        elif mode == "Circle":
+            return self.circle([fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+
+    def pose_to_cam(self, poses, focals, width, height):
+        """
+        Generate the camera path from poses.
+
+        Parameters
+        ----------
+        poses: Float[Tensor, "num_frames 3 4"]
+            The poses of the camera path.
+        focals: Float[Tensor, "num_frames"]
+            The focal lengths of the camera path.
+        width: int
+            The width of the image.
+        height: int 
+            The height of the image.
+        """
+        camera_list = []
+        for idx in range(focals.shape[0]):
+            pose = poses[idx]
+            focal = focals[idx]
+            R = pose[:3, :3]
+            T = pose[:3, 3]
+            cam = self.camera_type(idx=idx, R=R, T=T, image_width=width, image_height=height, rgb_file_name='',
+                                   fx=focal, fy=focal, cx=width/2., cy=height/2., scene_scale=1.0)
+            camera_list.append(cam)
+        return camera_list
+
+    def dolly(self, c2w, focal, width, height, sc, length, num_frames):
+        """
+        Generate the camera path with dolly zoom.
+
+        Parameters
+        ----------
+        c2w: Float[Tensor, "3 4"]
+            The camera to world transform.
+        focal: list[float]
+            The focal length of the camera.
+        sc: float
+            The scale of the scene.
+        length: int
+            The length of the camera path.
+        num_frames: int
+            The number of frames of the camera path.
+
+        Returns
+        -------
+        camera_path: Float[Tensor, "num_frames 4 4"]
+            The camera path.
+        """
+        # TODO: how to define the max_disp
+        max_disp = 2.0
+
+        max_trans = max_disp / focal[0] * sc
+        dolly_poses = []
+        dolly_focals = []
+        # Dolly zoom
+        for i in range(num_frames):
+            x_trans = 0.0
+            y_trans = 0.0
+            z_trans = max_trans * 2.5 * i / float(30 // 2)
+            i_pose = np.concatenate(
+                [
+                    np.concatenate(
+                        [np.eye(3), np.array([x_trans, y_trans, z_trans])[
+                            :, np.newaxis]],
+                        axis=1,
+                    ),
+                    np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :],
+                ],
+                axis=0,
+            )
+            i_pose = np.linalg.inv(i_pose)
+            ref_pose = np.concatenate(
+                [c2w[:3, :4], np.array([0.0, 0.0, 0.0, 1.0])[
+                    np.newaxis, :]], axis=0
+            )
+            render_pose = np.dot(ref_pose, i_pose)
+            dolly_poses.append(render_pose[:3, :])
+            new_focal = focal[0] - focal[0] * 0.1 * z_trans / max_trans / 2.5
+            dolly_focals.append(new_focal)
+        dolly_poses = np.stack(dolly_poses, 0)[:, :3]
+        dolly_focals = np.stack(dolly_focals, 0)
+
+        return self.pose_to_cam(dolly_poses, dolly_focals, width, height)
+
+    def zoom(self, c2w, focal, width, height, sc, length, num_frames):
+        """
+        Generate the camera path with zoom.
+
+        Parameters
+        ----------
+        c2w: Float[Tensor, "3 4"]
+            The camera to world transform.
+        focal: list[float]
+            The focal length of the camera.
+        width: int
+            The width of the image.
+        height: int
+            The height of the image.
+        sc: float
+            The scale of the scene.
+        length: int
+            The length of the camera path.
+        num_frames: int
+            The number of frames of the camera path.
+
+        Returns
+        -------
+        camera_path: Float[Tensor, "num_frames 4 4"]
+            The camera path.
+        """
+        # TODO: how to define the max_disp
+        max_disp = 20.0
+
+        max_trans = max_disp / focal[0] * sc
+        zoom_poses = []
+        zoom_focals = []
+        # Zoom in
+        # Zoom in
+        for i in range(num_frames):
+            x_trans = 0.0
+            y_trans = 0.0
+            # z_trans = max_trans * np.sin(2.0 * np.pi * float(i) / float(num_novelviews)) * args.z_trans_multiplier
+            z_trans = max_trans * 2.5 * i / float(30 // 2)
+            i_pose = np.concatenate(
+                [
+                    np.concatenate(
+                        [np.eye(3), np.array([x_trans, y_trans, z_trans])[
+                            :, np.newaxis]],
+                        axis=1,
+                    ),
+                    np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :],
+                ],
+                axis=0,
+            )
+
+            # torch.tensor(np.linalg.inv(i_pose)).float()
+            i_pose = np.linalg.inv(i_pose)
+
+            ref_pose = np.concatenate(
+                [c2w[:3, :4], np.array([0.0, 0.0, 0.0, 1.0])[
+                    np.newaxis, :]], axis=0
+            )
+
+            render_pose = np.dot(ref_pose, i_pose)
+            zoom_poses.append(render_pose[:3, :])
+            zoom_focals.append(focal[0])
+
+        zoom_poses = np.stack(zoom_poses, 0)[:, :3]
+        zoom_focals = np.stack(zoom_focals, 0)
+        return self.pose_to_cam(zoom_poses, zoom_focals, width, height)
+
+    def spiral(self, c2w, focal, width, height, sc, length, num_frames):
+        """
+        Generate the camera path with spiral.
+
+        Parameters
+        ----------
+        c2w: Float[Tensor, "3 4"]
+            The camera to world transform.
+        focal: list[float]
+            The focal length of the camera.
+        width: int
+            The width of the image.
+        height: int
+            The height of the image.
+        sc: float
+            The scale of the scene.
+        length: int
+            The length of the camera path.
+        num_frames: int
+            The number of frames of the camera path.
+        """
+        # TODO: how to define the max_disp
+        max_disp = 10.0
+
+        max_trans = max_disp / focal[0] * sc
+
+        spiral_poses = []
+        spiral_focals = []
+        # Rendering teaser. Add translation.
+        for i in range(num_frames):
+            x_trans = max_trans * 1.5 * \
+                np.sin(2.0 * np.pi * float(i) / float(60)) * 2.0
+            y_trans = (
+                max_trans
+                * 1.5
+                * (np.cos(2.0 * np.pi * float(i) / float(60)) - 1.0)
+                * 2.0
+                / 3.0
+            )
+            z_trans = 0.0
+
+            i_pose = np.concatenate(
+                [
+                    np.concatenate(
+                        [np.eye(3), np.array([x_trans, y_trans, z_trans])[
+                            :, np.newaxis]],
+                        axis=1,
+                    ),
+                    np.array([0.0, 0.0, 0.0, 1.0])[np.newaxis, :],
+                ],
+                axis=0,
+            )
+
+            i_pose = np.linalg.inv(i_pose)
+
+            ref_pose = np.concatenate(
+                [c2w[:3, :4], np.array([0.0, 0.0, 0.0, 1.0])[
+                    np.newaxis, :]], axis=0
+            )
+
+            render_pose = np.dot(ref_pose, i_pose)
+            # output_poses.append(np.concatenate([render_pose[:3, :], hwf], 1))
+            spiral_poses.append(render_pose[:3, :])
+            spiral_focals.append(focal[0])
+        spiral_poses = np.stack(spiral_poses, 0)[:, :3]
+        spiral_focals = np.stack(spiral_focals, 0)
+        return self.pose_to_cam(spiral_poses, spiral_focals, width, height)

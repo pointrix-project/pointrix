@@ -21,6 +21,7 @@ trainer:
       enable_training: False
     renderer:
       name: "GaussianSplattingRender"
+      render_depth: True
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
   controller:
@@ -90,4 +91,5 @@ trainer:
       name: CheckPointHook
   
   exporter:
-    name: TSDFFusion
+    # name: TSDFFusion
+    name: VideoExporter

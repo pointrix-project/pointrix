@@ -1,6 +1,5 @@
 import os
 import argparse
-import os
 import sys
 from pointrix.utils.config import load_config
 from pointrix.engine.default_trainer import DefaultTrainer

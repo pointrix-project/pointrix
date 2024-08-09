@@ -13,7 +13,7 @@ from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
 from ..exporter.novel_view import test_view_render, novel_view_render
-# from ..exporter import parse_exporter
+from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 
@@ -87,6 +87,9 @@ class BaseTrainer:
         
         # build logger and hooks
         self.writer = parse_writer(self.cfg.writer, exp_dir, experiment_name=name, logcfg=self.cfg)
+
+        # build exporter
+        self.exporter = parse_exporter(self.cfg.exporter, self.model, self.datapipeline, device=self.device)
 
         if not self.cfg.training:
             # self.exporter = parse_exporter(self.cfg.exporter)

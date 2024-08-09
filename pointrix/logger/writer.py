@@ -24,6 +24,7 @@ from rich.progress import (
 from rich.text import Text
 
 Logger = Console(width=120)
+ErrorLogger = Console(width=120, stderr=True, style="bold red")
 
 from ..utils.base import BaseObject
 
