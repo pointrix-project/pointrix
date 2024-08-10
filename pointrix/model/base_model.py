@@ -46,7 +46,7 @@ class BaseModel(BaseModule):
         self.device = device
         self.lpips_func = LPIPS()
 
-    def forward(self, batch=None, training=True, render=True) -> dict:
+    def forward(self, batch=None, training=True, render=True, iteration=None) -> dict:
         """
         Forward pass of the model.
 
@@ -60,6 +60,8 @@ class BaseModel(BaseModule):
         dict
             The render results which will be the input of renderers.
         """
+        if iteration is not None:
+            self.renderer.update_sh_degree(iteration)
         if batch is None:
             return {
                 "position": self.point_cloud.position,

@@ -20,7 +20,7 @@ trainer:
     camera_model:
       enable_training: False
     renderer:
-      name: "GaussianSplattingRender"
+      name: "MsplatRender"
       render_depth: True
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
@@ -92,4 +92,4 @@ trainer:
   
   exporter:
     # name: TSDFFusion
-    name: VideoExporter
+    name: BaseExporter

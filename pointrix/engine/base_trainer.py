@@ -12,7 +12,6 @@ from ..hook import parse_hooks
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
-from ..exporter.novel_view import test_view_render, novel_view_render
 from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline

@@ -84,7 +84,15 @@ class MsplatRender(BaseObject):
         direction = (position.cuda() -
                      camera_center.repeat(position.shape[0], 1).cuda())
         direction = direction / direction.norm(dim=1, keepdim=True)
-        rgb = msplat.compute_sh(shs.permute(0, 2, 1), direction)
+        
+        # set sh mark for sh warm-up
+        sh_coeff = shs.permute(0, 2, 1)
+        sh_mask = torch.zeros_like(sh_coeff)
+        sh_mask[..., :(self.sh_degree + 1)**2] = 1.0
+        
+        # NOTE: compute_sh is not sh2rgb
+        rgb = msplat.compute_sh(sh_coeff * sh_mask, direction)
+        rgb = (rgb + 0.5).clamp(min=0.0)
         
         extrinsic_matrix = extrinsic_matrix[:3, :]
 

@@ -11,7 +11,6 @@ from ..hook import parse_hooks
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
-from ..exporter.novel_view import test_view_render, novel_view_render
 from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
@@ -43,8 +42,6 @@ class DefaultTrainer(BaseTrainer):
             self.call_hook("before_train_iter")
             # structure of batch {"frame_index": frame_index, "image": image, "depth": depth}
             batch = self.datapipeline.next_train(self.global_step)
-            # update the sh degree of renderer
-            self.model.renderer.update_sh_degree(iteration)
             # update learning rate
             self.schedulers.step(self.global_step, self.optimizer)
             # model forward step
@@ -83,7 +80,7 @@ class DefaultTrainer(BaseTrainer):
         #     "rotation": self.point_cloud.get_rotation,
         #     "shs": self.point_cloud.get_shs,
         # }
-        render_results = self.model(batch)
+        render_results = self.model(batch, iteration=self.global_step)
         # structure of render_results: {}
         # example of render_results = {
         #     "rgb": rgb,

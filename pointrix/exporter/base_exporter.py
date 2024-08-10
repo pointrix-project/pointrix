@@ -16,6 +16,8 @@ from ..utils.registry import Registry
 from ..engine.default_datapipeline import BaseDataPipeline
 from ..model.base_model import BaseModel
 
+from ..logger import ProgressLogger
+
 
 EXPORTER_REGISTRY = Registry("EXPORTER", modules=["pointrix.exporter"])
 EXPORTER_REGISTRY.__doc__ = ""
@@ -68,48 +70,44 @@ class BaseExporter(BaseModule):
         output_path : str
             The output path to save the images.
         """
-        l1_test = 0.0
-        psnr_test = 0.0
-        ssim_test = 0.0
-        lpips_test = 0.0
+        l1 = 0.0
+        psnr_metric = 0.0
+        ssim_metric  = 0.0
+        lpips_metric  = 0.0
         lpips_func = LPIPS()
         val_dataset = self.datapipeline.validation_dataset
         val_dataset_size = len(val_dataset)
-        progress_bar = tqdm(
-            range(0, val_dataset_size),
-            desc="Validation progress",
-            leave=False,
-        )
-
+        progress_logger = ProgressLogger(description='Extracting metrics', suffix='iters/s')
+        progress_logger.add_task(f'Metric', f'Extracting metrics', val_dataset_size)
         mkdir_p(os.path.join(output_path, 'test_view'))
 
-        for i in range(0, val_dataset_size):
-            batch = self.datapipeline.next_val(i)
-            render_results = self.model(batch, training=False)
-            image_name = os.path.basename(batch[0]['camera'].rgb_file_name)
-            gt_image = torch.clamp(batch[0]['image'].to("cuda").float(), 0.0, 1.0)
-            image = torch.clamp(
-                render_results['rgb'], 0.0, 1.0).squeeze()
-            visualize_feature = ['rgb']
+        with progress_logger.progress as progress:
+            for i in range(0, val_dataset_size):
+                batch = self.datapipeline.next_val(i)
+                render_results = self.model(batch, training=False)
+                image_name = os.path.basename(batch[0]['camera'].rgb_file_name)
+                gt = torch.clamp(batch[0]['image'].to("cuda").float(), 0.0, 1.0)
+                image = torch.clamp(
+                    render_results['rgb'], 0.0, 1.0).squeeze()
+                visualize_feature = ['rgb']
 
-            for feat_name in visualize_feature:
-                feat = render_results[feat_name]
-                visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
-                if not os.path.exists(os.path.join(output_path, f'test_view_{feat_name}')):
-                    os.makedirs(os.path.join(
-                        output_path, f'test_view_{feat_name}'))
-                imageio.imwrite(os.path.join(
-                    output_path, f'test_view_{feat_name}', image_name), visual_feat)
+                for feat_name in visualize_feature:
+                    feat = render_results[feat_name]
+                    visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
+                    if not os.path.exists(os.path.join(output_path, f'test_view_{feat_name}')):
+                        os.makedirs(os.path.join(
+                            output_path, f'test_view_{feat_name}'))
+                    imageio.imwrite(os.path.join(
+                        output_path, f'test_view_{feat_name}', image_name), visual_feat)
 
-            l1_test += l1_loss(image, gt_image).mean().double()
-            psnr_test += psnr(image, gt_image).mean().double()
-            ssim_test += ssim(image, gt_image).mean().double()
-            lpips_test += lpips_func(image, gt_image).mean().double()
-            progress_bar.update(1)
-        progress_bar.close()
-        l1_test /= val_dataset_size
-        psnr_test /= val_dataset_size
-        ssim_test /= val_dataset_size
-        lpips_test /= val_dataset_size
+                l1 += l1_loss(image, gt, return_mean=True).double()
+                psnr_metric  += psnr(image, gt).mean().double()
+                ssim_metric  += ssim(image, gt).mean().double()
+                lpips_metric  += lpips_func(image, gt).mean().double()
+                progress_logger.update(f'Metric', step=1)
+        l1 /= val_dataset_size
+        psnr_metric  /= val_dataset_size
+        ssim_metric  /= val_dataset_size
+        lpips_metric  /= val_dataset_size
         print(
-            f"Test results: L1 {l1_test:.5f} PSNR {psnr_test:.5f} SSIM {ssim_test:.5f} LPIPS (VGG) {lpips_test:.5f}")
+            f"Test results: L1 {l1:.5f} PSNR {psnr_metric:.5f} SSIM {ssim_metric:.5f} LPIPS (VGG) {lpips_metric:.5f}")

@@ -1,4 +1,5 @@
 import os
+import vdbfusion
 import random
 import numpy as np
 from pathlib import Path
@@ -8,109 +9,104 @@ from typing import Optional, Tuple, List
 
 import torch
 import imageio
+
 from ..exporter.base_exporter import EXPORTER_REGISTRY, BaseExporter
+from ..logger import ProgressLogger
+
 
 @EXPORTER_REGISTRY.register()
 class TSDFFusion(BaseExporter):
     """
     The exporter class for the mesh export using tsdffusion.
+    modified from https://github.com/maturk/dn-splatter/blob/main/dn_splatter/export_mesh.py
     """
+
     def forward(self, output_dir):
-        import vdbfusion
         output_dir = Path(output_dir)
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
 
-        num_frames = len(self.datapipeline.iter_train_image_dataloader)  # type: ignore
-        samples_per_frame = (self.cfg.total_points + num_frames) // (num_frames)
-        TSDFvolume = vdbfusion.VDBVolume(
+        frame_count = len(
+            self.datapipeline.iter_train_image_dataloader)  # type: ignore
+        samples_per_frame = (self.cfg.total_points +
+                             frame_count) // frame_count
+        tsdf_volume = vdbfusion.VDBVolume(
             voxel_size=self.cfg.voxel_size, sdf_trunc=self.cfg.sdf_truc, space_carving=True
         )
-        points = []
-        colors = []
+        point_list = []
+        color_list = []
         self.model.point_cloud.cuda()
         with torch.no_grad():
-            for i, batch_data in enumerate(self.datapipeline.iter_train_image_dataloader):
-                print(i)
-                ## assume batch size == 1
-                data = batch_data[0]
-                camera = data["camera"]
-                render_results = self.model(batch_data)
-                # TODO
-                try:
-                    depth = render_results["depth"].squeeze()
-                except:
-                    raise ValueError('no depth in render_results,please set config --render_depth as True')
-                c2w = torch.eye(4, dtype=torch.float, device=depth.device)
-                c2w[:3, :4] = torch.linalg.inv(camera.extrinsic_matrix)[:3, :4]
+            progress_logger = ProgressLogger(
+                description='Extracting mesh using TSDF', suffix='iters/s')
+            progress_logger.add_task(f'Mesh', f'Extracting mesh using TSDF', len(
+                self.datapipeline.iter_train_image_dataloader))
+            with progress_logger.progress as progress:
+                for i, batch in enumerate(self.datapipeline.iter_train_image_dataloader):
+                    # Assume batch size == 1
+                    data = batch[0]
+                    camera_info = data["camera"]
+                    render_output = self.model(batch)
+                    try:
+                        depth_map = render_output["depth"].squeeze()
+                    except:
+                        raise ValueError(
+                            'No depth in render_output, please set config trainer.model.renderer.render_depth as True')
 
-                # c2w = c2w @ torch.diag(
-                #     torch.tensor([1, -1, -1, 1], device=c2w.device, dtype=torch.float)
-                # )
-                c2w = c2w[:3, :4]
-                H, W = int(camera.image_height), int(camera.image_width)
+                    camera_to_world = torch.linalg.inv(
+                        camera_info.extrinsic_matrix)[:3, :4]
+                    height, width = int(camera_info.image_height), int(
+                        camera_info.image_width)
 
-                indices = random.sample(range(H * W), samples_per_frame)
+                    sampled_indices = random.sample(
+                        range(height * width), samples_per_frame)
 
-                xyzs, rgbs = self.get_colored_points_from_depth(
-                    depths=depth,
-                    rgbs=render_results["rgb"].squeeze().permute(1, 2, 0),
-                    fx=camera.fx,
-                    fy=camera.fy,
-                    cx=camera.cx,  # type: ignore
-                    cy=camera.cy,  # type: ignore
-                    img_size=(W, H),
-                    c2w=c2w,
-                    mask=indices,
+                    points, colors = self.get_colored_points_from_depth(
+                        depths=depth_map,
+                        rgbs=render_output["rgb"].squeeze().permute(1, 2, 0),
+                        fx=camera_info.fx,
+                        fy=camera_info.fy,
+                        cx=camera_info.cx,
+                        cy=camera_info.cy,
+                        img_size=(width, height),
+                        c2w=camera_to_world,
+                        mask=sampled_indices,
+                    )
+
+                    point_list.append(points)
+                    color_list.append(colors)
+                    tsdf_volume.integrate(
+                        points.double().cpu().numpy(),
+                        extrinsic=camera_to_world[:3,3].double().cpu().numpy(),
+                    )
+
+                    progress_logger.update(f'Mesh', step=1)
+                vertices, faces = tsdf_volume.extract_triangle_mesh(
+                    min_weight=5)
+
+                mesh = o3d.geometry.TriangleMesh()
+                mesh.vertices = o3d.utility.Vector3dVector(vertices)
+                mesh.triangles = o3d.utility.Vector3iVector(faces)
+                mesh.compute_vertex_normals()
+                colors = torch.cat(color_list, dim=0)
+                colors = colors.cpu().numpy()
+                mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
+
+                # Simplify mesh
+                if self.cfg.target_triangles is not None:
+                    mesh = mesh.simplify_quadric_decimation(
+                        self.cfg.target_triangles)
+
+                o3d.io.write_triangle_mesh(
+                    str(output_dir / "TSDFfusion_baseline_mesh.ply"),
+                    mesh,
+                )
+                print(
+                    f"Finished computing mesh: {str(output_dir / 'TSDFfusion.ply')}"
                 )
 
-                points.append(xyzs)
-                colors.append(rgbs)
-                TSDFvolume.integrate(
-                    xyzs.double().cpu().numpy(),
-                    extrinsic=c2w[:3, 3].double().cpu().numpy(),
-                )
-            vertices, faces = TSDFvolume.extract_triangle_mesh(min_weight=5)
-
-            mesh = o3d.geometry.TriangleMesh()
-            mesh.vertices = o3d.utility.Vector3dVector(vertices)
-            mesh.triangles = o3d.utility.Vector3iVector(faces)
-            mesh.compute_vertex_normals()
-            colors = torch.cat(colors, dim=0)
-            colors = colors.cpu().numpy()
-            mesh.vertex_colors = o3d.utility.Vector3dVector(colors)
-
-            # simplify mesh
-            if self.cfg.target_triangles is not None:
-                mesh = mesh.simplify_quadric_decimation(self.cfg.target_triangles)
-
-            o3d.io.write_triangle_mesh(
-                str(output_dir / "TSDFfusion_baseline_mesh.ply"),
-                mesh,
-            )
-            print(
-                f"Finished computing mesh: {str(output_dir / 'TSDFfusion.ply')}"
-            )
-
-            mesh_clean = self.post_process_mesh(mesh, cluster_to_keep=1)
-            o3d.io.write_triangle_mesh(
-                str(output_dir / "TSDFfusion_baseline_mesh_clean.ply"),
-                mesh_clean,
-            )
-
-
-    def get_colored_points_from_depth(
-        self,
-        depths: Tensor,
-        rgbs: Tensor,
-        c2w: Tensor,
-        fx: float,
-        fy: float,
-        cx: int,
-        cy: int,
-        img_size: tuple,
-        mask: Optional[Tensor] = None,
-    ) -> Tuple[Tensor, Tensor]:
+    def get_colored_points_from_depth(self, depths, rgbs, c2w, fx, fy, cx, cy, img_size,
+                                      mask: Optional[Tensor] = None):
         """Return colored pointclouds from depth and rgb frame and c2w. Optional masking.
 
         Returns:
@@ -136,30 +132,7 @@ class TSDFFusion(BaseExporter):
             colors = rgbs.view(-1, 3)
             points = points
         return (points, colors)
-    
-    def post_process_mesh(self, mesh, cluster_to_keep=1000):
-        """
-        Post-process a mesh to filter out floaters and disconnected parts
-        """
-        import copy
-        print("post processing the mesh to have {} clusterscluster_to_kep".format(cluster_to_keep))
-        mesh_0 = copy.deepcopy(mesh)
-        with o3d.utility.VerbosityContextManager(o3d.utility.VerbosityLevel.Debug) as cm:
-                triangle_clusters, cluster_n_triangles, cluster_area = (mesh_0.cluster_connected_triangles())
 
-        triangle_clusters = np.asarray(triangle_clusters)
-        cluster_n_triangles = np.asarray(cluster_n_triangles)
-        cluster_area = np.asarray(cluster_area)
-        n_cluster = np.sort(cluster_n_triangles.copy())[-cluster_to_keep]
-        n_cluster = max(n_cluster, 50) # filter meshes smaller than 50
-        triangles_to_remove = cluster_n_triangles[triangle_clusters] < n_cluster
-        mesh_0.remove_triangles_by_mask(triangles_to_remove)
-        mesh_0.remove_unreferenced_vertices()
-        mesh_0.remove_degenerate_triangles()
-        print("num vertices raw {}".format(len(mesh.vertices)))
-        print("num vertices post {}".format(len(mesh_0.vertices)))
-        return mesh_0
-    
     def get_means3d_backproj(
         self,
         depths: Tensor,
@@ -212,9 +185,10 @@ class TSDFFusion(BaseExporter):
             c2w = torch.eye((means3d.shape[0], 4, 4), device=device)
 
         # to world coords
-        means3d = means3d @ torch.linalg.inv(c2w[..., :3, :3]) + c2w[..., :3, 3]
+        means3d = means3d @ torch.linalg.inv(
+            c2w[..., :3, :3]) + c2w[..., :3, 3]
         return means3d, image_coords
-    
+
     def get_camera_coords(self, img_size: tuple, pixel_offset: float = 0.5) -> Tensor:
         """Generates camera pixel coordinates [W,H]
 
