@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -371,7 +370,6 @@ document.write(`
 <li><p>支持当前主流的高斯点云工作。</p></li>
 </ul>
 <p>Pointrix 的总体框架如下图所示：</p>
-<p><img alt="" src="../_images/framework_new.png" /></p>
 <section id="id2">
 <h2>数据组件<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -382,9 +380,9 @@ document.write(`
 <section id="id3">
 <h2>模型组件<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>点云模型</strong>：基于高斯点云与相机模型的计算图组件。</p></li>
+<li><p><strong>点云相机模型</strong>：基于高斯点云与相机模型的计算图组件。</p></li>
 <li><p><strong>Msplat渲染器</strong>：点云渲染的核心组件。支持各种渲染技术。所有输入都返回梯度（相机内参和外参），并且尽可能拆分标准化的开放接口。</p></li>
-<li><p><strong>相机模型</strong>：对于从数据流水线传递来的相机先验，我们用这些先验来初始化相机模型，并通过优化器进行优化。</p></li>
+<li><p><strong>后处理</strong>：对最终训练的点云进行新视角渲染，mesh提取等后处理流程。</p></li>
 </ul>
 </section>
 <section id="id4">

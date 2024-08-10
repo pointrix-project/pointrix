@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -323,7 +322,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -339,6 +340,19 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-and-controller">Optimizer and Controller</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-configuration">Model Configuration:</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -359,6 +373,82 @@ document.write(`
 <p>The interaction between the model and optimizer during training in Pointrix is illustrated below:</p>
 <p><img alt="" src="../_images/model.png" /></p>
 <p>The data passed to the model includes <strong>Point Cloud Priors</strong>, <strong>Observations</strong>, and <strong>Camera Priors</strong>, all provided by the data pipeline on the left.</p>
+<section id="id1">
+<h2>Model<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>The model consists of three main components:</p>
+<ul>
+<li><p><strong>Point Cloud Model</strong>: An optimizable point cloud model where users can extend its features by registering optimizable attributes. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">point_cloud</span> <span class="o">=</span> <span class="n">PointsCloud</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+<span class="n">point_cloud</span><span class="o">.</span><span class="n">register_attribute</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+<span class="n">point_cloud</span><span class="o">.</span><span class="n">register_attribute</span><span class="p">(</span><span class="s1">&#39;rgb&#39;</span><span class="p">,</span> <span class="n">rgb</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With the above code, users register ‘position’ and ‘rgb’ attributes for each point in the point cloud. Users can extend the point cloud’s features by defining custom attributes. For instance, Gaussian point clouds may include attributes such as ‘sh’, ‘scale’, ‘rotation’, ‘opacity’, and ‘position’.</p>
+</li>
+<li><p><strong>Camera Model</strong>: Mainly includes three optimizable attributes: <code class="docutils literal notranslate"><span class="pre">qrots</span></code>, <code class="docutils literal notranslate"><span class="pre">tvecs</span></code>, and <code class="docutils literal notranslate"><span class="pre">intrs</span></code>, representing rotation, translation, and camera intrinsic parameters. Support for extending custom attributes will be added in the future.</p></li>
+<li><p><strong>Renderer</strong>: Includes support for various rendering methods such as the original Gaussian kernel, Gsplat, and Msplat. Typically, as shown in the figure, the renderer reads the camera and point cloud data for the corresponding viewpoints from the model and outputs the rendered results.</p></li>
+</ul>
+</section>
+<section id="optimizer-and-controller">
+<h2>Optimizer and Controller<a class="headerlink" href="#optimizer-and-controller" title="Link to this heading">#</a></h2>
+<p>The optimizer is responsible for updating the model parameters, while the controller is responsible for updating the model structure (usually the point cloud model).</p>
+</section>
+<section id="related-configuration">
+<h2>Related Configuration<a class="headerlink" href="#related-configuration" title="Link to this heading">#</a></h2>
+<section id="model-configuration">
+<h3>Model Configuration:<a class="headerlink" href="#model-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">model</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BaseModel</span>
+<span class="w">        </span><span class="nt">lambda_ssim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">        </span><span class="nt">point_cloud</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">point_cloud_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GaussianPointCloud&quot;</span><span class="w">  </span>
+<span class="w">            </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">trainable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">unwarp_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;point_cloud&quot;</span>
+<span class="w">            </span><span class="nt">initializer</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">init_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;colmap&#39;</span>
+<span class="w">                </span><span class="nt">feat_dim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">        </span><span class="nt">camera_model</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">enable_training</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">        </span><span class="nt">renderer</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MsplatRender&quot;</span>
+<span class="w">            </span><span class="nt">render_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">            </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.model.point_cloud.max_sh_degree}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: The name of the model, which will be looked up in the registry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lambda_ssim</span></code>: The weight for the SSIM loss.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">point_cloud</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">point_cloud_type</span></code>: The type of point cloud; ‘GaussianPointCloud’ is used for Gaussian Splatting-based methods.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_sh_degree</span></code>: The maximum SH degree in Pointrix.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trainable</span></code>: Whether the point cloud model is trainable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">unwarp_prefix</span></code>: A prefix used to differentiate between different point cloud groups in the optimizer; generally, this is not a concern unless multiple point clouds are needed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">initializer</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_type</span></code>: The initialization method for the point cloud, including ‘colmap’ and ‘random’.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feat_dim</span></code>: The feature dimension of the point cloud used for rendering RGB.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">camera_model</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable_training</span></code>: Whether to enable camera optimization.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">renderer</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: MSplat, GSplat, or the original Gaussian kernel, which will be indexed by the registry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_sh_degree</span></code>: The maximum SH degree for the renderer.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">render_depth</span></code>: Whether to render depth.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
 </section>
 
 
@@ -396,6 +486,26 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-and-controller">Optimizer and Controller</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-configuration">Model Configuration:</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

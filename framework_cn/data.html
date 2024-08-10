@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -324,7 +323,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -340,6 +341,17 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">总览</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datapipeline">DataPipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">相关配置</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -351,6 +363,8 @@ document.write(`
                   
   <section id="id1">
 <h1>数据流水线<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<section id="id2">
+<h2>总览<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>如下图所示，数据流水线由两个部分组成：<strong>Dataset</strong> 和 <strong>DataPipeline</strong>。</p>
 <ul class="simple">
 <li><p><strong>Dataset</strong>：负责标准化用户数据集，即将它们转换为 Pointrix 的统一数据格式：这个数据格式包含三部分，<strong>相机先验</strong>，<strong>点云先验</strong>，以及<strong>观测信息</strong>。相机先验主要包含相机的内外参信息，
@@ -359,11 +373,58 @@ document.write(`
 <li><p><strong>DataPipeline</strong>：Pointrix 中的标准数据流提供了稳定的数据流给训练器。这个类的主要函数是 <code class="docutils literal notranslate"><span class="pre">next_train()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">next_val()</span></code>，这两个函数可以返回Batch。这个batch将用于渲染和损失计算。同时DataPipeline 也将给模型提供相机的初始化以及点云的初始化，如下图所示：</p></li>
 </ul>
 <p><img alt="" src="../_images/data.png" /></p>
+</section>
+<section id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<p>Dataset 中定义了三种基本数据类型，包括<strong>观测</strong>，<strong>相机先验</strong>，和<strong>点云先验</strong>。</p>
+<ul class="simple">
+<li><p><strong>观测</strong>：即为相机的观测，默认包含RGB图片，常见的观测包括RGB图片，深度图，表面法向等信息。这些观测通常作为模型的监督。</p></li>
+<li><p><strong>相机先验</strong>：主要包含相机的内外参等相机模型的先验信息，通常作为模型测相机的先验，如果相机先验足够准确 （例如通过Colmap获得的相机位姿），用户可以选择不优化相机模型，直接采用相机先验中的内外参作为渲染的输入。</p></li>
+<li><p><strong>点云先验</strong>：通过随机/Dust3R/Colmap 获得的点云先验，作为点云模型的初始化。</p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>如果需要载入用户自定义的数据集，用户需要重载修改对应的<em>观测</em>，<em>相机先验</em>，以及 <em>点云先验</em>对应的函数。
 相关例子可以看教程中的<strong>为点云添加监督</strong>。</p>
 </div>
+</section>
+<section id="datapipeline">
+<h2>DataPipeline<a class="headerlink" href="#datapipeline" title="Link to this heading">#</a></h2>
+<p>在数据集部分定义好了观测，相机先验以及点云先验的载入函数后，DataPipeline 会自动处理，通过<code class="docutils literal notranslate"><span class="pre">next_train()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">next_val()</span></code>
+函数来为训练过程提供数据流，同时会为模型测提供点云先验以及相机先验。用户通常不需要关心这部分的细节。</p>
+</section>
+<section id="id3">
+<h2>相关配置<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datapipeline</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">data_set</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ColmapDataset&quot;</span>
+<span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">num_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">dataset</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">data_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/gj/data/garden&quot;</span>
+<span class="w">      </span><span class="nt">cached_observed_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">      </span><span class="nt">scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
+<span class="w">      </span><span class="nt">white_bg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">      </span><span class="nt">observed_data_dirs_dict</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&quot;image&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;images&quot;</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>data_path: 数据集的路径</p></li>
+<li><p>data_set: 数据集的类型，由注册器索引。</p></li>
+<li><p>shuffle: 是否随机打乱数据</p></li>
+<li><p>batch_size: 批处理大小</p></li>
+<li><p>num_workers: dataloader 中的num_workers</p></li>
+<li><p>dataset</p>
+<ul>
+<li><p>cached_metadata: 是否引入缓存加载数据</p></li>
+<li><p>scale: 图片尺度大小</p></li>
+<li><p>white_bg: 是否白色背景</p></li>
+<li><p>observed_data_dirs_dict：{key: value}, 其中key为观测的变量名，value为观测的路径。例如{“image”: “images”}, 表示为，观测变量名为image的路径为self.data_root/images.</p></li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 
 
@@ -401,6 +462,24 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">总览</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datapipeline">DataPipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">相关配置</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

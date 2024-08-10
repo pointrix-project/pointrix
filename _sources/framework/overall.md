@@ -8,16 +8,15 @@ Pointrix is a powerful and easily extensible framework built around point cloud 
 - Supports current mainstream Gaussian point cloud work.
 
 The overall framework of Pointrix is illustrated in the diagram below:
-![](../../images/framework_new.png)
 
 ## Data Components
 - **Dataset Reader**: Parses various types of data provided by developers into a unified data format.
 - **Data Pipeline**: Manages the flow of unified data format to the trainer.
 
 ## Model Components
-- **Point Cloud Model**: Computation graph component based on Gaussian point clouds.
+- **Point Cloud Camera Model**: Computation graph component based on Gaussian point clouds and camera models.
 - **Msplat Renderer**: Core component of point cloud rendering. Supports various rendering techniques. All inputs return gradients (camera intrinsic and extrinsic parameters), and interfaces are modularized to the extent possible.
-- **Camera Model**：Computation graph component based on Camera model。
+- **Post-processing**: Post-processing steps such as rendering from new viewpoints and mesh extraction on the final trained point cloud.
 
 ## Logging, Visualization, Configuration, Registration, and Callback Components
 - **Logger and GUI**: Interact with all components, supporting logging and visualization of intermediate results generated throughout the process.

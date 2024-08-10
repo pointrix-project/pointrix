@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -324,7 +323,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -340,6 +341,20 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">总览</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">优化器与控制器</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关配置</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">模型配置：</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -351,16 +366,98 @@ document.write(`
                   
   <section id="id1">
 <h1>模型<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<section id="id2">
+<h2>总览<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>如下图所示，模型训练相关的由<strong>BaseModel</strong>、<strong>Controller</strong>和<strong>Optimizer</strong>构成。
 其中<strong>BaseModel</strong>中包含了默认的<strong>Point Cloud Model</strong> 与 <strong>Camera Model</strong>，以及 <strong>Renderer</strong>.</p>
 <ul class="simple">
-<li><p><strong>BaseModel</strong>：提供了一种方便灵活的方式来组织训练过程、管理参数、定义计算，并利用PyTorch的自动微分能力。它与一个PointCloud模型与相机模型关联，这是优化的主要目标。</p></li>
+<li><p><strong>BaseModel</strong>：提供了一种方便灵活的方式来组织训练过程、管理参数、定义计算，并利用PyTorch的自动微分能力。它与一个PointCloud模型和相机模型关联，这是优化的主要目标。并包含一个渲染器。</p></li>
 <li><p><strong>Optimizer</strong>：负责自动更新模型的参数,支持多优化器。</p></li>
 <li><p><strong>Controller</strong>：负责自动更新点云模型的结构。</p></li>
 </ul>
 <p>以下是在Pointrix 训练中模型与优化器的交互过程：</p>
 <p><img alt="" src="../_images/model.png" /></p>
 <p>其中左侧的 <strong>Point Cloud Prior</strong>，<strong>Observation</strong> 与 <strong>Camera Prior</strong>均为数据流水线传递来的数据。</p>
+</section>
+<section id="id3">
+<h2>模型<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>模型主要由三部分组成，分别为：</p>
+<ul class="simple">
+<li><p>点云模型：可优化的点云模型，用户可以通过注册可优化的属性来实现拓展，例如：</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">point_cloud</span> <span class="o">=</span> <span class="n">PointsCloud</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+<span class="n">point_cloud</span><span class="o">.</span><span class="n">register_atribute</span><span class="p">(</span><span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>
+<span class="n">point_cloud</span><span class="o">.</span><span class="n">register_atribute</span><span class="p">(</span><span class="s1">&#39;rgb&#39;</span><span class="p">,</span> <span class="n">rgb</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>通过上面的代码，用户在每个点云上注册了’position’ 与 ‘rgb’ 属性。用户可以通过自定义属性来扩展
+点云的特征。例如高斯点云包含’sh’, ‘scale’,’rotation’,’opacity’, ‘position’属性。</p>
+<ul class="simple">
+<li><p>相机模型：主要包含qrots，tvecs，intrs这三个可优化的属性。即 旋转，平移与相机内参。后续会支持扩展自定义属性。</p></li>
+<li><p>渲染器：主要包含原版高斯核，Gsplat, Msplat 的渲染器支持。通常如上图所示：渲染器在模型中读取对应视角的相机和点云数据，输出
+对应的渲染结果。</p></li>
+</ul>
+</section>
+<section id="id4">
+<h2>优化器与控制器<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
+<p>优化器负责模型参数的更新，控制器负责模型结构的更新（通常为点云模型）。</p>
+</section>
+<section id="id5">
+<h2>相关配置<a class="headerlink" href="#id5" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h3>模型配置：<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">model</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BaseModel</span>
+<span class="w">        </span><span class="nt">lambda_ssim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">        </span><span class="nt">point_cloud</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">point_cloud_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GaussianPointCloud&quot;</span><span class="w">  </span>
+<span class="w">            </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">trainable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">            </span><span class="nt">unwarp_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;point_cloud&quot;</span>
+<span class="w">            </span><span class="nt">initializer</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">init_type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;colmap&#39;</span>
+<span class="w">                </span><span class="nt">feat_dim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">        </span><span class="nt">camera_model</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">enable_training</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">        </span><span class="nt">renderer</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MsplatRender&quot;</span>
+<span class="w">            </span><span class="nt">render_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">            </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.model.point_cloud.max_sh_degree}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>name: 模型的名称，将由注册表查找。</p></li>
+<li><p>lambda_dssim: SSIM损失的权重。</p></li>
+<li><p>point_cloud</p>
+<ul>
+<li><p>point_cloud_type: 点云的类型，’GaussianPointCloud’用于基于Gaussian Splatting的方法。</p></li>
+<li><p>max_sh_degree: Pointrix中的最大SH阶数。</p></li>
+<li><p>trainable: 点云模型是否可训练。</p></li>
+<li><p>unwarp_prefix: 用于区分优化器中不同点云组的前缀,除非有多个点云的需求，否则不需要关心。</p></li>
+<li><p>initializer</p>
+<ul>
+<li><p>init_type: 点云的初始化方法，包括’colmap’和’random’。</p></li>
+<li><p>feat_dim: 用于渲染RGB的点云的特征维度。</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>camera_model</p>
+<ul>
+<li><p>enable_training: 是否开启相机优化</p></li>
+</ul>
+</li>
+<li><p>renderer</p>
+<ul>
+<li><p>name: MSplat, GSplat 或原始高斯核，将由注册表索引。</p></li>
+<li><p>max_sh_degree: 渲染器最大的 sh 阶数。</p></li>
+<li><p>render_depth: 是否渲染深度</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
 </section>
 
 
@@ -398,6 +495,27 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">总览</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">模型</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">优化器与控制器</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关配置</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">模型配置：</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

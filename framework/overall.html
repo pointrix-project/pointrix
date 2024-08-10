@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -369,8 +368,7 @@ document.write(`
 <li><p>All components are modular to simplify researchers’ steps in secondary development as much as possible.</p></li>
 <li><p>Supports current mainstream Gaussian point cloud work.</p></li>
 </ul>
-<p>The overall framework of Pointrix is illustrated in the diagram below:
-<img alt="" src="../_images/framework_new.png" /></p>
+<p>The overall framework of Pointrix is illustrated in the diagram below:</p>
 <section id="data-components">
 <h2>Data Components<a class="headerlink" href="#data-components" title="Link to this heading">#</a></h2>
 <ul class="simple">
@@ -381,9 +379,9 @@ document.write(`
 <section id="model-components">
 <h2>Model Components<a class="headerlink" href="#model-components" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong>Point Cloud Model</strong>: Computation graph component based on Gaussian point clouds.</p></li>
+<li><p><strong>Point Cloud Camera Model</strong>: Computation graph component based on Gaussian point clouds and camera models.</p></li>
 <li><p><strong>Msplat Renderer</strong>: Core component of point cloud rendering. Supports various rendering techniques. All inputs return gradients (camera intrinsic and extrinsic parameters), and interfaces are modularized to the extent possible.</p></li>
-<li><p><strong>Camera Model</strong>：Computation graph component based on Camera model。</p></li>
+<li><p><strong>Post-processing</strong>: Post-processing steps such as rendering from new viewpoints and mesh extraction on the final trained point cloud.</p></li>
 </ul>
 </section>
 <section id="logging-visualization-configuration-registration-and-callback-components">

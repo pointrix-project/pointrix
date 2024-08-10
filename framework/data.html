@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -323,7 +322,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -339,6 +340,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datapipeline">DataPipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -356,10 +367,55 @@ document.write(`
 <li><p><strong>DataPipeline</strong>: The standard data flow in Pointrix provides a stable stream of data to the trainer. The main functions of this class are <code class="docutils literal notranslate"><span class="pre">next_train()</span></code> and <code class="docutils literal notranslate"><span class="pre">next_val()</span></code>, which return batches used for rendering and loss calculation. DataPipeline also initializes cameras and point clouds for the model, as depicted in the diagram below:</p></li>
 </ul>
 <p><img alt="" src="../_images/data.png" /></p>
+<section id="dataset">
+<h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
+<p>The Dataset defines three basic data types: <strong>Observation</strong>, <strong>Camera Priors</strong>, and <strong>Point Cloud Priors</strong>.</p>
+<ul class="simple">
+<li><p><strong>Observation</strong>: Refers to the data captured by the camera, typically including RGB images. Common observations include RGB images, depth maps, surface normals, etc. These observations are usually used as supervision for the model.</p></li>
+<li><p><strong>Camera Priors</strong>: Mainly include the intrinsic and extrinsic parameters of the camera, which are prior information about the camera model. They are typically used as priors for the camera in the model. If the camera priors are accurate enough (e.g., camera poses obtained via Colmap), users may choose not to optimize the camera model and directly use the intrinsic and extrinsic parameters from the camera priors as input for rendering.</p></li>
+<li><p><strong>Point Cloud Priors</strong>: Point cloud priors obtained through random sampling/Dust3R/Colmap, used as the initialization for the point cloud model.</p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To load custom datasets, users must override functions corresponding to <em>observation</em>, <em>camera priors</em>, and <em>point cloud priors</em>. For relevant examples, refer to the tutorial on <strong>Adding Supervision to Point Clouds</strong>.</p>
 </div>
+</section>
+<section id="datapipeline">
+<h2>DataPipeline<a class="headerlink" href="#datapipeline" title="Link to this heading">#</a></h2>
+<p>Once the functions for loading Observations, Camera Priors, and Point Cloud Priors are defined in the dataset section, the DataPipeline will automatically handle the data flow through the <code class="docutils literal notranslate"><span class="pre">next_train()</span></code> and <code class="docutils literal notranslate"><span class="pre">next_val()</span></code> functions to provide data streams for the training process. It will also supply Point Cloud Priors and Camera Priors for model testing. Users generally do not need to concern themselves with these details.</p>
+</section>
+<section id="related-configuration">
+<h2>Related Configuration<a class="headerlink" href="#related-configuration" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">datapipeline</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">data_set</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ColmapDataset&quot;</span>
+<span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">num_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">dataset</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">data_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/gj/data/garden&quot;</span>
+<span class="w">      </span><span class="nt">cached_observed_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">      </span><span class="nt">scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
+<span class="w">      </span><span class="nt">white_bg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">      </span><span class="nt">observed_data_dirs_dict</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&quot;image&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;images&quot;</span><span class="p p-Indicator">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">data_path</span></code>: The path to the dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_set</span></code>: The type of dataset, indexed by the registry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shuffle</span></code>: Whether to shuffle the data randomly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">batch_size</span></code>: The batch size.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">num_workers</span></code>: The number of workers in the dataloader.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">cached_observed_data</span></code>: Whether to use cached data for loading.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scale</span></code>: The scale of the images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">white_bg</span></code>: Whether to use a white background.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">observed_data_dirs_dict</span></code>: {key: value}, where the key is the name of the observation variable and the value is the path to the observation. For example, {“image”: “images”} means that the path for the observation variable named “image” is <code class="docutils literal notranslate"><span class="pre">self.data_root/images</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 
 
@@ -397,6 +453,23 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datapipeline">DataPipeline</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

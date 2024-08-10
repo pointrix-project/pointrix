@@ -187,7 +187,6 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -524,6 +523,7 @@ document.write(`
 <ul>
 <li><p>type: 优化器的类型，由注册器索引。</p></li>
 <li><p>name: 优化器的名称。</p></li>
+<li><p>params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。</p></li>
 <li><p>camera_params: 相机参数</p>
 <ul>
 <li><p>lr: 相机参数的学习率，需要camera_model.enable_training==True</p></li>

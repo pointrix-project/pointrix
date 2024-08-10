@@ -26,7 +26,7 @@ sd_hide_title: true
 :child-align: justify
 :class: sd-text-white sd-fs-3
 
-A light-weight differentiable point-based rendering framework
+A differentiable point-based rendering library
 
 ```{button-ref} get_started/installation
 :ref-type: doc
@@ -44,7 +44,7 @@ Get Started
 
 ## Overview
 
-[Pointrix](https://github.com/pointrix-project/pointrix) is a **light-weight differentiable point-based rendering framework** which has following properties:
+[Pointrix](https://github.com/pointrix-project/pointrix) is a **differentiable point-based rendering library** which has following properties:
 
 ---
 
