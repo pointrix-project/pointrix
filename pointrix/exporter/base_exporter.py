@@ -23,6 +23,65 @@ EXPORTER_REGISTRY = Registry("EXPORTER", modules=["pointrix.exporter"])
 EXPORTER_REGISTRY.__doc__ = ""
 
 
+class ExporterList:
+    """
+    A wrapper for multiple exporters.
+    """
+    def __init__(self, exporter_dict: dict) -> None:
+        """
+        Parameters
+        ----------
+        exporter_dict : dict
+            The dictionary of the exporters.
+        """
+        from .mesh_exporter import TSDFFusion
+        from .video_exporter import VideoExporter
+        for key, value in exporter_dict.items():
+            assert isinstance(value, (BaseExporter, TSDFFusion, VideoExporter)), (
+                '`ExporWrapperDict` only accept (BaseOptimizer, TSDFFusion, VideoExporter) instance, '
+                f'but got {key}: {type(value)}')
+        self.exporter_dict = exporter_dict
+    
+    def export(self, output_path, **kwargs) -> None:
+        """
+        Exporters for image, mesh or video.
+
+        Parameters
+        ----------
+        kwargs : dict
+            The keyword arguments.
+        """
+        for name, exporter in self.exporter_dict.items():
+            exporter.forward(output_path, **kwargs)
+    
+    def __len__(self) -> int:
+        """
+        Get the number of the exporters.
+
+        Returns
+        -------
+        int
+            The number of the exporters.
+        """
+        return len(self.exporter_dict)
+    
+    def __contains__(self, key: str) -> bool:
+        """
+        Check if the key is in the exporter dictionary.
+
+        Parameters
+        ----------
+        key : str
+            The key to check.
+        
+        Returns
+        -------
+        bool
+            Whether the key is in the exporter dictionary.
+        """
+        return key in self.exporter_dict
+
+
 @EXPORTER_REGISTRY.register()
 class BaseExporter(BaseModule):
     """

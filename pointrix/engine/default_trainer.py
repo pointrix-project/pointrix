@@ -127,4 +127,4 @@ class DefaultTrainer(BaseTrainer):
         #                  self.datapipeline, output_path=self.cfg.output_path)
         # novel_view_render(self.model,
         #                   self.datapipeline, output_path=self.cfg.output_path)
-        self.exporter(model_path.parent)
+        self.exporter.export(model_path.parent)
