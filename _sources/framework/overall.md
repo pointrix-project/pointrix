@@ -8,6 +8,7 @@ Pointrix is a powerful and easily extensible framework built around point cloud 
 - Supports current mainstream Gaussian point cloud work.
 
 The overall framework of Pointrix is illustrated in the diagram below:
+![](../../images/framework_new.png)
 
 ## Data Components
 - **Dataset Reader**: Parses various types of data provided by developers into a unified data format.
