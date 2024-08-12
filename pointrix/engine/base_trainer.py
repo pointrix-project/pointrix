@@ -12,8 +12,7 @@ from ..hook import parse_hooks
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
-from ..exporter.novel_view import test_view_render, novel_view_render
-# from ..exporter import parse_exporter
+from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 
@@ -78,30 +77,34 @@ class BaseTrainer:
         self.hooks = parse_hooks(self.cfg.hooks)
         self.call_hook("before_run")
         # build datapipeline
-        self.datapipeline = BaseDataPipeline(self.cfg.datapipeline, device=self.device)
+        self.datapipeline = BaseDataPipeline(
+            self.cfg.datapipeline, device=self.device)
 
         # build point cloud model
         self.white_bg = self.datapipeline.white_bg
         self.model = parse_model(
             self.cfg.model, self.datapipeline, device=self.device)
-        
-        # build logger and hooks
-        self.writer = parse_writer(self.cfg.writer, exp_dir, experiment_name=name, logcfg=self.cfg)
 
-        if not self.cfg.training:
-            # self.exporter = parse_exporter(self.cfg.exporter)
-            pass
-        # build optimizer and scheduler for training
-        else:
+        # build logger and hooks
+        self.writer = parse_writer(
+            self.cfg.writer, exp_dir, experiment_name=name, logcfg=self.cfg)
+
+        # build exporter
+        
+        self.exporter = parse_exporter(
+                self.cfg.exporter, self.model, self.datapipeline, device=self.device)
+
+        if self.cfg.training:
             cameras_extent = self.datapipeline.training_dataset.radius
             self.schedulers = parse_scheduler(self.cfg.scheduler,
-                                            cameras_extent if self.cfg.spatial_lr_scale else 1.
-                                            )
+                                              cameras_extent if self.cfg.spatial_lr_scale else 1.
+                                              )
             self.optimizer = parse_optimizer(self.cfg.optimizer,
-                                            self.model, datapipeline=self.datapipeline,
-                                            cameras_extent=cameras_extent)
-            
-            self.controller = DensificationController(self.cfg.controller, self.optimizer, self.model, cameras_extent=cameras_extent)
+                                             self.model, datapipeline=self.datapipeline,
+                                             cameras_extent=cameras_extent)
+
+            self.controller = DensificationController(
+                self.cfg.controller, self.optimizer, self.model, cameras_extent=cameras_extent)
 
     @abstractmethod
     def train_loop(self) -> None:
@@ -109,7 +112,6 @@ class BaseTrainer:
         The training loop for the model.
         """
         raise NotImplementedError
-        
 
     def call_hook(self, fn_name: str, **kwargs) -> None:
         """
@@ -160,7 +162,7 @@ class BaseTrainer:
     @torch.no_grad()
     def validation(self):
         raise NotImplementedError
-    
+
     @torch.no_grad()
     def test(self, model_path=None) -> None:
         """

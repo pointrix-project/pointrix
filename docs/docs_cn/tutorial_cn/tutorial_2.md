@@ -61,47 +61,54 @@ def _load_metadata(self, split):
 在使用Pointrix的自动数据读取功能后，我们需要对读取后的Normal数据进行处理。我们需要重载Colmap Dataset并修改其中的``_transform_metadata``
 函数来实现对读取观测数据 (表面法向) 的处理：具体代码在``examples/gaussian_splatting_supervise/dataset.py``.
 
+```{code-block} yaml
+:lineno-start: 1 
+:emphasize-lines: "3, 12"
+:caption: |
+:    Modify configuration to read Normal data automatically.
+trainer:
+    datapipeline:
+        data_set: "ColmapDepthNormalDataset"
+        shuffle: True
+        batch_size: 1
+        num_workers: 0
+        dataset:
+            data_path: "/home/linzhuo/gj/data/garden"
+            cached_observed_data: ${trainer.training}
+            scale: 0.25
+            white_bg: False
+            observed_data_dirs_dict: {"image": "images", "normal": "normals"}
+```
+
 ```{code-block} python
 :lineno-start: 1 
-:emphasize-lines: "32,33"
+:emphasize-lines: "20,21,22"
 :caption: |
-:    我们高亮相较于原版Colmap Dataset中修改的代码。
+:    We highlight the modificated part.
 
-# 将修改后的数据集使用注册器进行注册
+# Registry
 @DATA_SET_REGISTRY.register()
 class ColmapDepthNormalDataset(ColmapDataset):
-    def _transform_metadata(self, meta, split):
-        """
-        The function for transforming the metadata.
+    def _transform_observed_data(self, observed_data, split):
+        cached_progress = ProgressLogger(description='transforming cached observed_data', suffix='iters/s')
+        cached_progress.add_task(f'Transforming', f'Transforming {split} cached observed_data', len(observed_data))
+        with cached_progress.progress as progress:
+            for i in range(len(observed_data)):
+                # Transform Image
+                image = observed_data[i]['image']
+                w, h = image.size
+                image = image.resize((int(w * self.scale), int(h * self.scale)))
+                image = np.array(image) / 255.
+                if image.shape[2] == 4:
+                    image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
+                observed_data[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
+                cached_progress.update(f'Transforming', step=1)
 
-        Parameters:
-        -----------
-        meta: List[Dict[str, Any]]
-            The metadata for the dataset.
-        
-        Returns:
-        --------
-        meta: List[Dict[str, Any]]
-            The transformed metadata.
-        """
-        cached_progress = ProgressLogger(description='transforming cached meta', suffix='iters/s')
-        cached_progress.add_task(f'Transforming', f'Transforming {split} cached meta', len(meta))
-        cached_progress.start()
-        for i in range(len(meta)):
-            # Transform Image
-            image = meta[i]['image']
-            w, h = image.size
-            image = image.resize((int(w * self.scale), int(h * self.scale)))
-            image = np.array(image) / 255.
-            if image.shape[2] == 4:
-                image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
-            meta[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
-            cached_progress.update(f'Transforming', step=1)
-            
-            # Transform Normal
-            meta[i]['normal'] = (torch.from_numpy(np.array(meta[i]['normal'])) / 255.0).float().permute(2, 0, 1)
-        cached_progress.stop()
-        return meta
+                # Transform Normal
+                observed_data[i]['normal'] = \
+                    (torch.from_numpy(np.array(observed_data[i]['normal'])) \
+                    / 255.0).float().permute(2, 0, 1)
+        return observed_data
 ```
 
 我们将处理后的Normal 数据存入meta 中后，Pointrix中的Datapipeline 会自动帮我们在训练过程中生产对应的数据，数据部分修改完成。
@@ -120,14 +127,16 @@ from pointrix.model.base_model import BaseModel, MODEL_REGISTRY
 
 ```{code-block} python
 :lineno-start: 1 
-:emphasize-lines: "13,14,15,16, 27,31,32,33,34,35,36,37,38,39,40,41,42,43,44, 46,47,48,49,50,51,52,53,54,55,56,57,58,74,75,76,105,106,107,108,109,110,111"
+:emphasize-lines: "1,15,16,17,28,78,79,83"
 :caption: |
 :    我们高亮相较于BaseModel修改的代码。
 
 @MODEL_REGISTRY.register()
 class NormalModel(BaseModel):
-    def forward(self, batch=None, training=True) -> dict:
+    def forward(self, batch=None, training=True, render=True, iteration=None) -> dict:
 
+        if iteration is not None:
+            self.renderer.update_sh_degree(iteration)
         frame_idx_list = [batch[i]["frame_idx"] for i in range(len(batch))]
         extrinsic_matrix = self.training_camera_model.extrinsic_matrices(frame_idx_list) \
             if training else self.validation_camera_model.extrinsic_matrices(frame_idx_list)
@@ -136,10 +145,9 @@ class NormalModel(BaseModel):
         camera_center = self.training_camera_model.camera_centers(frame_idx_list) \
             if training else self.validation_camera_model.camera_centers(frame_idx_list)
 
-        # 获得表面法向
         point_normal = self.get_normals
         projected_normal = self.process_normals(
-            point_normal, camera_center[0, ...], extrinsic_matrix[0, ...])
+            point_normal, camera_center, extrinsic_matrix)
 
         render_dict = {
             "extrinsic_matrix": extrinsic_matrix,
@@ -152,8 +160,10 @@ class NormalModel(BaseModel):
             "shs": self.point_cloud.get_shs,
             "normals": projected_normal
         }
+        if render:
+            render_results = self.renderer.render_batch(render_dict, batch)
+            return render_results
         return render_dict
-
     # 通过高斯点云的最短轴得到表面法向
     @property
     def get_normals(self):
@@ -247,41 +257,14 @@ class NormalModel(BaseModel):
 
 ```{code-block} python
 :lineno-start: 1 
-:emphasize-lines: "14, 51, 67, 69, 70, 71, 73"
+:emphasize-lines: "37,53,55,56,57,59"
 :caption: |
 :    我们高亮相较于MsplatRender修改的代码。
 
 @RENDERER_REGISTRY.register()
 class MsplatNormalRender(MsplatRender):
-    """
-    A class for rendering point clouds using DPTR.
-
-    Parameters
-    ----------
-    cfg : dict
-        The configuration dictionary.
-    white_bg : bool
-        Whether the background is white or not.
-    device : str
-        The device to use.
-    update_sh_iter : int, optional
-        The iteration to update the spherical harmonics degree, by default 1000.
-    """
-
-    def render_iter(self,
-                    height,
-                    width,
-                    extrinsic_matrix,
-                    intrinsic_params,
-                    camera_center,
-                    position,
-                    opacity,
-                    scaling,
-                    rotation,
-                    shs,
-                    normals,
-                    **kwargs) -> dict:
-
+    def render_iter(self, height, width, extrinsic_matrix, intrinsic_params, camera_center, position, opacity,
+                    scaling, rotation, shs, normals, **kwargs) -> dict:
         direction = (position -
                      camera_center.repeat(position.shape[0], 1))
         direction = direction / direction.norm(dim=1, keepdim=True)
@@ -300,15 +283,13 @@ class MsplatNormalRender(MsplatRender):
         cov3d = msplat.compute_cov3d(scaling, rotation, visible)
 
         # ewa project
-        (conic, radius, tiles_touched) = msplat.ewa_project(
-            position,
-            cov3d,
-            intrinsic_params,
-            extrinsic_matrix,
-            uv,
-            width,
-            height,
-            visible
+        (conic, radius, tiles_touched) = msplat.ewa_project(position, cov3d,
+                                                            intrinsic_params,
+                                                            extrinsic_matrix,
+                                                            uv,
+                                                            width,
+                                                            height,
+                                                            visible
         )
 
         # sort

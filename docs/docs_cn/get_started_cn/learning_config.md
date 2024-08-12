@@ -3,7 +3,6 @@
 Pointrix中常见的配置包括：
 
 ```yaml
-
 name: "garden"
 
 trainer:
@@ -25,21 +24,24 @@ trainer:
         feat_dim: 3
     camera_model:
       enable_training: False
+    renderer:
+      name: "MsplatRender"
+      render_depth: False
+      max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
   controller:
     normalize_grad: False
-    control_module: str = "point_cloud"
-    split_num: int = 2
-    prune_interval: int = 100
-    min_opacity: float = 0.005
-    percent_dense: float = 0.01
-    min_opacity: float = 0.005
-    densify_grad_threshold: float = 0.0002
-    duplicate_interval: int = 100
-    densify_start_iter: int = 500
-    densify_stop_iter: int = 15000
-    opacity_reset_interval: int = 3000
-    optimizer_name: str = "optimizer_1"
+    control_module: "point_cloud"
+    split_num: 2
+    prune_interval: 100
+    min_opacity: 0.005
+    percent_dense: 0.01
+    densify_grad_threshold: 0.0002
+    duplicate_interval: 100
+    densify_start_iter: 500
+    densify_stop_iter: 15000
+    opacity_reset_interval: 3000
+    optimizer_name: "optimizer_1"
 
   optimizer:
     optimizer_1:
@@ -62,8 +64,8 @@ trainer:
           lr: 0.001
         point_cloud.opacity:
           lr: 0.05
-      camera_params:
-        lr: 1e-3
+      # camera_params:
+      #   lr: 1e-3
 
   scheduler:
     name: "ExponLRScheduler"
@@ -74,27 +76,36 @@ trainer:
         max_steps: ${trainer.max_steps}
   
   datapipeline:
-    data_path: "/home/linzhuo/gj/data/garden"
     data_set: "ColmapDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
-      cached_metadata: ${trainer.training}
+      data_path: "/home/linzhuo/gj/data/garden"
+      cached_observed_data: True
       scale: 0.25
       white_bg: False
 
-  renderer:
-    name: "GaussianSplattingRender"
-    max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
-    writer_type: "WandbWriter"
+    writer_type: "TensorboardWriter"
   
   hooks:
     LogHook:
       name: LogHook
     CheckPointHook:
       name: CheckPointHook
+  
+  exporter:
+    exporter_1:
+      type: MetricExporter
+    exporter_2:
+      type: TSDFFusion
+      extra_cfg:
+        voxel_size: 0.02
+        sdf_truc: 0.08
+        total_points: 8_000_000
+    exporter_3:
+      type: VideoExporter
 ```
 
 我们可以看到，Pointrix 的trainer 由 **model, controller, optimizer, scheduler, datapipeline, writer, hooks, exporter** 组成。
@@ -137,6 +148,7 @@ trainer:
 - optimizer_x: 第 x 个优化器，您可以添加任意数量的优化器，Pointrix 将自动处理它们。
     - type: 优化器的类型，由注册器索引。
     - name: 优化器的名称。
+    - params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。
     - camera_params: 相机参数
         - lr: 相机参数的学习率，需要camera_model.enable_training==True
 
@@ -167,3 +179,7 @@ trainer:
 ### hook
 - LogHook
 - CheckPointHook
+
+### exporter
+- exporter_x: Pointrix 中第x个 exporter
+  - type: exporter的类型, 由registry 找到

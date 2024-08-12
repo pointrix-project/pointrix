@@ -12,3 +12,4 @@ matplotlib
 roma
 scikit-learn
 gsplat
+vdbfusion

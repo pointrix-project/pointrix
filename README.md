@@ -173,8 +173,8 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 
 ## Release Plans
 - [x] Nerf_synthetic dataset (this week).
-- [ ] Dust3r initialization (this week).
-- [ ] Mesh exstraction (this week).
+- [x] Dust3r initialization (this week).
+- [x] Mesh exstraction (this week).
 - [ ] Introduction video (this week)
 - [ ] reformat the document (this week)
 - [ ] Dynamic Gaussian Project(next week).
@@ -190,6 +190,7 @@ Thanks to the developers and contributors of the following open-source repositor
 - [SSIM](https://github.com/Po-Hsun-Su/pytorch-ssim): pytorch SSIM loss implemetation.
 - [GSplat](https://github.com/nerfstudio-project/gsplat): An open-source library for CUDA accelerated rasterization of gaussians with python bindings. 
 - [detectron2](https://github.com/facebookresearch/detectron2): Detectron2 is Facebook AI Research's next generation library that provides state-of-the-art detection and segmentation algorithms. 
+- [DN-Splatter](https://github.com/maturk/dn-splatter): Depth and Normal Priors for Gaussian Splatting and Meshing
 
 
 This is project is licensed under Apache License. However, if you use MSplat or the original 3DGS kernel in your work, please follow their license.

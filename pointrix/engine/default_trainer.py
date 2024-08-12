@@ -11,8 +11,7 @@ from ..hook import parse_hooks
 from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
-from ..exporter.novel_view import test_view_render, novel_view_render
-# from ..exporter import parse_exporter
+from ..exporter import parse_exporter
 from ..densification.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 from .base_trainer import BaseTrainer
@@ -43,8 +42,6 @@ class DefaultTrainer(BaseTrainer):
             self.call_hook("before_train_iter")
             # structure of batch {"frame_index": frame_index, "image": image, "depth": depth}
             batch = self.datapipeline.next_train(self.global_step)
-            # update the sh degree of renderer
-            self.model.renderer.update_sh_degree(iteration)
             # update learning rate
             self.schedulers.step(self.global_step, self.optimizer)
             # model forward step
@@ -72,18 +69,7 @@ class DefaultTrainer(BaseTrainer):
         batch : dict
             The batch data.
         """
-        # structure of render_dict: {}
-        #  render_dict = {
-        #     "extrinsic_matrix": extrinsic_matrix,
-        #     "intrinsic_params": intrinsic_params,
-        #     "camera_center": camera_center,
-        #     "position": point_cloud.position,
-        #     "opacity": self.point_cloud.get_opacity,
-        #     "scaling": self.point_cloud.get_scaling,
-        #     "rotation": self.point_cloud.get_rotation,
-        #     "shs": self.point_cloud.get_shs,
-        # }
-        render_results = self.model(batch)
+        render_results = self.model(batch, iteration=self.global_step)
         # structure of render_results: {}
         # example of render_results = {
         #     "rgb": rgb,
@@ -126,8 +112,4 @@ class DefaultTrainer(BaseTrainer):
         model_path = Path(model_path)
         self.load_model(model_path)
         self.model.to(self.device)
-        test_view_render(self.model,
-                         self.datapipeline, output_path=self.cfg.output_path)
-        # novel_view_render(self.model, self.renderer,
-        #                   self.datapipeline, output_path=self.cfg.output_path)
-        # self.exporter(self.model, self.datapipeline, self.renderer, model_path.parent)
+        self.exporter.export(model_path.parent)
