@@ -7,7 +7,6 @@ TODO: Explanation of each component
 
     code/dataset
     code/point_cloud
-    code/exporter
     code/hook
     code/logger
     code/model

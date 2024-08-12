@@ -7,8 +7,10 @@ from pointrix.model.base_model import BaseModel, MODEL_REGISTRY
 
 @MODEL_REGISTRY.register()
 class NormalModel(BaseModel):
-    def forward(self, batch=None, training=True) -> dict:
+    def forward(self, batch=None, training=True, render=True, iteration=None) -> dict:
 
+        if iteration is not None:
+            self.renderer.update_sh_degree(iteration)
         frame_idx_list = [batch[i]["frame_idx"] for i in range(len(batch))]
         extrinsic_matrix = self.training_camera_model.extrinsic_matrices(frame_idx_list) \
             if training else self.validation_camera_model.extrinsic_matrices(frame_idx_list)
@@ -19,7 +21,7 @@ class NormalModel(BaseModel):
 
         point_normal = self.get_normals
         projected_normal = self.process_normals(
-            point_normal, camera_center[0, ...], extrinsic_matrix[0, ...])
+            point_normal, camera_center, extrinsic_matrix)
 
         render_dict = {
             "extrinsic_matrix": extrinsic_matrix,
@@ -32,6 +34,9 @@ class NormalModel(BaseModel):
             "shs": self.point_cloud.get_shs,
             "normals": projected_normal
         }
+        if render:
+            render_results = self.renderer.render_batch(render_dict, batch)
+            return render_results
         return render_dict
 
     @property
@@ -49,6 +54,8 @@ class NormalModel(BaseModel):
         return normal_each
 
     def process_normals(self, normals, camera_center, E):
+        camera_center = camera_center.squeeze(0)
+        E = E.squeeze(0)
         xyz = self.point_cloud.position
         direction = (camera_center.repeat(
             xyz.shape[0], 1).cuda().detach() - xyz.cuda().detach())

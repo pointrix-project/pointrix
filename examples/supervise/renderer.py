@@ -1,8 +1,8 @@
 import torch
 import msplat
 
-from pointrix.renderer.utils.renderer_utils import RenderFeatures
-from pointrix.renderer.msplat import RENDERER_REGISTRY, MsplatRender
+from pointrix.model.renderer.utils.renderer_utils import RenderFeatures
+from pointrix.model.renderer.msplat import RENDERER_REGISTRY, MsplatRender
 
 
 @RENDERER_REGISTRY.register()

@@ -1,4 +1,5 @@
 import os
+import warnings
 import argparse
 import sys
 from pointrix.utils.config import load_config
@@ -7,7 +8,7 @@ from pointrix.logger.writer import logproject, Logger
 
 
 def main(args, extras) -> None:
-
+    warnings.filterwarnings("ignore")
     cfg = load_config(args.config, cli_args=extras)
     project_path = os.path.dirname(os.path.abspath(__file__))
 

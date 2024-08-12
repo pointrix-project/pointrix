@@ -2,13 +2,18 @@ import os
 import argparse
 import os
 import sys
+import warnings
 from pointrix.utils.config import load_config
 from pointrix.engine.default_trainer import DefaultTrainer
 from pointrix.logger.writer import logproject, Logger
 
+from dataset import ColmapDepthNormalDataset
+from model import NormalModel
+from renderer import MsplatNormalRender
+from hook import NormalLogHook
 
 def main(args, extras) -> None:
-
+    warnings.filterwarnings("ignore")
     cfg = load_config(args.config, cli_args=extras)
     project_path = os.path.dirname(os.path.abspath(__file__))
 

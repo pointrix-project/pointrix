@@ -21,7 +21,7 @@ trainer:
       enable_training: False
     renderer:
       name: "MsplatRender"
-      render_depth: True
+      render_depth: False
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
   controller:

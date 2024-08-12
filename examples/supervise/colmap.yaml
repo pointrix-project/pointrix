@@ -23,8 +23,7 @@ trainer:
       name: "MsplatNormalRender"
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
 
-  
-  controler:
+  controller:
     normalize_grad: False
 
   optimizer:
@@ -65,10 +64,10 @@ trainer:
     num_workers: 0
     dataset:
       data_path: "/home/linzhuo/gj/data/garden"
-      cached_metadata: ${trainer.training}
+      cached_observed_data: ${trainer.training}
       scale: 0.25
       white_bg: False
-      meta_dirs_dict: {"image": "images", "normal": "normals"}
+      observed_data_dirs_dict: {"image": "images", "normal": "normals"}
 
   writer:
     writer_type: "TensorboardWriter"
