@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>使用Dust3r 初始化相机模型与点云 &#8212; Pointrix</title>
+    <title>Dust3r 初始化相机模型与点云 (Beta) &#8212; Pointrix</title>
   
   
   
@@ -46,7 +46,7 @@
     <link rel="icon" href="../_static/pointrix.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="mesh 提取" href="extract_mesh.html" />
+    <link rel="next" title="后处理结果提取 (Metric, Mesh, Video)" href="extract_mesh.html" />
     <link rel="prev" title="相机优化" href="camera_optimization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -179,8 +179,8 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="camera_optimization.html">相机优化</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">使用Dust3r 初始化相机模型与点云</a></li>
-<li class="toctree-l1"><a class="reference internal" href="extract_mesh.html">mesh 提取</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dust3r 初始化相机模型与点云 (Beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extract_mesh.html">后处理结果提取 (Metric, Mesh, Video)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
 <ul class="nav bd-sidenav">
@@ -323,7 +323,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -334,11 +336,20 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>使用Dust3r 初始化相机模型与点云</h1>
+    <h1>Dust3r 初始化相机模型与点云 (Beta)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">使用方法：</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">实验结果：</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -348,8 +359,34 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="dust3r">
-<h1>使用Dust3r 初始化相机模型与点云<a class="headerlink" href="#dust3r" title="Link to this heading">#</a></h1>
+  <section id="dust3r-beta">
+<h1>Dust3r 初始化相机模型与点云 (Beta)<a class="headerlink" href="#dust3r-beta" title="Link to this heading">#</a></h1>
+<section id="id1">
+<h2>使用方法：<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>切换到Beta 分支</p></li>
+<li><p>下载<a class="reference external" href="https://github.com/naver/dust3r">Dust3r</a>到<code class="docutils literal notranslate"><span class="pre">examples/dust3r_init</span></code>并依照指示安装</p></li>
+<li><p>将<code class="docutils literal notranslate"><span class="pre">convert_dust3r.py</span></code> 移动到 <code class="docutils literal notranslate"><span class="pre">examples/dust3r_init/dust3r</span></code>文件夹下</p></li>
+<li><p>cd examples/dust3r_init/dust3r, 然后用dust3r 提取点云先验与相机先验：</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>convert_dust3r.py<span class="w"> </span>--model_path<span class="w"> </span>your_dust3r_weights<span class="w"> </span>--filelist<span class="w"> </span>your_image_path
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>运行程序</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dust3r 一次只能提取数十张图片的点云和相机先验。</p>
+</div>
+</section>
+<section id="id2">
+<h2>实验结果：<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>使用十二张图片在Garden 场景下的实验结果：
+<img alt="图片1" src="../_images/camera.gif" /></p>
+<p>如关闭相机优化，则渲染精度会降低，如下图所示：
+<img alt="图片1" src="../_images/nocamera.gif" /></p>
+</section>
 </section>
 
 
@@ -377,7 +414,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">mesh 提取</p>
+        <p class="prev-next-title">后处理结果提取 (Metric, Mesh, Video)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -387,6 +424,22 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">使用方法：</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">实验结果：</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

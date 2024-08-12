@@ -131,8 +131,7 @@ class NormalModel(BaseModel):
 
         # 获得表面法向
         point_normal = self.get_normals
-        projected_normal = self.process_normals(
-            point_normal, camera_center[0, ...], extrinsic_matrix[0, ...])
+        projected_normal = self.process_normals(point_normal, camera_center, extrinsic_matrix)
 
         render_dict = {
             "extrinsic_matrix": extrinsic_matrix,
@@ -164,6 +163,8 @@ class NormalModel(BaseModel):
 
     # project the surface normal to the camera coordinates
     def process_normals(self, normals, camera_center, E):
+        camera_center = camera_center.squeeze(0)
+        E = E.squeeze(0)
         xyz = self.point_cloud.position
         direction = (camera_center.repeat(
             xyz.shape[0], 1).cuda().detach() - xyz.cuda().detach())

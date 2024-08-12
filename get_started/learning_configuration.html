@@ -179,15 +179,14 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/camera_optimization.html">Camera Optimization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Initilization of Point Cloud</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Export mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Dust3r Initialization for Camera Model and Point Cloud (Beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Post-Processing Results Extraction (Metric, Mesh, Video)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../code/exporter.html">exporter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
@@ -353,9 +352,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer">optimizer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduler">scheduler</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renderer">renderer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writer">writer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook">hook</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporter">exporter</a></li>
 </ul>
 </li>
 </ul>
@@ -393,21 +392,24 @@ document.write(`
 <span class="w">        </span><span class="nt">feat_dim</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <span class="w">    </span><span class="nt">camera_model</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">enable_training</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">renderer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MsplatRender&quot;</span>
+<span class="w">      </span><span class="nt">render_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">      </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.model.point_cloud.max_sh_degree}</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="nt">controller</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">normalize_grad</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-<span class="w">    </span><span class="nt">control_module</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str = &quot;point_cloud&quot;</span>
-<span class="w">    </span><span class="nt">split_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 2</span>
-<span class="w">    </span><span class="nt">prune_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 100</span>
-<span class="w">    </span><span class="nt">min_opacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.005</span>
-<span class="w">    </span><span class="nt">percent_dense</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.01</span>
-<span class="w">    </span><span class="nt">min_opacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.005</span>
-<span class="w">    </span><span class="nt">densify_grad_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">float = 0.0002</span>
-<span class="w">    </span><span class="nt">duplicate_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 100</span>
-<span class="w">    </span><span class="nt">densify_start_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 500</span>
-<span class="w">    </span><span class="nt">densify_stop_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 15000</span>
-<span class="w">    </span><span class="nt">opacity_reset_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">int = 3000</span>
-<span class="w">    </span><span class="nt">optimizer_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">str = &quot;optimizer_1&quot;</span>
+<span class="w">    </span><span class="nt">control_module</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;point_cloud&quot;</span>
+<span class="w">    </span><span class="nt">split_num</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">    </span><span class="nt">prune_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">    </span><span class="nt">min_opacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.005</span>
+<span class="w">    </span><span class="nt">percent_dense</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.01</span>
+<span class="w">    </span><span class="nt">densify_grad_threshold</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0002</span>
+<span class="w">    </span><span class="nt">duplicate_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">    </span><span class="nt">densify_start_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<span class="w">    </span><span class="nt">densify_stop_iter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15000</span>
+<span class="w">    </span><span class="nt">opacity_reset_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3000</span>
+<span class="w">    </span><span class="nt">optimizer_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;optimizer_1&quot;</span>
 
 <span class="w">  </span><span class="nt">optimizer</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">optimizer_1</span><span class="p">:</span>
@@ -430,8 +432,8 @@ document.write(`
 <span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
 <span class="w">        </span><span class="nt">point_cloud.opacity</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
-<span class="w">      </span><span class="nt">camera_params</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-3</span>
+<span class="w">      </span><span class="c1"># camera_params:</span>
+<span class="w">      </span><span class="c1">#   lr: 1e-3</span>
 
 <span class="w">  </span><span class="nt">scheduler</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ExponLRScheduler&quot;</span>
@@ -442,27 +444,36 @@ document.write(`
 <span class="w">        </span><span class="nt">max_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.max_steps}</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="nt">datapipeline</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">data_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/gj/data/garden&quot;</span>
 <span class="w">    </span><span class="nt">data_set</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ColmapDataset&quot;</span>
 <span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">    </span><span class="nt">num_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">    </span><span class="nt">dataset</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">cached_metadata</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.training}</span>
+<span class="w">      </span><span class="nt">data_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/home/linzhuo/gj/data/garden&quot;</span>
+<span class="w">      </span><span class="nt">cached_observed_data</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
 <span class="w">      </span><span class="nt">scale</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.25</span>
 <span class="w">      </span><span class="nt">white_bg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
 
-<span class="w">  </span><span class="nt">renderer</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GaussianSplattingRender&quot;</span>
-<span class="w">    </span><span class="nt">max_sh_degree</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${trainer.model.point_cloud.max_sh_degree}</span>
 <span class="w">  </span><span class="nt">writer</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">writer_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;WandbWriter&quot;</span>
+<span class="w">    </span><span class="nt">writer_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TensorboardWriter&quot;</span>
 <span class="w">  </span>
 <span class="w">  </span><span class="nt">hooks</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">LogHook</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LogHook</span>
 <span class="w">    </span><span class="nt">CheckPointHook</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CheckPointHook</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="nt">exporter</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">exporter_1</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MetricExporter</span>
+<span class="w">    </span><span class="nt">exporter_2</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TSDFFusion</span>
+<span class="w">      </span><span class="nt">extra_cfg</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">voxel_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.02</span>
+<span class="w">        </span><span class="nt">sdf_truc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.08</span>
+<span class="w">        </span><span class="nt">total_points</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8_000_000</span>
+<span class="w">    </span><span class="nt">exporter_3</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VideoExporter</span>
 </pre></div>
 </div>
 <section id="id1">
@@ -501,6 +512,13 @@ document.write(`
 <li><p>camera_model</p>
 <ul>
 <li><p>enable_training: Whether to enable camera optimization.</p></li>
+</ul>
+</li>
+<li><p>renderer</p>
+<ul>
+<li><p>name: msplat or original Gaussian kernel, indexed by registry.</p></li>
+<li><p>max_sh_degree: Maximum SH order.</p></li>
+<li><p>render_depth: Whether render depth</p></li>
 </ul>
 </li>
 </ul>
@@ -561,13 +579,6 @@ document.write(`
 </li>
 </ul>
 </section>
-<section id="renderer">
-<h3>renderer<a class="headerlink" href="#renderer" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p>name: msplat or original Gaussian kernel, indexed by registry.</p></li>
-<li><p>max_sh_degree: Maximum SH order.</p></li>
-</ul>
-</section>
 <section id="writer">
 <h3>writer<a class="headerlink" href="#writer" title="Link to this heading">#</a></h3>
 <ul class="simple">
@@ -579,6 +590,16 @@ document.write(`
 <ul class="simple">
 <li><p>LogHook</p></li>
 <li><p>CheckPointHook</p></li>
+</ul>
+</section>
+<section id="exporter">
+<h3>exporter<a class="headerlink" href="#exporter" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>exporter_x: x-th exporter in pointrix</p>
+<ul>
+<li><p>type: Type of exporter, indexed by registry.</p></li>
+</ul>
+</li>
 </ul>
 </section>
 </section>
@@ -636,9 +657,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer">optimizer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scheduler">scheduler</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">dataset</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renderer">renderer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#writer">writer</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hook">hook</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exporter">exporter</a></li>
 </ul>
 </li>
 </ul>
