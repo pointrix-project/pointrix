@@ -167,9 +167,44 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 
 ![pose](https://github.com/user-attachments/assets/42f20422-45be-463a-8b4b-744ede05de84)
 
-#### Mesh exstraction (WIP)
+#### Post-Processing Results Extraction (Metric, Mesh, Video)
 
-#### Dust3r initialization (WIP)
+Pointrix uses exporters to obtain desired post-processing results, such as mesh and video. The relevant configuration is as follows:
+
+```yaml
+trainer:
+    exporter:
+        exporter_a:
+            type: MetricExporter
+        exporter_b:
+            type: TSDFFusion
+            extra_cfg:
+                voxel_size: 0.02
+                sdf_trunc: 0.08
+                total_points: 8_000_000 
+        exporter_c:
+            type: VideoExporter
+```
+Users can specify multiple exporters to obtain various post-processing results. For example, with the above configuration, users can get Metric and Mesh extraction results as well as Video post-processing results. 
+Mesh is obtained using the TSDF fusion method by default.
+
+#### Dust3r initialization (Beta)
+1. Switch to the Beta branch.
+
+2. Download Dust3r to examples/dust3r_init and follow the installation instructions.
+
+3. Move convert_dust3r.py to the examples/dust3r_init/dust3r folder.
+
+4. Navigate to examples/dust3r_init/dust3r, and then use Dust3r to extract point cloud priors and camera priors:
+
+```bash
+python convert_dust3r.py --model_path your_dust3r_weights --filelist your_image_path
+```
+5. Run the program
+
+```bash
+python launch.py --config config.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
+```
 
 ## Release Plans
 - [x] Nerf_synthetic dataset (this week).
