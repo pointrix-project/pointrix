@@ -13,3 +13,4 @@ roma
 scikit-learn
 gsplat
 vdbfusion
+open3d
