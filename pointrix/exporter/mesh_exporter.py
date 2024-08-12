@@ -10,18 +10,18 @@ from typing import Optional, Tuple, List
 import torch
 import imageio
 
-from ..exporter.base_exporter import EXPORTER_REGISTRY, BaseExporter
+from ..exporter.base_exporter import EXPORTER_REGISTRY, MetricExporter
 from ..logger import ProgressLogger
 
 
 @EXPORTER_REGISTRY.register()
-class TSDFFusion(BaseExporter):
+class TSDFFusion(MetricExporter):
     """
     The exporter class for the mesh export using tsdffusion.
     modified from https://github.com/maturk/dn-splatter/blob/main/dn_splatter/export_mesh.py
     """
 
-    def forward(self, output_dir):
+    def forward(self, output_dir: str):
         output_dir = Path(output_dir)
         if not output_dir.exists():
             output_dir.mkdir(parents=True)
@@ -77,7 +77,8 @@ class TSDFFusion(BaseExporter):
                     color_list.append(colors)
                     tsdf_volume.integrate(
                         points.double().cpu().numpy(),
-                        extrinsic=camera_to_world[:3,3].double().cpu().numpy(),
+                        extrinsic=camera_to_world[:3,
+                                                  3].double().cpu().numpy(),
                     )
 
                     progress_logger.update(f'Mesh', step=1)
@@ -112,16 +113,14 @@ class TSDFFusion(BaseExporter):
         Returns:
             Tuple of (points, colors)
         """
-        points, _ = self.get_means3d_backproj(
-            depths=depths.float(),
-            fx=fx,
-            fy=fy,
-            cx=cx,
-            cy=cy,
-            img_size=img_size,
-            c2w=c2w.float(),
-            device=depths.device,
-        )
+        points, _ = self.get_means3d_backproj(depths=depths.float(),
+                                            fx=fx,
+                                            fy=fy,
+                                            cx=cx,
+                                            cy=cy,
+                                            img_size=img_size,
+                                            c2w=c2w.float(),
+                                            device=depths.device)
         points = points.squeeze(0)
         if mask is not None:
             if not torch.is_tensor(mask):
@@ -133,18 +132,17 @@ class TSDFFusion(BaseExporter):
             points = points
         return (points, colors)
 
-    def get_means3d_backproj(
-        self,
-        depths: Tensor,
-        fx: float,
-        fy: float,
-        cx: int,
-        cy: int,
-        img_size: tuple,
-        c2w: Tensor,
-        device: torch.device,
-        mask: Optional[Tensor] = None,
-    ) -> Tuple[Tensor, List]:
+    def get_means3d_backproj(self, 
+                             depths: Tensor, 
+                             fx: float, 
+                             fy: float, 
+                             cx: int,
+                             cy: int,
+                             img_size: tuple,
+                             c2w: Tensor,
+                             device: torch.device,
+                             mask: Optional[Tensor] = None,
+                             ) -> Tuple[Tensor, List]:
         """Backprojection using camera intrinsics and extrinsics
 
         image_coords -> (x,y,depth) -> (X, Y, depth)
@@ -189,7 +187,9 @@ class TSDFFusion(BaseExporter):
             c2w[..., :3, :3]) + c2w[..., :3, 3]
         return means3d, image_coords
 
-    def get_camera_coords(self, img_size: tuple, pixel_offset: float = 0.5) -> Tensor:
+    def get_camera_coords(self, 
+                          img_size: tuple, 
+                          pixel_offset: float = 0.5) -> Tensor:
         """Generates camera pixel coordinates [W,H]
 
         Returns:

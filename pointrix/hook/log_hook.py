@@ -36,7 +36,7 @@ class LogHook(Hook):
                                     | |   | (_) || || | | || |_ | |   | | >  < 
                                     |_|    \___/ |_||_| |_| \__||_|   |_|/_/\_\
 
-                                   A light-weight differentiable point-based rendering framework.
+                            A light-weight differentiable point-based rendering framework.
         """                        
                                                                                                                                                                                                   
         try:

@@ -79,4 +79,13 @@ trainer:
       name: CheckPointHook
   
   exporter:
-    name: TSDFFusion
+    exporter_a:
+      type: MetricExporter
+    exporter_b:
+      type: TSDFFusion
+      extra_cfg:
+        voxel_size: 0.02
+        sdf_truc: 0.08
+        total_points: 8_000_000
+    exporter_c:
+      type: VideoExporter

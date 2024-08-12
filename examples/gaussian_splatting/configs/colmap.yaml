@@ -92,7 +92,7 @@ trainer:
   
   exporter:
     exporter_1:
-      type: BaseExporter
+      type: MetricExporter
     exporter_2:
       type: TSDFFusion
       extra_cfg:

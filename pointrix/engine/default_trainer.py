@@ -69,17 +69,6 @@ class DefaultTrainer(BaseTrainer):
         batch : dict
             The batch data.
         """
-        # structure of render_dict: {}
-        #  render_dict = {
-        #     "extrinsic_matrix": extrinsic_matrix,
-        #     "intrinsic_params": intrinsic_params,
-        #     "camera_center": camera_center,
-        #     "position": point_cloud.position,
-        #     "opacity": self.point_cloud.get_opacity,
-        #     "scaling": self.point_cloud.get_scaling,
-        #     "rotation": self.point_cloud.get_rotation,
-        #     "shs": self.point_cloud.get_shs,
-        # }
         render_results = self.model(batch, iteration=self.global_step)
         # structure of render_results: {}
         # example of render_results = {
@@ -123,8 +112,4 @@ class DefaultTrainer(BaseTrainer):
         model_path = Path(model_path)
         self.load_model(model_path)
         self.model.to(self.device)
-        # test_view_render(self.model,
-        #                  self.datapipeline, output_path=self.cfg.output_path)
-        # novel_view_render(self.model,
-        #                   self.datapipeline, output_path=self.cfg.output_path)
         self.exporter.export(model_path.parent)

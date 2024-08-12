@@ -7,14 +7,14 @@ from dataclasses import dataclass, field
 import torch
 import imageio
 from ..utils.visualize import visualize_depth, visualize_rgb
-from ..exporter.base_exporter import EXPORTER_REGISTRY, BaseExporter
+from ..exporter.base_exporter import EXPORTER_REGISTRY, MetricExporter
 
 @EXPORTER_REGISTRY.register()
-class VideoExporter(BaseExporter):
+class VideoExporter(MetricExporter):
     """
     The exporter class for the video export.
     """
-    def forward(self, output_path, novel_view_list=["Dolly", "Zoom", "Spiral"]):
+    def forward(self, output_path:str, novel_view_list=["Dolly", "Zoom", "Spiral"]):
         """
         Render the novel view and save the images to the output path.
 

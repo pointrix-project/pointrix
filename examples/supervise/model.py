@@ -63,9 +63,7 @@ class NormalModel(BaseModel):
         dot_for_judge = torch.sum(direction*normals, dim=-1)
         normals[dot_for_judge < 0] = -normals[dot_for_judge < 0]
         w2c = E[:3, :3].cuda().float()
-        normals_image = normals @ w2c.T @ torch.diag(
-                torch.tensor([-1, -1, 1], device=normals.device, dtype=torch.float)
-            )
+        normals_image = normals @ w2c.T
         return normals_image
 
     def get_loss_dict(self, render_results, batch) -> dict:

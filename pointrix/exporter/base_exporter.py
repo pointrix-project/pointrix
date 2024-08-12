@@ -37,7 +37,7 @@ class ExporterList:
         from .mesh_exporter import TSDFFusion
         from .video_exporter import VideoExporter
         for key, value in exporter_dict.items():
-            assert isinstance(value, (BaseExporter, TSDFFusion, VideoExporter)), (
+            assert isinstance(value, (MetricExporter, TSDFFusion, VideoExporter)), (
                 '`ExporWrapperDict` only accept (BaseOptimizer, TSDFFusion, VideoExporter) instance, '
                 f'but got {key}: {type(value)}')
         self.exporter_dict = exporter_dict
@@ -83,7 +83,7 @@ class ExporterList:
 
 
 @EXPORTER_REGISTRY.register()
-class BaseExporter(BaseModule):
+class MetricExporter(BaseModule):
     """
     Base class for all exporters.
 
@@ -160,13 +160,13 @@ class BaseExporter(BaseModule):
                         output_path, f'test_view_{feat_name}', image_name), visual_feat)
 
                 l1 += l1_loss(image, gt, return_mean=True).double()
-                psnr_metric  += psnr(image, gt).mean().double()
-                ssim_metric  += ssim(image, gt).mean().double()
-                lpips_metric  += lpips_func(image, gt).mean().double()
+                psnr_metric += psnr(image, gt).mean().double()
+                ssim_metric += ssim(image, gt).mean().double()
+                lpips_metric += lpips_func(image, gt).mean().double()
                 progress_logger.update(f'Metric', step=1)
         l1 /= val_dataset_size
-        psnr_metric  /= val_dataset_size
-        ssim_metric  /= val_dataset_size
-        lpips_metric  /= val_dataset_size
+        psnr_metric /= val_dataset_size
+        ssim_metric /= val_dataset_size
+        lpips_metric /= val_dataset_size
         print(
             f"Test results: L1 {l1:.5f} PSNR {psnr_metric:.5f} SSIM {ssim_metric:.5f} LPIPS (VGG) {lpips_metric:.5f}")
