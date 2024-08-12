@@ -187,6 +187,12 @@ trainer:
 ```
 Users can specify multiple exporters to obtain various post-processing results. For example, with the above configuration, users can get Metric and Mesh extraction results as well as Video post-processing results. 
 Mesh is obtained using the TSDF fusion method by default.
+you need to set trainer.model.renderer.render_depth as True to enable TSDFFusion
+
+```bash
+cd pointrix/projects/gaussian_splatting
+python launch.py --config ./configs/nerf.yaml trainer.training=False trainer.datapipeline.dataset.data_path=your_data_path trainer.test_model_path=your_model_path trainer.model.renderer.render_depth=True
+```
 
 #### Dust3r initialization (Beta)
 1. Switch to the Beta branch.
