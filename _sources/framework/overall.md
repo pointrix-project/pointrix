@@ -15,9 +15,9 @@ The overall framework of Pointrix is illustrated in the diagram below:
 - **Data Pipeline**: Manages the flow of unified data format to the trainer.
 
 ## Model Components
-- **Point Cloud Camera Model**: Computation graph component based on Gaussian point clouds and camera models.
+- **Point Cloud Model**: Computation graph component based on Gaussian point clouds.
 - **Msplat Renderer**: Core component of point cloud rendering. Supports various rendering techniques. All inputs return gradients (camera intrinsic and extrinsic parameters), and interfaces are modularized to the extent possible.
-- **Post-processing**: Post-processing steps such as rendering from new viewpoints and mesh extraction on the final trained point cloud.
+- **Camera Model**: Computation graph component based on camera models.
 
 ## Logging, Visualization, Configuration, Registration, and Callback Components
 - **Logger and GUI**: Interact with all components, supporting logging and visualization of intermediate results generated throughout the process.
