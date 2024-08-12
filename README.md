@@ -71,6 +71,7 @@ Clone pointrix:
 
 ```bash
 git clone https://github.com/pointrix-project/pointrix.git  --recursive
+cd pointrix
 ```
 
 Create a new conda environment with pytorch:
