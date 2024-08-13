@@ -8,9 +8,16 @@ from pointrix.model.base_model import BaseModel, MODEL_REGISTRY
 @MODEL_REGISTRY.register()
 class NormalModel(BaseModel):
     def forward(self, batch=None, training=True, render=True, iteration=None) -> dict:
-
         if iteration is not None:
             self.renderer.update_sh_degree(iteration)
+        if batch is None:
+            return {
+                    "position": self.point_cloud.position,
+                    "opacity": self.point_cloud.get_opacity,
+                    "scaling": self.point_cloud.get_scaling,
+                    "rotation": self.point_cloud.get_rotation,
+                    "shs": self.point_cloud.get_shs,
+                }
         frame_idx_list = [batch[i]["frame_idx"] for i in range(len(batch))]
         extrinsic_matrix = self.training_camera_model.extrinsic_matrices(frame_idx_list) \
             if training else self.validation_camera_model.extrinsic_matrices(frame_idx_list)
@@ -22,7 +29,7 @@ class NormalModel(BaseModel):
         point_normal = self.get_normals
         projected_normal = self.process_normals(
             point_normal, camera_center, extrinsic_matrix)
-
+        
         render_dict = {
             "extrinsic_matrix": extrinsic_matrix,
             "intrinsic_params": intrinsic_params,
@@ -80,12 +87,11 @@ class NormalModel(BaseModel):
         ssim_loss = 1.0 - ssim(render_results['rgb'], gt_images)
         loss += (1.0 - self.cfg.lambda_ssim) * L1_loss
         loss += self.cfg.lambda_ssim * ssim_loss
-        normal_loss = 0.1 * l1_loss(render_results['normal'], normal_images)
-        loss += normal_loss
+        # normal_loss = 0.1 * l1_loss(render_results['normal'], normal_images)
+        # loss += normal_loss
         loss_dict = {"loss": loss,
                      "L1_loss": L1_loss,
-                     "ssim_loss": ssim_loss,
-                     "normal_loss": normal_loss}
+                     "ssim_loss": ssim_loss}
         return loss_dict
 
     @torch.no_grad()

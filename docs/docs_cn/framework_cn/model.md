@@ -72,3 +72,37 @@ trainer:
     - name: MSplat, GSplat 或原始高斯核，将由注册表索引。
     - max_sh_degree: 渲染器最大的 sh 阶数。
     - render_depth: 是否渲染深度
+
+
+### 优化器配置：
+```yaml
+trainer:
+    optimizer:
+        optimizer_1:
+        type: BaseOptimizer
+        name: Adam
+        args:
+            eps: 1e-15
+        extra_cfg:
+            backward: False
+        params:
+            point_cloud.position:
+            lr: 0.00016
+            point_cloud.features:
+            lr: 0.0025
+            point_cloud.features_rest:
+            lr: 0.000125 # features/20
+            point_cloud.scaling:
+            lr: 0.005
+            point_cloud.rotation:
+            lr: 0.001
+            point_cloud.opacity:
+            lr: 0.05
+```
+- optimizer_x: 第 x 个优化器，您可以添加任意数量的优化器，Pointrix 将自动处理它们。
+    - type: 优化器的类型，由注册器索引。
+    - name: 优化器的名称。
+    - params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。**如果您在Basemodel 基础上新加入了可学习的参数，请在这个配置中添加**。
+    - camera_params: 相机参数
+        - lr: 相机参数的学习率，需要camera_model.enable_training==True
+

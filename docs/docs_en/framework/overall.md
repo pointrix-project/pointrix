@@ -19,6 +19,6 @@ The overall framework of Pointrix is illustrated in the diagram below:
 - **Msplat Renderer**: Core component of point cloud rendering. Supports various rendering techniques. All inputs return gradients (camera intrinsic and extrinsic parameters), and interfaces are modularized to the extent possible.
 - **Camera Model**: Computation graph component based on camera models.
 
-## Logging, Visualization, Configuration, Registration, and Callback Components
+## Logging, Visualization, Configuration, Registration, and Hook Components
 - **Logger and GUI**: Interact with all components, supporting logging and visualization of intermediate results generated throughout the process.
-- **Hooks, Configuration, and Registrar**: Interact with all components, supporting developers in customizing workflows and configurations for all components.
+- **Hooks, Configuration, and Registry**: Interact with all components, supporting developers in customizing workflows and configurations for all components.

@@ -33,7 +33,7 @@ class MsplatNormalRender(MsplatRender):
                     scaling,
                     rotation,
                     shs,
-                    normals,
+                    normals=None,
                     **kwargs) -> dict:
 
         direction = (position -
@@ -70,7 +70,7 @@ class MsplatNormalRender(MsplatRender):
             uv, depth, width, height, radius, tiles_touched
         )
 
-        Render_Features = RenderFeatures(rgb=rgb, depth=depth, normal=normals)
+        Render_Features = RenderFeatures(rgb=rgb, depth=depth, normal=normals) if normals is not None else RenderFeatures(rgb=rgb, depth=depth)
         render_features = Render_Features.combine()
 
         ndc = torch.zeros_like(uv, requires_grad=True)
@@ -86,13 +86,14 @@ class MsplatNormalRender(MsplatRender):
         )
         rendered_features_split = Render_Features.split(rendered_features)
 
-        normals = rendered_features_split["normal"]
-        
-        # convert normals from [-1,1] to [0,1]
-        normals_im = normals / normals.norm(dim=0, keepdim=True)
-        normals_im = (normals_im + 1) / 2
-        
-        rendered_features_split["normal"] = normals_im
+        if normals is not None:
+            normals = rendered_features_split["normal"]
+            
+            # convert normals from [-1,1] to [0,1]
+            normals_im = normals / normals.norm(dim=0, keepdim=True)
+            normals_im = (normals_im + 1) / 2
+            
+            rendered_features_split["normal"] = normals_im
 
         return {"rendered_features_split": rendered_features_split,
                 "uv_points": ndc,
