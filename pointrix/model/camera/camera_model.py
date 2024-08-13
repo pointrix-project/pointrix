@@ -151,7 +151,7 @@ class CameraModel(BaseObject):
         # [C, 3, 3]
         R = self.rotation_matrices(idx_list)
         inv_R = R.permute(*range(R.ndimension()-2), -1, -2)
-        return torch.matmul(inv_R, self.translation_vectors(idx_list).unsqueeze(-1)).squeeze(-1)
+        return torch.matmul(-inv_R, self.translation_vectors(idx_list).unsqueeze(-1)).squeeze(-1)
 
     @property
     def image_height(self) -> int:

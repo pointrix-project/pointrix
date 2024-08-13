@@ -1,5 +1,4 @@
 from .msplat import RENDERER_REGISTRY, MsplatRender
-from .gsplat import GsplatRender
 
 def parse_renderer(cfg, **kwargs):
     """
@@ -13,4 +12,6 @@ def parse_renderer(cfg, **kwargs):
     name = cfg.pop("name")
     if name == 'GaussianSplattingRender':
         from .base_splatting import GaussianSplattingRender
+    elif name == 'GsplatRender':
+        from .gsplat import GsplatRender
     return RENDERER_REGISTRY.get(name)(cfg, **kwargs)
