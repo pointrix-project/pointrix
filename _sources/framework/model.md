@@ -74,3 +74,35 @@ trainer:
     - `name`: MSplat, GSplat, or the original Gaussian kernel, which will be indexed by the registry.
     - `max_sh_degree`: The maximum SH degree for the renderer.
     - `render_depth`: Whether to render depth.
+
+### Optimizer Configuration：
+```yaml
+trainer:
+    optimizer:
+        optimizer_1:
+        type: BaseOptimizer
+        name: Adam
+        args:
+            eps: 1e-15
+        extra_cfg:
+            backward: False
+        params:
+            point_cloud.position:
+            lr: 0.00016
+            point_cloud.features:
+            lr: 0.0025
+            point_cloud.features_rest:
+            lr: 0.000125 # features/20
+            point_cloud.scaling:
+            lr: 0.005
+            point_cloud.rotation:
+            lr: 0.001
+            point_cloud.opacity:
+            lr: 0.05
+```
+- optimizer_x: The x-th optimizer. You can add any number of optimizers, and Pointrix will handle them automatically.
+  - type: The type of optimizer, indexed by the registry.
+  - name: The name of the optimizer.
+  - params: Names of parameters that need optimization and their corresponding learning rates. Pointrix will automatically parse them. **If you have added any learnable parameters on top of the Basemodel, please include them in this configuration.**
+  - camera_params: Camera parameters
+    - lr: Learning rate for camera parameters, requires camera_model.enable_training == True

@@ -148,7 +148,7 @@ trainer:
 - optimizer_x: 第 x 个优化器，您可以添加任意数量的优化器，Pointrix 将自动处理它们。
     - type: 优化器的类型，由注册器索引。
     - name: 优化器的名称。
-    - params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。
+    - params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。**如果您在Basemodel 基础上新加入了可学习的参数，请在这个配置中添加**。
     - camera_params: 相机参数
         - lr: 相机参数的学习率，需要camera_model.enable_training==True
 

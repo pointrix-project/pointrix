@@ -545,6 +545,7 @@ document.write(`
 <ul>
 <li><p>type: Type of optimizer, indexed by registry.</p></li>
 <li><p>name: Name of the optimizer.</p></li>
+<li><p>params：Names of parameters that need optimization and their corresponding learning rates. Pointrix will automatically parse them. <strong>If you have added any learnable parameters on top of the Basemodel, please include them in this configuration.</strong></p></li>
 <li><p>camera_params: Camera parameters</p>
 <ul>
 <li><p>lr: Learning rate for camera parameters, applicable if camera_model.enable_training == True.</p></li>

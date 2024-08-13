@@ -536,7 +536,7 @@ document.write(`
 <ul>
 <li><p>type: 优化器的类型，由注册器索引。</p></li>
 <li><p>name: 优化器的名称。</p></li>
-<li><p>params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。</p></li>
+<li><p>params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。<strong>如果您在Basemodel 基础上新加入了可学习的参数，请在这个配置中添加</strong>。</p></li>
 <li><p>camera_params: 相机参数</p>
 <ul>
 <li><p>lr: 相机参数的学习率，需要camera_model.enable_training==True</p></li>

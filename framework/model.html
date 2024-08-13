@@ -349,6 +349,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-and-controller">Optimizer and Controller</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-configuration">Model Configuration:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-configuration">Optimizer Configuration：</a></li>
 </ul>
 </li>
 </ul>
@@ -448,6 +449,47 @@ document.write(`
 </li>
 </ul>
 </section>
+<section id="optimizer-configuration">
+<h3>Optimizer Configuration：<a class="headerlink" href="#optimizer-configuration" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">optimizer</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">optimizer_1</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BaseOptimizer</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adam</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">eps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-15</span>
+<span class="w">        </span><span class="nt">extra_cfg</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">backward</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">        </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">point_cloud.position</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.00016</span>
+<span class="w">            </span><span class="nt">point_cloud.features</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0025</span>
+<span class="w">            </span><span class="nt">point_cloud.features_rest</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.000125</span><span class="w"> </span><span class="c1"># features/20</span>
+<span class="w">            </span><span class="nt">point_cloud.scaling</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.005</span>
+<span class="w">            </span><span class="nt">point_cloud.rotation</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
+<span class="w">            </span><span class="nt">point_cloud.opacity</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>optimizer_x: The x-th optimizer. You can add any number of optimizers, and Pointrix will handle them automatically.</p>
+<ul>
+<li><p>type: The type of optimizer, indexed by the registry.</p></li>
+<li><p>name: The name of the optimizer.</p></li>
+<li><p>params: Names of parameters that need optimization and their corresponding learning rates. Pointrix will automatically parse them. <strong>If you have added any learnable parameters on top of the Basemodel, please include them in this configuration.</strong></p></li>
+<li><p>camera_params: Camera parameters</p>
+<ul>
+<li><p>lr: Learning rate for camera parameters, requires camera_model.enable_training == True</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -500,6 +542,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-and-controller">Optimizer and Controller</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-configuration">Related Configuration</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-configuration">Model Configuration:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-configuration">Optimizer Configuration：</a></li>
 </ul>
 </li>
 </ul>

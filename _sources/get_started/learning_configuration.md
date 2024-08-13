@@ -157,6 +157,7 @@ We can see that the Pointrix trainer consists of **model, controller, optimizer,
 - optimizer_x: X-th optimizer; you can add any number of optimizers, which Pointrix will handle automatically.
     - type: Type of optimizer, indexed by registry.
     - name: Name of the optimizer.
+    - params：Names of parameters that need optimization and their corresponding learning rates. Pointrix will automatically parse them. **If you have added any learnable parameters on top of the Basemodel, please include them in this configuration.**
     - camera_params: Camera parameters
         - lr: Learning rate for camera parameters, applicable if camera_model.enable_training == True.
 

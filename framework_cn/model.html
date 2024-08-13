@@ -351,6 +351,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">优化器与控制器</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关配置</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">模型配置：</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">优化器配置：</a></li>
 </ul>
 </li>
 </ul>
@@ -457,6 +458,47 @@ document.write(`
 </li>
 </ul>
 </section>
+<section id="id7">
+<h3>优化器配置：<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">trainer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">optimizer</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">optimizer_1</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BaseOptimizer</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Adam</span>
+<span class="w">        </span><span class="nt">args</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">eps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-15</span>
+<span class="w">        </span><span class="nt">extra_cfg</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">backward</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">        </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">point_cloud.position</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.00016</span>
+<span class="w">            </span><span class="nt">point_cloud.features</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0025</span>
+<span class="w">            </span><span class="nt">point_cloud.features_rest</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.000125</span><span class="w"> </span><span class="c1"># features/20</span>
+<span class="w">            </span><span class="nt">point_cloud.scaling</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.005</span>
+<span class="w">            </span><span class="nt">point_cloud.rotation</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
+<span class="w">            </span><span class="nt">point_cloud.opacity</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>optimizer_x: 第 x 个优化器，您可以添加任意数量的优化器，Pointrix 将自动处理它们。</p>
+<ul>
+<li><p>type: 优化器的类型，由注册器索引。</p></li>
+<li><p>name: 优化器的名称。</p></li>
+<li><p>params：需要优化的参数名称以及对应的学习率。Pointrix将自动解析。<strong>如果您在Basemodel 基础上新加入了可学习的参数，请在这个配置中添加</strong>。</p></li>
+<li><p>camera_params: 相机参数</p>
+<ul>
+<li><p>lr: 相机参数的学习率，需要camera_model.enable_training==True</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -510,6 +552,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">优化器与控制器</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关配置</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">模型配置：</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">优化器配置：</a></li>
 </ul>
 </li>
 </ul>
