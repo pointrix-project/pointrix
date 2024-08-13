@@ -28,11 +28,6 @@
   </p>
 </div>
 
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fpointrix-project%2Fpointrix&count_bg=%2396114C&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=visitors&edge_flat=false)](https://hits.seeyoufarm.com)
-![Hits](https://img.shields.io/github/stars/pointrix-project/pointrix)
-![Static Badge](https://img.shields.io/badge/Pointrix_document-Pointrix_document?color=hsl&link=https%3A%2F%2Fpointrix-project.github.io%2Fpointrix)
-
-
 Pointrix is a differentiable point-based rendering library which has following properties:
 
 - **Highly Extensible**:
