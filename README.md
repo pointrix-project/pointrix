@@ -107,19 +107,19 @@ pip install .
 
 ###  Train Your First 3D Gaussian
 
-#### Mip-NeRF 360 (Colmap format dataset)
-Download the [data](http://storage.googleapis.com/gresearch/refraw360/360_v2.zip) and run:
-
+#### Tanks and Temples Dataset Demo (Colmap format dataset)
+Download the demo truck scene [data](https://pan.baidu.com/s/1MEb0rXkbJMlmT8cu7TirTA?pwd=qg8c) and run:
 ```bash
 cd pointrix/examples/gaussian_splatting
-# For Mip-NeRF 360 data which have high-res images and need to downsample.
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path
+# For Tanks and Temples data which have high-res images and need to downsample.
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path
 
-# you can also use Msplat renderer or GSplat renderer
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender
+# you can also use GaussianSplatting renderer or GSplat renderer
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.model.renderer.name=GaussianSplattingRender
 
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```
+The scale should be set as 0.25 for mipnerf 360 datasets.
 
 For other colmap dataset which do not need to downsample:
 
@@ -130,7 +130,7 @@ if you want test your model:
 
 ```bash
 cd pointrix/examples/gaussian_splatting
-# For Mip-NeRF 360 data which have high-res images and need to downsample.
+# For Tanks and Temples data which have high-res images and need to downsample.
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.training=False trainer.test_model_path=your_model_path
 ```
 
@@ -188,7 +188,7 @@ trainer:
 ```
 Users can specify multiple exporters to obtain various post-processing results. For example, with the above configuration, users can get Metric and Mesh extraction results as well as Video post-processing results. 
 Mesh is obtained using the TSDF fusion method by default.
-you need to set trainer.model.renderer.render_depth as True to enable TSDFFusion
+The renderer must be set as MsplatRender or GsplatRender. You need to set trainer.model.renderer.render_depth as True to enable TSDFFusion.
 
 ```bash
 cd pointrix/projects/gaussian_splatting
@@ -233,6 +233,7 @@ Thanks to the developers and contributors of the following open-source repositor
 - [GSplat](https://github.com/nerfstudio-project/gsplat): An open-source library for CUDA accelerated rasterization of gaussians with python bindings. 
 - [detectron2](https://github.com/facebookresearch/detectron2): Detectron2 is Facebook AI Research's next generation library that provides state-of-the-art detection and segmentation algorithms. 
 - [DN-Splatter](https://github.com/maturk/dn-splatter): Depth and Normal Priors for Gaussian Splatting and Meshing
+- [GOF](https://github.com/autonomousvision/gaussian-opacity-fields): Efficient and Compact Surface Reconstruction in Unbounded Scenes
 
 
 This is project is licensed under Apache License. However, if you use MSplat or the original 3DGS kernel in your work, please follow their license.
