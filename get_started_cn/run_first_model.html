@@ -347,6 +347,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#colmap">1. Colmap 数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nerf-lego-nerf-synthetic-format-dataset">2. NeRF-Lego (NeRF-Synthetic format dataset)</a></li>
 </ul>
             </nav>
         </div>
@@ -381,10 +382,30 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
 </div>
 <p>如果你想换用其他的渲染内核，可以通过修改上述命令中的trainer.renderer.name 来实现。</p>
 <p>如果你想换用其他的渲染内核，例如Gsplat, 或者Msplat可以运行下面的命令：</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can also use Msplat renderer or GSplat renderer</span>
-python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>MsplatRender
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can also use GaussianSplatting renderer or GSplat renderer</span>
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>GaussianSplattingRender
 
 python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.conrtroler.normalize_grad<span class="o">=</span>True<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>GsplatRender
+</pre></div>
+</div>
+<p>如果你想直接测试训练好的模型：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.training<span class="o">=</span>False<span class="w"> </span>trainer.test_model_path<span class="o">=</span>your_model_path
+</pre></div>
+</div>
+</section>
+<section id="nerf-lego-nerf-synthetic-format-dataset">
+<h2>2. NeRF-Lego (NeRF-Synthetic format dataset)<a class="headerlink" href="#nerf-lego-nerf-synthetic-format-dataset" title="Link to this heading">#</a></h2>
+<p>下载lego 数据:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip
+</pre></div>
+</div>
+<p>运行下方代码(with adjusted data path):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pointrix/examples/gaussian_splatting
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/nerf.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
+</pre></div>
+</div>
+<p>如果你想直接测试训练好的模型：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/nerf.yaml<span class="w"> </span>trainer.training<span class="o">=</span>False<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.test_model_path<span class="o">=</span>your_model_path
 </pre></div>
 </div>
 </section>
@@ -436,6 +457,7 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#colmap">1. Colmap 数据集</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nerf-lego-nerf-synthetic-format-dataset">2. NeRF-Lego (NeRF-Synthetic format dataset)</a></li>
 </ul>
   </nav></div>
 

@@ -346,6 +346,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#colmap-dataset">1. Colmap Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nerf-lego-nerf-synthetic-format-dataset">2. NeRF-Lego (NeRF-Synthetic format dataset)</a></li>
 </ul>
             </nav>
         </div>
@@ -357,9 +358,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <p>Here’s the translation of your text into English:</p>
-<hr class="docutils" />
-<section id="run-your-first-model">
+  <section id="run-your-first-model">
 <h1>Run Your First Model<a class="headerlink" href="#run-your-first-model" title="Link to this heading">#</a></h1>
 <section id="colmap-dataset">
 <h2>1. Colmap Dataset<a class="headerlink" href="#colmap-dataset" title="Link to this heading">#</a></h2>
@@ -381,11 +380,31 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
 These displays can also be customized.</p>
 </div>
 <p>If you want to switch to another rendering kernel, modify <code class="docutils literal notranslate"><span class="pre">trainer.renderer.name</span></code> in the command above.</p>
-<p>To use other rendering kernels such as Gsplat or Msplat, run the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can also use Msplat renderer or GSplat renderer</span>
-python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>MsplatRender
+<p>To use other rendering kernels such as Gsplat or GaussianSplattingRender, run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can also use GaussianSplattingRender renderer or GSplat renderer</span>
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>GaussianSplattingRender
 
 python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.conrtroler.normalize_grad<span class="o">=</span>True<span class="w"> </span>trainer.model.renderer.name<span class="o">=</span>GsplatRender
+</pre></div>
+</div>
+<p>if you want to test the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path<span class="w"> </span>trainer.training<span class="o">=</span>False<span class="w"> </span>trainer.test_model_path<span class="o">=</span>your_model_path
+</pre></div>
+</div>
+</section>
+<section id="nerf-lego-nerf-synthetic-format-dataset">
+<h2>2. NeRF-Lego (NeRF-Synthetic format dataset)<a class="headerlink" href="#nerf-lego-nerf-synthetic-format-dataset" title="Link to this heading">#</a></h2>
+<p>Download the lego data:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip
+</pre></div>
+</div>
+<p>Run the following (with adjusted data path):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pointrix/examples/gaussian_splatting
+python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/nerf.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
+</pre></div>
+</div>
+<p>if you want to test the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/nerf.yaml<span class="w"> </span>trainer.training<span class="o">=</span>False<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.test_model_path<span class="o">=</span>your_model_path
 </pre></div>
 </div>
 </section>
@@ -437,6 +456,7 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#colmap-dataset">1. Colmap Dataset</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nerf-lego-nerf-synthetic-format-dataset">2. NeRF-Lego (NeRF-Synthetic format dataset)</a></li>
 </ul>
   </nav></div>
 

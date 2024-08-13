@@ -1,6 +1,9 @@
 # 为点云渲染添加监督
 
 我们以表面法线为例，来说明如何为点云渲染模型添加表面法线先验的监督。本教程用到的数据下载链接如下：
+
+https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
+
 我们使用DSINE 模型来为 Tanks and Temple 数据集的truck场景生成Normal。
 ## 数据部分的修改
 由于Tanks and Temple 数据集为Colmap格式，因此我们选择继承Pointrix 中的Colmap Dataset进行修改。
@@ -127,7 +130,7 @@ from pointrix.model.base_model import BaseModel, MODEL_REGISTRY
 
 ```{code-block} python
 :lineno-start: 1 
-:emphasize-lines: "1,15,16,17,28,78,79,83"
+:emphasize-lines: "1,15,16,17,28,76,77,81, 36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,106,107,108,110,111,112"
 :caption: |
 :    我们高亮相较于BaseModel修改的代码。
 
@@ -188,9 +191,7 @@ class NormalModel(BaseModel):
         dot_for_judge = torch.sum(direction*normals, dim=-1)
         normals[dot_for_judge < 0] = -normals[dot_for_judge < 0]
         w2c = E[:3, :3].cuda().float()
-        normals_image = normals @ w2c.T @ torch.diag(
-                torch.tensor([-1, -1, 1], device=normals.device, dtype=torch.float)
-            )
+        normals_image = normals @ w2c.T
         return normals_image
 
     def get_loss_dict(self, render_results, batch) -> dict:
