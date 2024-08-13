@@ -31,8 +31,35 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 如果你想换用其他的渲染内核，例如Gsplat, 或者Msplat可以运行下面的命令：
 
 ```bash
-# you can also use Msplat renderer or GSplat renderer
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=MsplatRender
+# you can also use GaussianSplatting renderer or GSplat renderer
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.model.renderer.name=GaussianSplattingRender
 
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
+```
+
+
+如果你想直接测试训练好的模型：
+
+```bash
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.training=False trainer.test_model_path=your_model_path
+```
+
+## 2. NeRF-Lego (NeRF-Synthetic format dataset)
+下载lego 数据:
+
+```bash
+wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip
+```
+
+运行下方代码(with adjusted data path):
+
+```bash
+cd pointrix/examples/gaussian_splatting
+python launch.py --config ./configs/nerf.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
+```
+
+如果你想直接测试训练好的模型：
+
+```bash
+python launch.py --config ./configs/nerf.yaml trainer.training=False trainer.datapipeline.dataset.data_path=your_data_path trainer.test_model_path=your_model_path
 ```

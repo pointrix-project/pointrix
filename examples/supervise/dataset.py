@@ -29,5 +29,8 @@ class ColmapDepthNormalDataset(ColmapDataset):
                 cached_progress.update(f'Transforming', step=1)
 
                 # Transform Normal
-                observed_data[i]['normal'] = (torch.from_numpy(np.array(observed_data[i]['normal'])) / 255.0).float().permute(2, 0, 1)
+                normal = observed_data[i]['normal']
+                w, h = normal.size
+                normal = normal.resize((int(w * self.scale), int(h * self.scale)))
+                observed_data[i]['normal'] = (torch.from_numpy(np.array(normal)) / 255.0).float().permute(2, 0, 1)
         return observed_data

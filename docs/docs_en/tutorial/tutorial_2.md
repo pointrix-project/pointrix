@@ -1,5 +1,9 @@
 # Adding Supervision for 3DGS
-We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. The data download link for this tutorial is provided below:
+We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. The data download link for this tutorial is provided below: 
+
+https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
+
+
 We employ the DSINE model to generate normals for the truck scene in the Tanks and Temple dataset.
 
 ## Modification of Data Section
@@ -172,9 +176,7 @@ class NormalModel(BaseModel):
         dot_for_judge = torch.sum(direction*normals, dim=-1)
         normals[dot_for_judge < 0] = -normals[dot_for_judge < 0]
         w2c = E[:3, :3].cuda().float()
-        normals_image = normals @ w2c.T @ torch.diag(
-                torch.tensor([-1, -1, 1], device=normals.device, dtype=torch.float)
-            )
+        normals_image = normals @ w2c.T
         return normals_image
 
     def get_loss_dict(self, render_results, batch) -> dict:
