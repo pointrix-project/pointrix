@@ -144,14 +144,13 @@ wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example
 Run the following (with adjusted data path):
 
 ```bash
-cd pointrix/projects/gaussian_splatting
+cd pointrix/examples/gaussian_splatting
 python launch.py --config ./configs/nerf.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
 
 if you want to test the model:
 
 ```bash
-cd pointrix/projects/gaussian_splatting
 python launch.py --config ./configs/nerf.yaml trainer.training=False trainer.datapipeline.dataset.data_path=your_data_path trainer.test_model_path=your_model_path
 ```
 
