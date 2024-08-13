@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>钩子 &#8212; Pointrix</title>
+    <title>钩子函数 &#8212; Pointrix</title>
   
   
   
@@ -174,7 +174,7 @@
 <li class="toctree-l1"><a class="reference internal" href="data.html">数据流水线</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">模型</a></li>
 <li class="toctree-l1"><a class="reference internal" href="trainer.html">训练器 (Trainer)</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">钩子</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">钩子函数</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
 <ul class="nav bd-sidenav">
@@ -336,7 +336,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>钩子</h1>
+    <h1>钩子函数</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -360,7 +360,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="id1">
-<h1>钩子<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<h1>钩子函数<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>钩子模块可以作为一个工具类，在某些固定的时间点对训练器进行一些操作。CheckPointHook 和 LogHook 是两个继承自基类的示例钩子，它们分别用于在训练循环中保存检查点和记录训练和验证损失。</p>
 <p>LogHook 依赖于一个名为 Logger 的 Console 对象，在终端打印一些日志信息，以及一个 ProgressLogger 对象来可视化训练进度。在指定的时间点，它将调用训练器的 writer 来记录日志信息。</p>
 <p>对于与训练器绑定的 writer，它应该继承自基类 <code class="docutils literal notranslate"><span class="pre">Writer</span></code>，并完成 <code class="docutils literal notranslate"><span class="pre">write_scalar()</span></code>、<code class="docutils literal notranslate"><span class="pre">write_image()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">write_config()</span></code> 这三个抽象函数。您可以创建更多类型的 Writer。例如，TensorboardWriter 通过重写这三个接口函数封装了 <code class="docutils literal notranslate"><span class="pre">torch.utils.tensorboard.SummaryWriter</span></code>。您还可以在 <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> 配置文件中方便地指定要使用的 writer 类型。</p>

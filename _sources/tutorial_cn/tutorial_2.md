@@ -382,9 +382,9 @@ class NormalLogHook(LogHook):
 
 ```{code-block} yaml
 :lineno-start: 1 
-:emphasize-lines: "10, 72, 82, 89"
+:emphasize-lines: "10, 23, 61, 70, 77"
 :caption: |
-:    我们高亮相较于默认配置修改的配置。
+:    We highlight the modified part.
 
 name: "garden"
 
@@ -407,21 +407,12 @@ trainer:
         feat_dim: 3
     camera_model:
       enable_training: False
-  
+    renderer:
+      name: "MsplatNormalRender"
+      max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
+
   controller:
     normalize_grad: False
-    control_module: str = "point_cloud"
-    split_num: int = 2
-    prune_interval: int = 100
-    min_opacity: float = 0.005
-    percent_dense: float = 0.01
-    min_opacity: float = 0.005
-    densify_grad_threshold: float = 0.0002
-    duplicate_interval: int = 100
-    densify_start_iter: int = 500
-    densify_stop_iter: int = 15000
-    opacity_reset_interval: int = 3000
-    optimizer_name: str = "optimizer_1"
 
   optimizer:
     optimizer_1:
@@ -444,8 +435,8 @@ trainer:
           lr: 0.001
         point_cloud.opacity:
           lr: 0.05
-      camera_params:
-        lr: 1e-3
+      # camera_params:
+      #   lr: 1e-3
 
   scheduler:
     name: "ExponLRScheduler"
@@ -454,30 +445,48 @@ trainer:
         init:  0.00016
         final: 0.0000016
         max_steps: ${trainer.max_steps}
-  
   datapipeline:
-    data_path: "/home/linzhuo/gj/data/garden"
     data_set: "ColmapDepthNormalDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
-      cached_metadata: ${trainer.training}
+      data_path: "/home/linzhuo/gj/data/garden"
+      cached_observed_data: ${trainer.training}
       scale: 0.25
       white_bg: False
+      observed_data_dirs_dict: {"image": "images", "normal": "normals"}
 
-  renderer:
-    name: "DPTRNormalRender"
-    max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   writer:
-    writer_type: "WandbWriter"
+    writer_type: "TensorboardWriter"
   
   hooks:
     LogHook:
       name: NormalLogHook
     CheckPointHook:
       name: CheckPointHook
+  
+  exporter:
+    exporter_a:
+      type: MetricExporter
+    exporter_b:
+      type: TSDFFusion
+      extra_cfg:
+        voxel_size: 0.02
+        sdf_truc: 0.08
+        total_points: 8_000_000
+    exporter_c:
+      type: VideoExporter
 ```
 
 经过上述修改（所有代码的高亮部分），我们即完成了对高斯点云表面法向的监督。所有的代码在`example/supervise` 文件夹下。
 
+我们通过下面的命令运行代码：
+
+```bash
+python launch.py --config colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path
+```
+
+实验结果如下：
+
+![](../../images/compare.png)
