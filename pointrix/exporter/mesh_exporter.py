@@ -45,7 +45,7 @@ class TSDFFusion(MetricExporter):
                 for i, batch in enumerate(self.datapipeline.iter_train_image_dataloader):
                     # Assume batch size == 1
                     data = batch[0]
-                    camera_info = data["camera"]
+                    camera_info = self.model(batch, render=False)
                     render_output = self.model(batch)
                     try:
                         depth_map = render_output["depth"].squeeze()
@@ -54,20 +54,20 @@ class TSDFFusion(MetricExporter):
                             'No depth in render_output, please set config trainer.model.renderer.render_depth as True')
 
                     camera_to_world = torch.linalg.inv(
-                        camera_info.extrinsic_matrix)[:3, :4]
-                    height, width = int(camera_info.image_height), int(
-                        camera_info.image_width)
-
+                        camera_info["extrinsic_matrix"].squeeze(0))[:3, :4]
+                    height, width = int(data['height']), int(data['width'])
+                    intrinsic_params = camera_info["intrinsic_params"].squeeze(0).cpu().numpy()
+                    fx, fy, cx, cy = intrinsic_params[0], intrinsic_params[1], intrinsic_params[2], intrinsic_params[3]
                     sampled_indices = random.sample(
                         range(height * width), samples_per_frame)
 
                     points, colors = self.get_colored_points_from_depth(
                         depths=depth_map,
                         rgbs=render_output["rgb"].squeeze().permute(1, 2, 0),
-                        fx=camera_info.fx,
-                        fy=camera_info.fy,
-                        cx=camera_info.cx,
-                        cy=camera_info.cy,
+                        fx=fx,
+                        fy=fy,
+                        cx=cx,
+                        cy=cy,
                         img_size=(width, height),
                         c2w=camera_to_world,
                         mask=sampled_indices,
