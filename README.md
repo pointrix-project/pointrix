@@ -1,7 +1,7 @@
 <div align="center">
   <p align="center">
       <picture>
-      <source srcset="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" media="(prefers-color-scheme: dark)">
+      <source srcset="https://github.com/user-attachments/assets/14d54372-01e6-4e16-aa20-91ec9fc5c257" media="(prefers-color-scheme: dark)">
       <source srcset="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" media="(prefers-color-scheme: light)">
       <img alt="Pointrix" src="https://github.com/user-attachments/assets/a83ee3b1-5452-4614-84f0-662d8d0d9a7f" width="80%">
       </picture>
@@ -28,7 +28,7 @@
   </p>
 </div>
 
-Pointrix is a differentiable point-based rendering library which has following properties:
+Pointrix is a differentiable point-based rendering framework which has following properties:
 
 - **Highly Extensible**:
   - Python API
@@ -41,7 +41,7 @@ Pointrix is a differentiable point-based rendering library which has following p
 - **Rich Features**:
   - Support camera parameters optimization.
   - Support Dynmamic scene reconstruction task and Generation task (WIP).
-  - Support mesh extraction and different type of initialization (WIP)
+  - Support mesh extraction and different type of initialization.
 
 <!-- ## Comparation with original 3D gaussian code
 
