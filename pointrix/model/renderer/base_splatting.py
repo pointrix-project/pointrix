@@ -15,33 +15,6 @@ from diff_gaussian_rasterization import GaussianRasterizer as GSRenderer
 class GaussianSplattingRender(MsplatRender):
     """
     A class for rendering point clouds using Gaussian splatting.
-
-    Config
-    ------
-    update_sh_iter : int, optional
-        The iteration to update the spherical harmonics degree, by default 1000.
-    max_sh_degree : int, optional
-        The maximum spherical harmonics degree, by default 3.
-    render_depth : bool, optional
-        Whether to render the depth or not, by default False.
-    """
-    @dataclass
-    class Config:
-        update_sh_iter: int = 1000
-        max_sh_degree: int = 3
-        render_depth: bool = False
-    
-    cfg: Config
-    
-    """
-    A class for rendering point clouds using Gaussian splatting.
-
-    Parameters
-    ----------
-    white_bg : bool
-        Whether the background is white or not.
-    device : str
-        The device to use.
     """
     def setup(self, white_bg, device, **kwargs):
         self.sh_degree = 0

@@ -8,7 +8,7 @@ We'll use the Mip-Nerf 360 dataset as an example:
 - Run the following command to train your model (... replace data paths in the configuration file ...):
 
 ```bash
-cd pointrix/examples/gaussian_splatting
+cd examples/gaussian_splatting
 # For Mip-NeRF 360 data which have high-res images and need to downsample.
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path
 ```
@@ -55,7 +55,7 @@ wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example
 Run the following (with adjusted data path):
 
 ```bash
-cd pointrix/examples/gaussian_splatting
+cd examples/gaussian_splatting
 python launch.py --config ./configs/nerf.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
 

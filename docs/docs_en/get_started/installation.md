@@ -11,6 +11,7 @@ First, clone Pointrix from GitHub:
 
 ```bash
 git clone https://github.com/pointrix-project/pointrix.git --recursive
+cd pointrix
 ```
 
 Create a Conda environment with Python 3.9 and activate it:
@@ -33,6 +34,7 @@ cd pointrix
 pip install -r requirements.txt
 pip install -e .
 
+cd ..
 cd msplat
 pip install .
 ```

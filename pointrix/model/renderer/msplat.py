@@ -13,19 +13,19 @@ RENDERER_REGISTRY = Registry("RENDERER", modules=["pointrix.model.renderer"])
 class MsplatRender(BaseObject):
     """
     A class for rendering point clouds using msplat.
-
-    Config
-    ------
-    update_sh_iter : int, optional
-        The iteration to update the spherical harmonics degree, by default 1000.
-    max_sh_degree : int, optional
-        The maximum spherical harmonics degree, by default 3.
-    render_depth : bool, optional
-        Whether to render the depth or not, by default False.
     """
-
     @dataclass
     class Config:
+        """
+        Parameters
+        ------------
+        update_sh_iter : int, optional
+            The iteration to update the spherical harmonics degree, by default 1000.
+        max_sh_degree : int, optional
+            The maximum spherical harmonics degree, by default 3.
+        render_depth : bool, optional
+            Whether to render the depth or not, by default False.
+        """
         update_sh_iter: int = 1000
         max_sh_degree: int = 3
         render_depth: bool = False
@@ -33,6 +33,16 @@ class MsplatRender(BaseObject):
     cfg: Config
 
     def setup(self, white_bg, device, **kwargs):
+        """
+        Setup the renderer.
+        
+        Parameters
+        ----------
+        white_bg : bool
+            Whether the background is white.
+        device : str
+            The device used in the pipeline.
+        """
         self.sh_degree = 0
         self.device = device
         super().setup(white_bg, device, **kwargs)
@@ -225,4 +235,12 @@ class MsplatRender(BaseObject):
         self.sh_degree = state_dict["sh_degree"]
 
     def state_dict(self):
+        """
+        Get the state dictionary of render.
+        
+        Returns
+        -------
+        dict
+            The state dictionary
+        """
         return {"sh_degree": self.sh_degree}

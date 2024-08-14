@@ -12,6 +12,22 @@ from ..utils.base import BaseObject
 class BaseDensificationController(BaseObject):
     @dataclass
     class Config:
+        """
+        Parameters
+        ----------
+        prue_interval: int
+            The interval to prune the point cloud
+        min_opacity: float
+            The minimum opacity of the point cloud
+        densify_start_iter: int
+            The iteration to start densifying the point cloud
+        densify_stop_iter: int
+            The iteration to stop densifying the point cloud
+        densify_grad_threshold: float
+            The threshold to densify the point cloud
+        optimizer_name: str
+            The name of the optimizer which is used to update the point cloud
+        """
         prune_interval: int = 100
         min_opacity: float = 0.005
         duplicate_interval: int = 100
@@ -23,6 +39,14 @@ class BaseDensificationController(BaseObject):
     cfg: Config
 
     def get_step_value(self, value):
+        """
+        Get the step value for the given value.
+        
+        Parameters
+        ----------
+        value : float
+            The value to convert to step value.
+        """
         if isinstance(value, float):
             return C(value, 0, self.step)
         else:

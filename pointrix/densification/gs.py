@@ -12,8 +12,29 @@ from ..model.utils.gaussian_utils import sigmoid_inv
 from ..utils.pose import quat_to_rotmat
 
 class DensificationController(BaseDensificationController):
+    """
+    The densification controller class for densifying the point cloud.
+    """
     @dataclass
     class Config(BaseDensificationController.Config):
+        """
+        Parameters
+        ----------
+        split_num : int
+            The number of points to split.
+        control_module : str
+            The control module.
+        percent_dense : float
+            The percentage of dense points.
+        opacity_reset_interval : int
+            The interval to reset the opacity.
+        densify_grad_threshold : float
+            The densification gradient threshold.
+        min_opacity : float
+            The minimum opacity.
+        normalize_grad : bool
+            Whether to normalize the gradient.
+        """
         # Densification
         split_num: int = 2
         control_module: str = "point_cloud"
@@ -50,7 +71,12 @@ class DensificationController(BaseDensificationController):
 
     def reset_opacity(self, reset_scele=0.01) -> None:
         """
-        Reset the opacity of the point cloud.        
+        Reset the opacity of the point cloud. 
+        
+        Parameters
+        ----------
+        reset_scele : float
+            The reset scale.
         """
         opc = self.point_cloud.get_opacity
         opacities_new = sigmoid_inv(
@@ -91,6 +117,7 @@ class DensificationController(BaseDensificationController):
     def generate_split_mask(self, grads: Tensor) -> Tensor:
         """
         Generate the mask for splitting.
+        
         Parameters
         ----------
         grads : torch.Tensor
@@ -117,10 +144,12 @@ class DensificationController(BaseDensificationController):
     def new_pos_scale(self, mask: Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
         """
         Generate new position and scaling for splitting.
+        
         Parameters
         ----------
         mask : torch.Tensor
             The mask for splitting.
+            
         Returns
         -------
         tuple[torch.Tensor, torch.Tensor]
@@ -150,6 +179,7 @@ class DensificationController(BaseDensificationController):
     def densify_clone(self, grads: Tensor) -> None:
         """
         Densify the point cloud by cloning.
+        
         Parameters
         ----------
         grads : torch.Tensor
@@ -163,6 +193,7 @@ class DensificationController(BaseDensificationController):
     def densify_split(self, grads: Tensor) -> None:
         """
         Densify the point cloud by splitting.
+        
         Parameters
         ----------
         grads : torch.Tensor
@@ -202,6 +233,7 @@ class DensificationController(BaseDensificationController):
     def prune_postprocess(self, valid_points_mask):
         """
         Postprocess after pruning.
+        
         Parameters
         ----------
         valid_points_mask : torch.Tensor
@@ -225,6 +257,7 @@ class DensificationController(BaseDensificationController):
     def accumulate_viewspace_grad(self, uv_points: Tensor) -> Tensor:
         """
         Accumulate viewspace gradients for batch.
+        
         Parameters
         ----------
         uv_points : torch.Tensor
@@ -250,6 +283,7 @@ class DensificationController(BaseDensificationController):
     def prune(self, **kwargs) -> None:
         """
         Prune the point cloud.
+        
         Parameters
         ----------
         step : int

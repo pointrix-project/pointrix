@@ -21,7 +21,7 @@ class ColmapDataset(BaseDataset):
     """
     The dataset class for the Colmap based dataset.
     """
-    def _load_camera_prior(self, split: str) -> List[CameraPrior]:
+    def load_camera_prior(self, split: str) -> List[CameraPrior]:
         """
         The function for loading the camera information.
         
@@ -51,7 +51,7 @@ class ColmapDataset(BaseDataset):
         cameras_results = [sorted_camera[i] for i in self.train_index] if split == 'train' else [sorted_camera[i] for i in self.val_index] 
         return cameras_results
     
-    def _load_pointcloud_prior(self) -> dict:
+    def load_pointcloud_prior(self) -> dict:
         """
         The function for loading the Pointcloud for initialization of gaussian model.
 
@@ -73,7 +73,7 @@ class ColmapDataset(BaseDataset):
             point_cloud.read_ply(points3d_ply_path)
         return point_cloud
     
-    def _transform_observed_data(self, observed_data, split):
+    def transform_observed_data(self, observed_data, split):
         """
         The function for transforming the observed_datadata.
 
@@ -102,7 +102,7 @@ class ColmapDataset(BaseDataset):
                 cached_progress.update(f'Transforming', step=1)
             return observed_data
     
-    def _load_observed_data(self, split):
+    def load_observed_data(self, split):
         """
         The function for loading the observed_data.
 

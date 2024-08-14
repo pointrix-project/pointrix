@@ -92,13 +92,34 @@ class CameraPrior:
 class PointsPrior:
     """
     Point cloud initialization used in data Pipeline
+    
+    Parameters
+    ----------
+    positions: Union[Float[Tensor, "N 3"], NDArray, None]
+        The positions of the points.
+    colors: Union[Float[Tensor, "N 3"], NDArray, None]
+        The colors of the points.
+    normals: Union[Float[Tensor, "N 3"], NDArray, None]
+        The normals of the points.
     """
     
     positions: Union[Float[Tensor, "N 3"], NDArray, None]=None
     colors: Union[Float[Tensor, "N 3"], NDArray, None]=None
     normals: Union[Float[Tensor, "N 3"], NDArray, None]=None
     
-    def save_ply(self, path):
+    def save_ply(self, path: str) -> None:
+        """
+        Save the point cloud to a ply file.
+        
+        Parameters
+        ----------
+        path: str
+            The path to save the ply file.
+            
+        Returns
+        -------
+        None
+        """
         # Define the structured array dtype for vertices
         attribute = ['x', 'y', 'z', 'nx', 'ny', 'nz', 'red', 'green', 'blue']
         type = ['f4', 'f4', 'f4', 'f4', 'f4', 'f4', 'u1', 'u1', 'u1']
@@ -112,7 +133,15 @@ class PointsPrior:
         ply_data = PlyData([PlyElement.describe(ply, 'vertex')])
         ply_data.write(path)
         
-    def read_ply(self, path):
+    def read_ply(self, path:str) -> None:
+        """
+        Read the point cloud from a ply file.
+        
+        Parameters
+        ----------
+        path: str
+            The path to the ply file.
+        """
         plyData = PlyData.read(path)
         coordinates_attributes = ['x', 'y', 'z']
         color_attributes = ['red', 'green', 'blue']
@@ -166,7 +195,7 @@ class CamerasPrior:
     def __getitem__(self, index):
         return self.cameras[index]
 
-    def get_radius(self):
+    def get_radius(self) -> Float:
         """
         Get the path radius of the cameras.
 
@@ -180,7 +209,7 @@ class CamerasPrior:
         camera_radius = torch.max(dist) 
         return camera_radius
 
-    def generate_camera_path(self, num_frames: int, mode: str = "Dolly"):
+    def generate_camera_path(self, num_frames: int, mode: str = "Dolly") -> List[CameraPrior]:
         """
         Generate the camera path.
 
@@ -188,10 +217,13 @@ class CamerasPrior:
         ----------
         num_frames: int
             The number of frames of the camera path.
-
+        
+        mode: str
+            The mode of the camera path.
+            
         Returns
         -------
-        camera_path: Float[Tensor, "num_frames 4 4"]
+        camera_path: List[CameraPrior]
             The camera path.
         """
         SE3_poses = torch.zeros(self.num_cameras, 3, 4)
@@ -218,15 +250,13 @@ class CamerasPrior:
         height = self.cameras[render_idx].image_height
 
         if mode == "Dolly":
-            return self.dolly(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+            return self._dolly(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
         elif mode == "Zoom":
-            return self.zoom(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+            return self._zoom(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
         elif mode == "Spiral":
-            return self.spiral(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
-        elif mode == "Circle":
-            return self.circle([fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
+            return self._spiral(c2w, [fx, fy], width, height, sc=1., length=SE3_poses.shape[0], num_frames=num_frames)
 
-    def pose_to_cam(self, poses, focals, width, height):
+    def _pose_to_cam(self, poses: List, focals, width, height):
         """
         Generate the camera path from poses.
 
@@ -252,7 +282,7 @@ class CamerasPrior:
             camera_list.append(cam)
         return camera_list
 
-    def dolly(self, c2w, focal, width, height, sc, length, num_frames):
+    def _dolly(self, c2w, focal, width, height, sc, length, num_frames):
         """
         Generate the camera path with dolly zoom.
 
@@ -308,9 +338,9 @@ class CamerasPrior:
         dolly_poses = np.stack(dolly_poses, 0)[:, :3]
         dolly_focals = np.stack(dolly_focals, 0)
 
-        return self.pose_to_cam(dolly_poses, dolly_focals, width, height)
+        return self._pose_to_cam(dolly_poses, dolly_focals, width, height)
 
-    def zoom(self, c2w, focal, width, height, sc, length, num_frames):
+    def _zoom(self, c2w, focal, width, height, sc, length, num_frames):
         """
         Generate the camera path with zoom.
 
@@ -375,9 +405,9 @@ class CamerasPrior:
 
         zoom_poses = np.stack(zoom_poses, 0)[:, :3]
         zoom_focals = np.stack(zoom_focals, 0)
-        return self.pose_to_cam(zoom_poses, zoom_focals, width, height)
+        return self._pose_to_cam(zoom_poses, zoom_focals, width, height)
 
-    def spiral(self, c2w, focal, width, height, sc, length, num_frames):
+    def _spiral(self, c2w, focal, width, height, sc, length, num_frames):
         """
         Generate the camera path with spiral.
 
@@ -443,4 +473,4 @@ class CamerasPrior:
             spiral_focals.append(focal[0])
         spiral_poses = np.stack(spiral_poses, 0)[:, :3]
         spiral_focals = np.stack(spiral_focals, 0)
-        return self.pose_to_cam(spiral_poses, spiral_focals, width, height)
+        return self._pose_to_cam(spiral_poses, spiral_focals, width, height)

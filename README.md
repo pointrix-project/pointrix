@@ -112,7 +112,7 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 # you can also use GaussianSplatting renderer or GSplat renderer
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.model.renderer.name=GaussianSplattingRender
 
-python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.conrtroler.normalize_grad=True trainer.model.renderer.name=GsplatRender
+python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.controller.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```
 The scale should be set as 0.25 for mipnerf 360 datasets.
 

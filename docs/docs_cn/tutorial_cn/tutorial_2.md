@@ -1,6 +1,7 @@
 # 为点云渲染添加监督
 
-我们以表面法线为例，来说明如何为点云渲染模型添加表面法线先验的监督。本教程用到的数据下载链接如下：
+我们以表面法线为例，来说明如何为点云渲染模型添加表面法线先验的监督。所有的代码在`example/supervise` 文件夹下。
+本教程用到的数据下载链接如下：
 
 https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
 
@@ -10,7 +11,7 @@ https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
 为了读取DSINE 模型的Normal 先验输出，我们首先需要修改配置：
 
 ```bash
-trainer.datapipeline.dataset.meta_dirs_dict={"image": "images", "normal":"normals"},
+trainer.datapipeline.dataset.observed_data_dirs_dict={"image": "images", "normal":"normals"},
 ```
 
 其中 ``normal`` 为存入Normal 的文件夹名称，``normal``为这个数据的变量名。
@@ -25,9 +26,9 @@ Pointrix 会根据当前数据路径和文件夹名称
 :caption: |
 :    Colmap 依据后缀自动读取数据的相关部分代码.
 
-def _load_metadata(self, split):
+def load_observed_data(self, split):
     """
-    The function for loading the metadata.
+    The function for loading the observed_data.
 
     Parameters:
     -----------
@@ -36,32 +37,33 @@ def _load_metadata(self, split):
     
     Returns:
     --------
-    meta_data: List[Dict[str, Any]]
-        The metadata for the dataset.
+    observed_data: List[Dict[str, Any]]
+        The observed_datafor the dataset.
     """
-    meta_data = []
-    for k, v in self.meta_dirs_dict.items():
-        meta_path = self.data_root / Path(v)
-        if not os.path.exists(meta_path):
-            Logger.error(f"Meta path {meta_path} does not exist.")
-        meta_file_names = sorted(os.listdir(meta_path))
-        meta_file_names_split = [meta_file_names[i] for i in self.train_index] if split == "train" else [meta_file_names[i] for i in self.val_index]
-        cached_progress = ProgressLogger(description='Loading cached meta', suffix='iters/s')
-        cached_progress.add_task(f'cache_{k}', f'Loading {split} cached {k}', len(meta_file_names_split))
-        cached_progress.start()
-        for idx, file in enumerate(meta_file_names_split):
-            if len(meta_data) <= idx:
-                meta_data.append({})
-            if file.endswith('.npy'):
-                meta_data[idx].update({k: np.load(meta_path / Path(file))})
-            elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
-                meta_data[idx].update({k: Image.open(meta_path / Path(file))})
-            cached_progress.update(f'cache_{k}', step=1)
-        cached_progress.stop()
-    return meta_data
+    observed_data = []
+    for k, v in self.observed_data_dirs_dict.items():
+        observed_data_path = self.data_root / Path(v)
+        if not os.path.exists(observed_data_path):
+            Logger.error(f"observed_data path {observed_data_path} does not exist.")
+        observed_data_file_names = sorted(os.listdir(observed_data_path))
+        observed_data_file_names_split = [observed_data_file_names[i] for i in self.train_index] if split == "train" else [observed_data_file_names[i] for i in self.val_index]
+        cached_progress = ProgressLogger(description='Loading cached observed_data', suffix='iters/s')
+        cached_progress.add_task(f'cache_{k}', f'Loading {split} cached {k}', len(observed_data_file_names_split))
+        with cached_progress.progress as progress:
+            for idx, file in enumerate(observed_data_file_names_split):
+                if len(observed_data) <= idx:
+                    observed_data.append({})
+                if file.endswith('.npy'):
+                    observed_data[idx].update({k: np.load(observed_data_path / Path(file))})
+                elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
+                    observed_data[idx].update({k: Image.open(observed_data_path / Path(file))})
+                else:
+                    print(f"File format {file} is not supported.")
+                cached_progress.update(f'cache_{k}', step=1)
+    return observed_data
 ```
 
-在使用Pointrix的自动数据读取功能后，我们需要对读取后的Normal数据进行处理。我们需要重载Colmap Dataset并修改其中的``_transform_metadata``
+在使用Pointrix的自动数据读取功能后，我们需要对读取后的Normal数据进行处理。我们需要重载Colmap Dataset并修改其中的``_transform_observed_data``
 函数来实现对读取观测数据 (表面法向) 的处理：具体代码在``examples/gaussian_splatting_supervise/dataset.py``.
 
 ```{code-block} yaml
@@ -114,7 +116,7 @@ class ColmapDepthNormalDataset(ColmapDataset):
         return observed_data
 ```
 
-我们将处理后的Normal 数据存入meta 中后，Pointrix中的Datapipeline 会自动帮我们在训练过程中生产对应的数据，数据部分修改完成。
+我们将处理后的Normal 数据存入observed_data 中后，Pointrix中的Datapipeline 会自动帮我们在训练过程中生产对应的数据，数据部分修改完成。
 
 ## 模型部分的修改
 首先，我们需要从Pointrix中导入基本模型，以便我们可以继承、注册和修改它们。

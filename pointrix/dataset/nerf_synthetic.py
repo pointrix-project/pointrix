@@ -17,7 +17,7 @@ class NerfSyntheticDataset(BaseDataset):
     """
     The dataset class for the synthetic NeRF dataset.
     """
-    def _load_camera_prior(self, split: str) -> List[CameraPrior]:
+    def load_camera_prior(self, split: str) -> List[CameraPrior]:
         """
         The function for loading the camera typically requires user customization.
 
@@ -45,7 +45,7 @@ class NerfSyntheticDataset(BaseDataset):
             cameras.append(camera)
         return cameras
     
-    def _transform_observed_data(self, observed_data, split):
+    def transform_observed_data(self, observed_data, split):
         """
         The function for transforming the observed_data.
 
@@ -74,7 +74,7 @@ class NerfSyntheticDataset(BaseDataset):
                 cached_progress.update(f'Transforming', step=1)
         return observed_data
     
-    def _load_observed_data(self, split):
+    def load_observed_data(self, split):
         observed_data = []
         if split == 'train':
             datainfo = load_from_json(self.data_root / Path("transforms_train.json"))

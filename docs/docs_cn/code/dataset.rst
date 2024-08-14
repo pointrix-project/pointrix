@@ -8,13 +8,6 @@ Base dataset
    :members:
    :show-inheritance:
 
-Colmap dataset
-----------------
-
-.. automodule:: pointrix.dataset.colmap_data
-   :members:
-   :show-inheritance:
-
 Data Prior
 ----------------
 

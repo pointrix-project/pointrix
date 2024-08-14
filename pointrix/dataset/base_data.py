@@ -1,7 +1,6 @@
 import os
 import torch
 import numpy as np
-from copy import deepcopy
 from PIL import Image
 from torch import Tensor
 from pathlib import Path
@@ -14,7 +13,7 @@ from typing import Tuple, Any, Dict, Union, List, Optional
 
 from ..utils.registry import Registry
 from ..utils.config import parse_structured
-from .utils.dataprior import CamerasPrior, CameraPrior
+from .utils.dataprior import CamerasPrior, CameraPrior, PointsPrior
 
 DATA_SET_REGISTRY = Registry("DATA_SET", modules=["pointrix.dataset"])
 DATA_SET_REGISTRY.__doc__ = ""
@@ -26,6 +25,26 @@ class BaseDataset(Dataset):
     """
     @dataclass
     class Config:
+        """
+        Parameters
+        ----------
+        data_path: str
+            The path to the data
+        data_set: str
+            The dataset used in the pipeline, indexed in DATA_SET_REGISTRY
+        observed_data_dirs_dict: Dict[str, str]
+            The observed data directories, e.g., {"image": "images"}, which means the variable image is stored in "images" directory
+        cached_observed_data: bool
+            Whether the observed data is cached
+        white_bg: bool
+            Whether the background is white
+        enable_camera_training: bool
+            Whether the camera is trainable
+        scale: float
+            The image scale of the dataset
+        device: str
+            The device used in the pipeline
+        """
         data_path: str = "data"
         data_set: str = "BaseImageDataset"
         observed_data_dirs_dict: Dict[str, str] = field(default_factory=lambda: dict({"image": "images"}))
@@ -33,10 +52,9 @@ class BaseDataset(Dataset):
         white_bg: bool = False
         enable_camera_training: bool = False
         scale: float = 1.0
-        trainable_camera: bool = False
         device: str = "cuda"
 
-    def __init__(self, cfg, split) -> None:
+    def __init__(self, cfg:Config, split:str) -> None:
         self.cfg = parse_structured(self.Config, cfg)
         self.data_root = Path(self.cfg.data_path)
         self.split = split
@@ -46,30 +64,39 @@ class BaseDataset(Dataset):
         self.cached_observed_data = self.cfg.cached_observed_data
         self.device = self.cfg.device
 
-        self.camera_list, self.observed_data, self.pointcloud = self._load_data_list(split)
+        self.camera_list, self.observed_data, self.pointcloud = self.load_data_list(split)
 
         self.cameras = CamerasPrior(self.camera_list)
         self.radius = self.cameras.radius.detach().cpu().numpy() * 1.1
         self.background_color = [1., 1., 1.] if self.cfg.white_bg else [0., 0., 0.]
-        self.observed_data = self._transform_observed_data(self.observed_data, split)
+        self.observed_data = self.transform_observed_data(self.observed_data, split)
         
         self.frame_idx_list = np.arange(len(self.camera_list))
 
-    def _load_data_list(self, split):
+    def load_data_list(self, split: str) -> Tuple[List[CameraPrior], Dict[str, Any], PointsPrior]:
         """
         The foundational function for formating the data
 
         Parameters
         ----------
         split: The split of the data.
+        
+        Returns
+        -------
+        camera: List[CameraPrior]
+            The list of cameras prior
+        observed_data: Dict[str, Any]
+            The observed data
+        pointcloud: PointsPrior
+            The pointcloud for the gaussian model.
         """
-        camera = self._load_camera_prior(split=split)
-        observed_data = self._load_observed_data(split=split)
-        pointcloud = self._load_pointcloud_prior()
+        camera = self.load_camera_prior(split=split)
+        observed_data = self.load_observed_data(split=split)
+        pointcloud = self.load_pointcloud_prior()
         return camera, observed_data, pointcloud
 
     @abstractmethod
-    def _load_camera_prior(self, split) -> List[CameraPrior]:
+    def load_camera_prior(self, split:str) -> List[CameraPrior]:
         """
         The function for loading the camera typically requires user customization.
 
@@ -79,17 +106,42 @@ class BaseDataset(Dataset):
         """
         raise NotImplementedError
 
-    def _load_pointcloud_prior(self) -> dict:
+    def load_pointcloud_prior(self) -> PointsPrior:
         """
         The function for loading the Pointcloud for initialization of gaussian model.
         """
         return None
 
-    def _load_observed_data(self, split) -> Dict[str, Any]:
+    def load_observed_data(self, split:str) -> Dict[str, Any]:
+        """
+        The function for loading the observed_data, such as image, depth, normal, etc.
+        
+        Parameters
+        ----------
+        split: The split of the data
+        
+        Returns
+        -------
+        observed_data: Dict[str, Any]
+            The observed data for the dataset.
+        """
         raise NotImplementedError
 
     @abstractmethod
-    def _transform_observed_data(self, observed_data, split):
+    def transform_observed_data(self, observed_data:Dict, split:str):
+        """
+        The function for transforming the observed_data.
+        
+        Parameters
+        ----------
+        observed_data: Dict[str, Any]
+            The observed_data for the dataset.
+        
+        Returns
+        -------
+        observed_data: Dict[str, Any]
+            The transformed observed_data.
+        """
         raise NotImplementedError
 
     # TODO: full init

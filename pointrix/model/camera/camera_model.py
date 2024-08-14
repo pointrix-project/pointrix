@@ -9,8 +9,10 @@ from numpy.typing import NDArray
 from dataclasses import dataclass
 from roma import rotmat_to_unitquat, quat_xyzw_to_wxyz
 
-from ...utils.pose import ViewScaling, unitquat_to_rotmat
+from ...dataset.utils.dataprior import CameraPrior, CamerasPrior
 from ...utils.base import BaseObject
+from ...utils.pose import ViewScaling, unitquat_to_rotmat
+
 
 
 class CameraModel(BaseObject):
@@ -20,10 +22,26 @@ class CameraModel(BaseObject):
 
     @dataclass
     class Config:
+        """
+        Parameters
+        ----------
+        enable_training: bool
+            Whether the camera is trainable
+        scene_scale: float
+            The scale of the scene
+        """
         enable_training: bool = False
         scene_scale: float = 1.0
 
-    def setup(self, camerasprior, device="cuda"):
+    def setup(self, camerasprior:CamerasPrior, device="cuda")->None:
+        """
+        Setup the camera class
+        
+        Parameters
+        ----------
+        camerasprior: CamerasPrior
+            The camera priors
+        """
         self.qrots = []
         self.tvecs = []
         self.intrs = []
@@ -54,8 +72,8 @@ class CameraModel(BaseObject):
         
         Parameters
         ----------
-        idx: int
-            The index of the camera.
+        idx_list: int
+            The index list of the camera.
 
         Returns
         -------
@@ -68,14 +86,14 @@ class CameraModel(BaseObject):
         """
         return torch.stack([self.intrs[idx] for idx in idx_list], dim=0)
 
-    def rotation_matrices(self, idx_list) -> Float[Tensor, "3 3"]:
+    def rotation_matrices(self, idx_list) -> Float[Tensor, "C 3 3"]:
         """
         Get the rotation matrix of the cameras.
         
         Parameters
         ----------
-        idx: int
-            The index of the camera.
+        idx_list: int
+            The index list  of the camera.
         
         Returns
         -------
@@ -87,7 +105,7 @@ class CameraModel(BaseObject):
     def __len__(self):
         return self.qrot.shape[0]
 
-    def extrinsic_matrices(self, idx_list) -> Float[Tensor, "4 4"]:
+    def extrinsic_matrices(self, idx_list) -> Float[Tensor, "C 4 4"]:
         """
         Get the extrinsic matrix from the cameras.
         
@@ -114,14 +132,14 @@ class CameraModel(BaseObject):
 
         return Rt_hom
 
-    def translation_vectors(self, idx_list) -> Float[Tensor, "3"]:
+    def translation_vectors(self, idx_list) -> Float[Tensor, "C 3"]:
         """
         Get the translation vector from the cameras.
         
         Parameters
         ----------
-        idx: int
-            The index of the camera.
+        idx_list: int
+            The index list of the camera.
         
         Returns
         -------
@@ -130,14 +148,14 @@ class CameraModel(BaseObject):
 
         return torch.stack([self.tvecs[idx] for idx in idx_list], dim=0)
 
-    def camera_centers(self, idx_list) -> Float[Tensor, "3"]:
+    def camera_centers(self, idx_list) -> Float[Tensor, "C 3"]:
         """
         Get the camera center from the cameras.
         
         Parameters
         ----------
-        idx: int
-            The index of the camera.
+        idx_list: int
+            The index list of the camera.
 
         Returns
         -------

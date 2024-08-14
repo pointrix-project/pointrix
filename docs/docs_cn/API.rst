@@ -10,6 +10,7 @@ TODO: Explanation of each component
     code/hook
     code/logger
     code/model
+    code/controller
     code/optimizer
     code/trainer
 
