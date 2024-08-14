@@ -105,7 +105,7 @@ pip install .
 #### Tanks and Temples Dataset Demo (Colmap format dataset)
 Download the demo truck scene [data](https://pan.baidu.com/s/1MEb0rXkbJMlmT8cu7TirTA?pwd=qg8c) and run:
 ```bash
-cd pointrix/examples/gaussian_splatting
+cd examples/gaussian_splatting
 # For Tanks and Temples data which have high-res images and need to downsample.
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path
 
@@ -124,7 +124,7 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 if you want test your model:
 
 ```bash
-cd pointrix/examples/gaussian_splatting
+cd examples/gaussian_splatting
 # For Tanks and Temples data which have high-res images and need to downsample.
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.25 trainer.output_path=your_log_path trainer.training=False trainer.test_model_path=your_model_path
 ```
@@ -139,7 +139,7 @@ wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example
 Run the following (with adjusted data path):
 
 ```bash
-cd pointrix/examples/gaussian_splatting
+cd examples/gaussian_splatting
 python launch.py --config ./configs/nerf.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
 
