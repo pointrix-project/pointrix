@@ -2,6 +2,9 @@
 
 Start your Pointrix installation by following these steps:
 
+Installation video shows below:
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112955291141260&bvid=BV13uYyeHE8c&cid=500001648459184&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
 ## 1. Installing Required Libraries
 
 First, clone Pointrix from GitHub:

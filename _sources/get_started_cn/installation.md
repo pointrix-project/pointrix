@@ -1,6 +1,9 @@
 # 安装
 通过以下几个步骤，开始你的Pointrix 安装
 
+安装示例视频:
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112955291141260&bvid=BV13uYyeHE8c&cid=500001648459184&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
 ## 1. 相关库安装
 
 首先，你需要下载Pointrix:
