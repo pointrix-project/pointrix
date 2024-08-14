@@ -1,5 +1,7 @@
 # Adding Supervision for 3DGS
-We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. The data download link for this tutorial is provided below: 
+We use surface normals as an example to illustrate how to add supervision for surface normal priors to the model for point cloud rendering. 
+All code can be found in the `example/supervise` directory.
+The data download link for this tutorial is provided below: 
 
 https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
 
@@ -11,7 +13,7 @@ Since the Tanks and Temple dataset is in Colmap format, we opt to modify the Col
 To read the normal prior outputs of the DSINE model, we first need to modify the configuration:
 
 ```bash
-trainer.datapipeline.dataset.meta_dirs_dict={"image": "images", "normal":"normals"},
+trainer.datapipeline.dataset.observed_data_dirs_dict={"image": "images", "normal":"normals"},
 ```
 
 Where `normal` is the folder name where Normal is stored, and `normal` is the variable name for this data.
@@ -25,9 +27,9 @@ Pointrix will automatically read the data based on the current data path and fol
 :caption: |
 :    The relevant code section in Colmap for automatically reading data based on the suffix.
 
-def _load_metadata(self, split):
+def load_observed_data(self, split):
     """
-    The function for loading the metadata.
+    The function for loading the observed_data.
 
     Parameters:
     -----------
@@ -36,76 +38,66 @@ def _load_metadata(self, split):
     
     Returns:
     --------
-    meta_data: List[Dict[str, Any]]
-        The metadata for the dataset.
+    observed_data: List[Dict[str, Any]]
+        The observed_datafor the dataset.
     """
-    meta_data = []
-    for k, v in self.meta_dirs_dict.items():
-        meta_path = self.data_root / Path(v)
-        if not os.path.exists(meta_path):
-            Logger.error(f"Meta path {meta_path} does not exist.")
-        meta_file_names = sorted(os.listdir(meta_path))
-        meta_file_names_split = [meta_file_names[i] for i in self.train_index] if split == "train" else [meta_file_names[i] for i in self.val_index]
-        cached_progress = ProgressLogger(description='Loading cached meta', suffix='iters/s')
-        cached_progress.add_task(f'cache_{k}', f'Loading {split} cached {k}', len(meta_file_names_split))
-        cached_progress.start()
-        for idx, file in enumerate(meta_file_names_split):
-            if len(meta_data) <= idx:
-                meta_data.append({})
-            if file.endswith('.npy'):
-                meta_data[idx].update({k: np.load(meta_path / Path(file))})
-            elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
-                meta_data[idx].update({k: Image.open(meta_path / Path(file))})
-            cached_progress.update(f'cache_{k}', step=1)
-        cached_progress.stop()
-    return meta_data
+    observed_data = []
+    for k, v in self.observed_data_dirs_dict.items():
+        observed_data_path = self.data_root / Path(v)
+        if not os.path.exists(observed_data_path):
+            Logger.error(f"observed_data path {observed_data_path} does not exist.")
+        observed_data_file_names = sorted(os.listdir(observed_data_path))
+        observed_data_file_names_split = [observed_data_file_names[i] for i in self.train_index] if split == "train" else [observed_data_file_names[i] for i in self.val_index]
+        cached_progress = ProgressLogger(description='Loading cached observed_data', suffix='iters/s')
+        cached_progress.add_task(f'cache_{k}', f'Loading {split} cached {k}', len(observed_data_file_names_split))
+        with cached_progress.progress as progress:
+            for idx, file in enumerate(observed_data_file_names_split):
+                if len(observed_data) <= idx:
+                    observed_data.append({})
+                if file.endswith('.npy'):
+                    observed_data[idx].update({k: np.load(observed_data_path / Path(file))})
+                elif file.endswith('png') or file.endswith('jpg') or file.endswith('JPG'):
+                    observed_data[idx].update({k: Image.open(observed_data_path / Path(file))})
+                else:
+                    print(f"File format {file} is not supported.")
+                cached_progress.update(f'cache_{k}', step=1)
+    return observed_data
 ```
 
-After utilizing Pointrix's automatic data reading feature, we need to process the read Normal data. We must override the Colmap Dataset and modify the `_transform_metadata` function to handle the observed data (surface normals). The specific code is located in `examples/gaussian_splatting_supervise/dataset.py`.
+After utilizing Pointrix's automatic data reading feature, we need to process the read Normal data. We must override the Colmap Dataset and modify the `_transform_observed_data` function to handle the observed data (surface normals). The specific code is located in `examples/gaussian_splatting_supervise/dataset.py`.
 
 ```{code-block} python
 :lineno-start: 1 
-:emphasize-lines: "32,33"
+:emphasize-lines: "20,21,22"
 :caption: |
-:    We highlight the modified part.
+:    We highlight the modificated part.
 
+# Registry
 @DATA_SET_REGISTRY.register()
 class ColmapDepthNormalDataset(ColmapDataset):
-    def _transform_metadata(self, meta, split):
-        """
-        The function for transforming the metadata.
+    def _transform_observed_data(self, observed_data, split):
+        cached_progress = ProgressLogger(description='transforming cached observed_data', suffix='iters/s')
+        cached_progress.add_task(f'Transforming', f'Transforming {split} cached observed_data', len(observed_data))
+        with cached_progress.progress as progress:
+            for i in range(len(observed_data)):
+                # Transform Image
+                image = observed_data[i]['image']
+                w, h = image.size
+                image = image.resize((int(w * self.scale), int(h * self.scale)))
+                image = np.array(image) / 255.
+                if image.shape[2] == 4:
+                    image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
+                observed_data[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
+                cached_progress.update(f'Transforming', step=1)
 
-        Parameters:
-        -----------
-        meta: List[Dict[str, Any]]
-            The metadata for the dataset.
-        
-        Returns:
-        --------
-        meta: List[Dict[str, Any]]
-            The transformed metadata.
-        """
-        cached_progress = ProgressLogger(description='transforming cached meta', suffix='iters/s')
-        cached_progress.add_task(f'Transforming', f'Transforming {split} cached meta', len(meta))
-        cached_progress.start()
-        for i in range(len(meta)):
-            # Transform Image
-            image = meta[i]['image']
-            w, h = image.size
-            image = image.resize((int(w * self.scale), int(h * self.scale)))
-            image = np.array(image) / 255.
-            if image.shape[2] == 4:
-                image = image[:, :, :3] * image[:, :, 3:4] + self.bg * (1 - image[:, :, 3:4])
-            meta[i]['image'] = torch.from_numpy(np.array(image)).permute(2, 0, 1).float().clamp(0.0, 1.0)
-            cached_progress.update(f'Transforming', step=1)
-            
-            # Transform Normal
-            meta[i]['normal'] = (torch.from_numpy(np.array(meta[i]['normal'])) / 255.0).float().permute(2, 0, 1)
-        cached_progress.stop()
-        return meta
+                # Transform Normal
+                observed_data[i]['normal'] = \
+                    (torch.from_numpy(np.array(observed_data[i]['normal'])) \
+                    / 255.0).float().permute(2, 0, 1)
+        return observed_data
 ```
 
-After storing the processed Normal data into `meta`, the Datapipeline in Pointrix automatically generates corresponding data during the training process once the data section modifications are complete.
+After storing the processed Normal data into `observed_data`, the Datapipeline in Pointrix automatically generates corresponding data during the training process once the data section modifications are complete.
 
 ## Model Section Modifications
 Firstly, we need to import basic models from Pointrix so that we can inherit, register, and modify them.
