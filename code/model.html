@@ -46,7 +46,7 @@
     <link rel="icon" href="../_static/pointrix.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="optimizer" href="optimizer.html" />
+    <link rel="next" title="controller" href="controller.html" />
     <link rel="prev" title="logger" href="logger.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -188,6 +188,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logger.html">logger</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html">controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimizer.html">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="trainer.html">trainer</a></li>
 </ul>
@@ -361,6 +362,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.image_width"><code class="docutils literal notranslate"><span class="pre">CameraModel.image_width</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.intrinsic_params"><code class="docutils literal notranslate"><span class="pre">CameraModel.intrinsic_params()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.rotation_matrices"><code class="docutils literal notranslate"><span class="pre">CameraModel.rotation_matrices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.setup"><code class="docutils literal notranslate"><span class="pre">CameraModel.setup()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.translation_vectors"><code class="docutils literal notranslate"><span class="pre">CameraModel.translation_vectors()</span></code></a></li>
 </ul>
 </li>
@@ -371,9 +373,8 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.Config</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.cfg</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.render_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.setup()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender"><code class="docutils literal notranslate"><span class="pre">MsplatRender</span></code></a><ul class="nav section-nav flex-column">
@@ -381,12 +382,12 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.load_state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.load_state_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.render_batch"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_batch()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.setup"><code class="docutils literal notranslate"><span class="pre">MsplatRender.setup()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.state_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.update_sh_degree"><code class="docutils literal notranslate"><span class="pre">MsplatRender.update_sh_degree()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender"><code class="docutils literal notranslate"><span class="pre">GsplatRender</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.Config"><code class="docutils literal notranslate"><span class="pre">GsplatRender.Config</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.cfg"><code class="docutils literal notranslate"><span class="pre">GsplatRender.cfg</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GsplatRender.render_iter()</span></code></a></li>
 </ul>
 </li>
@@ -566,15 +567,23 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 <dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable_training</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scene_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.Config" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>enable_training</strong> (<em>bool</em>) – Whether the camera is trainable</p></li>
+<li><p><strong>scene_scale</strong> (<em>float</em>) – The scale of the scene</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.camera_centers">
-<span class="sig-name descname"><span class="pre">camera_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.camera_centers" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">camera_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.camera_centers" title="Link to this definition">#</a></dt>
 <dd><p>Get the camera center from the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) – The index of the camera.</p>
+<dd class="field-odd"><p><strong>idx_list</strong> (<em>int</em>) – The index list of the camera.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>_camera_center</strong></p>
@@ -589,7 +598,7 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.extrinsic_matrices">
-<span class="sig-name descname"><span class="pre">extrinsic_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'4</span> <span class="pre">4'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.extrinsic_matrices" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">extrinsic_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C</span> <span class="pre">4</span> <span class="pre">4'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.extrinsic_matrices" title="Link to this definition">#</a></dt>
 <dd><p>Get the extrinsic matrix from the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -644,7 +653,7 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 <dd><p>Get the intrinsics matrix of the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) – The index of the camera.</p>
+<dd class="field-odd"><p><strong>idx_list</strong> (<em>int</em>) – The index list of the camera.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>intrinsic_params</strong></p>
@@ -659,11 +668,11 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.rotation_matrices">
-<span class="sig-name descname"><span class="pre">rotation_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'3</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.rotation_matrices" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">rotation_matrices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C</span> <span class="pre">3</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.rotation_matrices" title="Link to this definition">#</a></dt>
 <dd><p>Get the rotation matrix of the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) – The index of the camera.</p>
+<dd class="field-odd"><p><strong>idx_list</strong> (<em>int</em>) – The index list  of the camera.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>rotation_matrix</strong></p>
@@ -675,12 +684,23 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camerasprior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior" title="pointrix.dataset.utils.dataprior.CamerasPrior"><span class="pre">CamerasPrior</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.setup" title="Link to this definition">#</a></dt>
+<dd><p>Setup the camera class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>camerasprior</strong> (<a class="reference internal" href="dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior" title="pointrix.dataset.utils.dataprior.CamerasPrior"><em>CamerasPrior</em></a>) – The camera priors</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.camera.camera_model.CameraModel.translation_vectors">
-<span class="sig-name descname"><span class="pre">translation_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.translation_vectors" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">translation_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">idx_list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'C</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.model.camera.camera_model.CameraModel.translation_vectors" title="Link to this definition">#</a></dt>
 <dd><p>Get the translation vector from the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>idx</strong> (<em>int</em>) – The index of the camera.</p>
+<dd class="field-odd"><p><strong>idx_list</strong> (<em>int</em>) – The index list of the camera.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>_translation_vector</strong></p>
@@ -733,36 +753,6 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.model.renderer.base_splatting.</span></span><span class="sig-name descname"><span class="pre">GaussianSplattingRender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DictConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pointrix.model.renderer.msplat.MsplatRender" title="pointrix.model.renderer.msplat.MsplatRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">MsplatRender</span></code></a></p>
 <p>A class for rendering point clouds using Gaussian splatting.</p>
-<section id="config">
-<h2>Config<a class="headerlink" href="#config" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>update_sh_iter<span class="classifier">int, optional</span></dt><dd><p>The iteration to update the spherical harmonics degree, by default 1000.</p>
-</dd>
-<dt>max_sh_degree<span class="classifier">int, optional</span></dt><dd><p>The maximum spherical harmonics degree, by default 3.</p>
-</dd>
-<dt>render_depth<span class="classifier">bool, optional</span></dt><dd><p>Whether to render the depth or not, by default False.</p>
-</dd>
-</dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">update_sh_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sh_degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config" title="pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config"><span class="pre">Config</span></a></em><a class="headerlink" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg" title="Link to this definition">#</a></dt>
-<dd><p>A class for rendering point clouds using Gaussian splatting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>white_bg</strong> (<em>bool</em>) – Whether the background is white or not.</p></li>
-<li><p><strong>device</strong> (<em>str</em>) – The device to use.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter">
 <span class="sig-name descname"><span class="pre">render_iter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter" title="Link to this definition">#</a></dt>
@@ -791,7 +781,20 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 </dl>
 </dd></dl>
 
-</section>
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">white_bg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup" title="Link to this definition">#</a></dt>
+<dd><p>Setup the renderer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>white_bg</strong> (<em>bool</em>) – Whether the background is white.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – The device used in the pipeline.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class" id="module-pointrix.model.renderer.msplat">
@@ -799,20 +802,19 @@ exists in <code class="xref py py-attr docutils literal notranslate"><span class
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.model.renderer.msplat.</span></span><span class="sig-name descname"><span class="pre">MsplatRender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DictConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.msplat.MsplatRender" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseObject</span></code></p>
 <p>A class for rendering point clouds using msplat.</p>
-<section id="id1">
-<h2>Config<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>update_sh_iter<span class="classifier">int, optional</span></dt><dd><p>The iteration to update the spherical harmonics degree, by default 1000.</p>
-</dd>
-<dt>max_sh_degree<span class="classifier">int, optional</span></dt><dd><p>The maximum spherical harmonics degree, by default 3.</p>
-</dd>
-<dt>render_depth<span class="classifier">bool, optional</span></dt><dd><p>Whether to render the depth or not, by default False.</p>
-</dd>
-</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="pointrix.model.renderer.msplat.MsplatRender.Config">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">update_sh_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sh_degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.msplat.MsplatRender.Config" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>update_sh_iter</strong> (<em>int</em><em>, </em><em>optional</em>) – The iteration to update the spherical harmonics degree, by default 1000.</p></li>
+<li><p><strong>max_sh_degree</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum spherical harmonics degree, by default 3.</p></li>
+<li><p><strong>render_depth</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to render the depth or not, by default False.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -877,6 +879,34 @@ the color, the rotation, the scales, and the xy.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pointrix.model.renderer.msplat.MsplatRender.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">white_bg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.msplat.MsplatRender.setup" title="Link to this definition">#</a></dt>
+<dd><p>Setup the renderer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>white_bg</strong> (<em>bool</em>) – Whether the background is white.</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – The device used in the pipeline.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.model.renderer.msplat.MsplatRender.state_dict">
+<span class="sig-name descname"><span class="pre">state_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.msplat.MsplatRender.state_dict" title="Link to this definition">#</a></dt>
+<dd><p>Get the state dictionary of render.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The state dictionary</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.renderer.msplat.MsplatRender.update_sh_degree">
 <span class="sig-name descname"><span class="pre">update_sh_degree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.msplat.MsplatRender.update_sh_degree" title="Link to this definition">#</a></dt>
 <dd><p>Update the spherical harmonics degree in render</p>
@@ -887,44 +917,13 @@ the color, the rotation, the scales, and the xy.</p>
 </dl>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 <dl class="py class" id="module-pointrix.model.renderer.gsplat">
 <dt class="sig sig-object py" id="pointrix.model.renderer.gsplat.GsplatRender">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.model.renderer.gsplat.</span></span><span class="sig-name descname"><span class="pre">GsplatRender</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DictConfig</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.gsplat.GsplatRender" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pointrix.model.renderer.msplat.MsplatRender" title="pointrix.model.renderer.msplat.MsplatRender"><code class="xref py py-class docutils literal notranslate"><span class="pre">MsplatRender</span></code></a></p>
-<p>A class for rendering point clouds using Gaussian splatting.</p>
-<section id="id2">
-<h2>Config<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<dl class="simple">
-<dt>update_sh_iter<span class="classifier">int, optional</span></dt><dd><p>The iteration to update the spherical harmonics degree, by default 1000.</p>
-</dd>
-<dt>max_sh_degree<span class="classifier">int, optional</span></dt><dd><p>The maximum spherical harmonics degree, by default 3.</p>
-</dd>
-<dt>render_depth<span class="classifier">bool, optional</span></dt><dd><p>Whether to render the depth or not, by default False.</p>
-</dd>
-</dl>
-<dl class="py class">
-<dt class="sig sig-object py" id="pointrix.model.renderer.gsplat.GsplatRender.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">update_sh_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_sh_degree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.model.renderer.gsplat.GsplatRender.Config" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pointrix.model.renderer.gsplat.GsplatRender.cfg">
-<span class="sig-name descname"><span class="pre">cfg</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#pointrix.model.renderer.gsplat.GsplatRender.Config" title="pointrix.model.renderer.gsplat.GsplatRender.Config"><span class="pre">Config</span></a></em><a class="headerlink" href="#pointrix.model.renderer.gsplat.GsplatRender.cfg" title="Link to this definition">#</a></dt>
-<dd><p>A class for rendering point clouds using Gaussian splatting.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>white_bg</strong> (<em>bool</em>) – Whether the background is white or not.</p></li>
-<li><p><strong>device</strong> (<em>str</em>) – The device to use.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
+<p>A class for rendering point clouds using gsplat</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.model.renderer.gsplat.GsplatRender.render_iter">
 <span class="sig-name descname"><span class="pre">render_iter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extrinsic_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intrinsic_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_center</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opacity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#pointrix.model.renderer.gsplat.GsplatRender.render_iter" title="Link to this definition">#</a></dt>
@@ -947,7 +946,6 @@ the color, the rotation, the scales, and the xy.</p>
 </dl>
 </dd></dl>
 
-</section>
 </dd></dl>
 
 </section>
@@ -973,11 +971,11 @@ the color, the rotation, the scales, and the xy.</p>
       </div>
     </a>
     <a class="right-next"
-       href="optimizer.html"
+       href="controller.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">optimizer</p>
+        <p class="prev-next-title">controller</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1015,6 +1013,7 @@ the color, the rotation, the scales, and the xy.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.image_width"><code class="docutils literal notranslate"><span class="pre">CameraModel.image_width</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.intrinsic_params"><code class="docutils literal notranslate"><span class="pre">CameraModel.intrinsic_params()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.rotation_matrices"><code class="docutils literal notranslate"><span class="pre">CameraModel.rotation_matrices()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.setup"><code class="docutils literal notranslate"><span class="pre">CameraModel.setup()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.camera.camera_model.CameraModel.translation_vectors"><code class="docutils literal notranslate"><span class="pre">CameraModel.translation_vectors()</span></code></a></li>
 </ul>
 </li>
@@ -1025,9 +1024,8 @@ the color, the rotation, the scales, and the xy.</p>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.Config</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.cfg</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.render_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.setup()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender"><code class="docutils literal notranslate"><span class="pre">MsplatRender</span></code></a><ul class="nav section-nav flex-column">
@@ -1035,12 +1033,12 @@ the color, the rotation, the scales, and the xy.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.load_state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.load_state_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.render_batch"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_batch()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_iter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.setup"><code class="docutils literal notranslate"><span class="pre">MsplatRender.setup()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.state_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.msplat.MsplatRender.update_sh_degree"><code class="docutils literal notranslate"><span class="pre">MsplatRender.update_sh_degree()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender"><code class="docutils literal notranslate"><span class="pre">GsplatRender</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.Config"><code class="docutils literal notranslate"><span class="pre">GsplatRender.Config</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.cfg"><code class="docutils literal notranslate"><span class="pre">GsplatRender.cfg</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.model.renderer.gsplat.GsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GsplatRender.render_iter()</span></code></a></li>
 </ul>
 </li>

@@ -187,6 +187,7 @@
 <li class="toctree-l2"><a class="reference internal" href="code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/controller.html">controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/optimizer.html">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/trainer.html">trainer</a></li>
 </ul>
@@ -311,6 +312,7 @@ document.write(`
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -318,12 +320,13 @@ document.write(`
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
- | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.accumulate_viewspace_grad">accumulate_viewspace_grad() (pointrix.densification.gs.DensificationController method)</a>
+</li>
       <li><a href="code/logger.html#pointrix.logger.writer.ProgressLogger.add_task">add_task() (pointrix.logger.writer.ProgressLogger method)</a>
 </li>
       <li><a href="code/hook.html#pointrix.hook.base_hook.Hook.after_load_checkpoint">after_load_checkpoint() (pointrix.hook.base_hook.Hook method)</a>
@@ -414,21 +417,13 @@ document.write(`
 </li>
       <li><a href="code/model.html#pointrix.model.camera.camera_model.CameraModel.Config">CameraModel.Config (class in pointrix.model.camera.camera_model)</a>
 </li>
-      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CameraPrior">CameraPrior (class in pointrix.dataset.utils.dataprior)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CameraPrior">CameraPrior (class in pointrix.dataset.utils.dataprior)</a>
+</li>
       <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior">CamerasPrior (class in pointrix.dataset.utils.dataprior)</a>
 </li>
-      <li><a href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg">cfg (pointrix.model.renderer.base_splatting.GaussianSplattingRender attribute)</a>
-
-      <ul>
-        <li><a href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender.cfg">(pointrix.model.renderer.gsplat.GsplatRender attribute)</a>
-</li>
-      </ul></li>
       <li><a href="code/hook.html#pointrix.hook.checkpoint_hook.CheckPointHook">CheckPointHook (class in pointrix.hook.checkpoint_hook)</a>
-</li>
-      <li><a href="code/dataset.html#pointrix.dataset.colmap_data.ColmapDataset">ColmapDataset (class in pointrix.dataset.colmap_data)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -438,9 +433,15 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer">DefaultTrainer (class in pointrix.engine.default_trainer)</a>
 </li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController">DensificationController (class in pointrix.densification.gs)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.dolly">dolly() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.Config">DensificationController.Config (class in pointrix.densification.gs)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.densify_clone">densify_clone() (pointrix.densification.gs.DensificationController method)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.densify_split">densify_split() (pointrix.densification.gs.DensificationController method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -486,16 +487,18 @@ document.write(`
 </li>
       <li><a href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender">GaussianSplattingRender (class in pointrix.model.renderer.base_splatting)</a>
 </li>
-      <li><a href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config">GaussianSplattingRender.Config (class in pointrix.model.renderer.base_splatting)</a>
-</li>
       <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path">generate_camera_path() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.generate_clone_mask">generate_clone_mask() (pointrix.densification.gs.DensificationController method)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.generate_split_mask">generate_split_mask() (pointrix.densification.gs.DensificationController method)</a>
 </li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.get_all_atributes">get_all_atributes() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
-      <li><a href="code/optimizer.html#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr">get_exponential_lr() (pointrix.optimizer.scheduler.ExponLRScheduler method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code/optimizer.html#pointrix.optimizer.scheduler.ExponLRScheduler.get_exponential_lr">get_exponential_lr() (pointrix.optimizer.scheduler.ExponLRScheduler method)</a>
+</li>
       <li><a href="code/model.html#pointrix.model.base_model.BaseModel.get_loss_dict">get_loss_dict() (pointrix.model.base_model.BaseModel method)</a>
 </li>
       <li><a href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.get_lr">get_lr() (pointrix.optimizer.optimizer.BaseOptimizer method)</a>
@@ -509,8 +512,6 @@ document.write(`
       <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius">get_radius() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
 </li>
       <li><a href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender">GsplatRender (class in pointrix.model.renderer.gsplat)</a>
-</li>
-      <li><a href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender.Config">GsplatRender.Config (class in pointrix.model.renderer.gsplat)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -544,12 +545,22 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.list_of_attributes">list_of_attributes() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
+      <li><a href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_camera_prior">load_camera_prior() (pointrix.dataset.base_data.BaseDataset method)</a>
+</li>
+      <li><a href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_data_list">load_data_list() (pointrix.dataset.base_data.BaseDataset method)</a>
+</li>
+      <li><a href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_observed_data">load_observed_data() (pointrix.dataset.base_data.BaseDataset method)</a>
+</li>
       <li><a href="code/model.html#pointrix.model.base_model.BaseModel.load_ply">load_ply() (pointrix.model.base_model.BaseModel method)</a>
 
       <ul>
         <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.load_ply">(pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       </ul></li>
+      <li><a href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior">load_pointcloud_prior() (pointrix.dataset.base_data.BaseDataset method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/model.html#pointrix.model.base_model.BaseModel.load_state_dict">load_state_dict() (pointrix.model.base_model.BaseModel method)</a>
 
       <ul>
@@ -560,8 +571,6 @@ document.write(`
         <li><a href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.load_state_dict">(pointrix.optimizer.optimizer.OptimizerList method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/logger.html#pointrix.logger.writer.LogColumn">LogColumn (class in pointrix.logger.writer)</a>
 </li>
       <li><a href="code/hook.html#pointrix.hook.log_hook.LogHook">LogHook (class in pointrix.hook.log_hook)</a>
@@ -580,9 +589,9 @@ document.write(`
       <ul>
         <li><a href="code/dataset.html#module-pointrix.dataset.base_data">pointrix.dataset.base_data</a>
 </li>
-        <li><a href="code/dataset.html#module-pointrix.dataset.colmap_data">pointrix.dataset.colmap_data</a>
-</li>
         <li><a href="code/dataset.html#module-pointrix.dataset.utils.dataprior">pointrix.dataset.utils.dataprior</a>
+</li>
+        <li><a href="code/controller.html#module-pointrix.densification.gs">pointrix.densification.gs</a>
 </li>
         <li><a href="code/trainer.html#module-pointrix.engine.default_trainer">pointrix.engine.default_trainer</a>
 </li>
@@ -622,6 +631,14 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.new_pos_scale">new_pos_scale() (pointrix.densification.gs.DensificationController method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -651,17 +668,17 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    pointrix.dataset.colmap_data
-
-      <ul>
-        <li><a href="code/dataset.html#module-pointrix.dataset.colmap_data">module</a>
-</li>
-      </ul></li>
-      <li>
     pointrix.dataset.utils.dataprior
 
       <ul>
         <li><a href="code/dataset.html#module-pointrix.dataset.utils.dataprior">module</a>
+</li>
+      </ul></li>
+      <li>
+    pointrix.densification.gs
+
+      <ul>
+        <li><a href="code/controller.html#module-pointrix.densification.gs">module</a>
 </li>
       </ul></li>
       <li>
@@ -766,11 +783,13 @@ document.write(`
       </ul></li>
       <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior">PointsPrior (class in pointrix.dataset.utils.dataprior)</a>
 </li>
-      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam">pose_to_cam() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
-</li>
       <li><a href="code/logger.html#pointrix.logger.writer.ProgressLogger">ProgressLogger (class in pointrix.logger.writer)</a>
 </li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.prune">prune() (pointrix.densification.gs.DensificationController method)</a>
+</li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.prune_optimizer">prune_optimizer() (pointrix.point_cloud.points.PointCloud method)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.prune_postprocess">prune_postprocess() (pointrix.densification.gs.DensificationController method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -784,6 +803,8 @@ document.write(`
         <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.re_init">(pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       </ul></li>
+      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior.read_ply">read_ply() (pointrix.dataset.utils.dataprior.PointsPrior method)</a>
+</li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.register_atribute">register_atribute() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.remove_points">remove_points() (pointrix.point_cloud.points.PointCloud method)</a>
@@ -812,6 +833,10 @@ document.write(`
 </li>
       <li><a href="code/logger.html#pointrix.logger.writer.ProgressLogger.reset">reset() (pointrix.logger.writer.ProgressLogger method)</a>
 </li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.reset_densification_state">reset_densification_state() (pointrix.densification.gs.DensificationController method)</a>
+</li>
+      <li><a href="code/controller.html#pointrix.densification.gs.DensificationController.reset_opacity">reset_opacity() (pointrix.densification.gs.DensificationController method)</a>
+</li>
       <li><a href="code/model.html#pointrix.model.camera.camera_model.CameraModel.rotation_matrices">rotation_matrices() (pointrix.model.camera.camera_model.CameraModel method)</a>
 </li>
   </ul></td>
@@ -820,31 +845,41 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.save_ply">save_ply() (pointrix.point_cloud.points.PointCloud method)</a>
+      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior.save_ply">save_ply() (pointrix.dataset.utils.dataprior.PointsPrior method)</a>
+
+      <ul>
+        <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.save_ply">(pointrix.point_cloud.points.PointCloud method)</a>
 </li>
+      </ul></li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.select_atributes">select_atributes() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_all_atributes_trainable">set_all_atributes_trainable() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_prefix_name">set_prefix_name() (pointrix.point_cloud.points.PointCloud method)</a>
 </li>
-      <li><a href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.setup">setup() (pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud method)</a>
+      <li><a href="code/model.html#pointrix.model.camera.camera_model.CameraModel.setup">setup() (pointrix.model.camera.camera_model.CameraModel method)</a>
 
       <ul>
+        <li><a href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.setup">(pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud method)</a>
+</li>
+        <li><a href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup">(pointrix.model.renderer.base_splatting.GaussianSplattingRender method)</a>
+</li>
+        <li><a href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.setup">(pointrix.model.renderer.msplat.MsplatRender method)</a>
+</li>
         <li><a href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.setup">(pointrix.point_cloud.points.PointCloud method)</a>
 </li>
       </ul></li>
-      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.spiral">spiral() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/logger.html#pointrix.logger.writer.ProgressLogger.start">start() (pointrix.logger.writer.ProgressLogger method)</a>
 </li>
       <li><a href="code/logger.html#pointrix.logger.writer.ProgressLogger.start_task">start_task() (pointrix.logger.writer.ProgressLogger method)</a>
 </li>
-      <li><a href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.state_dict">state_dict() (pointrix.optimizer.optimizer.BaseOptimizer method)</a>
+      <li><a href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.state_dict">state_dict() (pointrix.model.renderer.msplat.MsplatRender method)</a>
 
       <ul>
+        <li><a href="code/optimizer.html#pointrix.optimizer.optimizer.BaseOptimizer.state_dict">(pointrix.optimizer.optimizer.BaseOptimizer method)</a>
+</li>
         <li><a href="code/optimizer.html#pointrix.optimizer.optimizer.OptimizerList.state_dict">(pointrix.optimizer.optimizer.OptimizerList method)</a>
 </li>
       </ul></li>
@@ -864,11 +899,13 @@ document.write(`
 </li>
       <li><a href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.test">test() (pointrix.engine.default_trainer.DefaultTrainer method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.train_loop">train_loop() (pointrix.engine.default_trainer.DefaultTrainer method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="code/trainer.html#pointrix.engine.default_trainer.DefaultTrainer.train_step">train_step() (pointrix.engine.default_trainer.DefaultTrainer method)</a>
+</li>
+      <li><a href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.transform_observed_data">transform_observed_data() (pointrix.dataset.base_data.BaseDataset method)</a>
 </li>
       <li><a href="code/model.html#pointrix.model.camera.camera_model.CameraModel.translation_vectors">translation_vectors() (pointrix.model.camera.camera_model.CameraModel method)</a>
 </li>
@@ -927,14 +964,6 @@ document.write(`
 </li>
       </ul></li>
       <li><a href="code/logger.html#pointrix.logger.writer.Writer">Writer (class in pointrix.logger.writer)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="Z">Z</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.zoom">zoom() (pointrix.dataset.utils.dataprior.CamerasPrior method)</a>
 </li>
   </ul></td>
 </tr></table>

@@ -188,6 +188,7 @@
 <li class="toctree-l2"><a class="reference internal" href="hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="controller.html">controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="optimizer.html">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="trainer.html">trainer</a></li>
 </ul>
@@ -346,26 +347,27 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.base_data">Base dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.Config"><code class="docutils literal notranslate"><span class="pre">BaseDataset.Config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_camera_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_camera_prior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_data_list"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_data_list()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_observed_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_pointcloud_prior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.transform_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.transform_observed_data()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.colmap_data">Colmap dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.colmap_data.ColmapDataset"><code class="docutils literal notranslate"><span class="pre">ColmapDataset</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.utils.dataprior">Data Prior</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CameraPrior"><code class="docutils literal notranslate"><span class="pre">CameraPrior</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior"><code class="docutils literal notranslate"><span class="pre">CamerasPrior</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.dolly"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.dolly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.generate_camera_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.get_radius()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.pose_to_cam()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.spiral"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.spiral()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.zoom"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.zoom()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior.read_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.read_ply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior.save_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.save_ply()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -385,25 +387,99 @@ document.write(`
 <span id="base-dataset"></span><h2>Base dataset<a class="headerlink" href="#module-pointrix.dataset.base_data" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.dataset.base_data.</span></span><span class="sig-name descname"><span class="pre">BaseDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.dataset.base_data.</span></span><span class="sig-name descname"><span class="pre">BaseDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pointrix.dataset.base_data.BaseDataset.Config" title="pointrix.dataset.base_data.BaseDataset.Config"><span class="pre">Config</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
 <p>Basic dataset used in Datapipeline.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.Config">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_set:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'BaseImageDataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observed_data_dirs_dict:</span> <span class="pre">Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached_observed_data:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">white_bg:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_camera_training:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainable_camera:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.Config" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_set:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'BaseImageDataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observed_data_dirs_dict:</span> <span class="pre">~typing.Dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">str]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cached_observed_data:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">white_bg:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_camera_training:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale:</span> <span class="pre">~jaxtyping.Float</span> <span class="pre">=</span> <span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">'cuda'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.Config" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_path</strong> (<em>str</em>) – The path to the data</p></li>
+<li><p><strong>data_set</strong> (<em>str</em>) – The dataset used in the pipeline, indexed in DATA_SET_REGISTRY</p></li>
+<li><p><strong>observed_data_dirs_dict</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>]</em>) – The observed data directories, e.g., {“image”: “images”}, which means the variable image is stored in “images” directory</p></li>
+<li><p><strong>cached_observed_data</strong> (<em>bool</em>) – Whether the observed data is cached</p></li>
+<li><p><strong>white_bg</strong> (<em>bool</em>) – Whether the background is white</p></li>
+<li><p><strong>enable_camera_training</strong> (<em>bool</em>) – Whether the camera is trainable</p></li>
+<li><p><strong>scale</strong> (<em>Float</em>) – The image scale of the dataset</p></li>
+<li><p><strong>device</strong> (<em>str</em>) – The device used in the pipeline</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.load_camera_prior">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_camera_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pointrix.dataset.utils.dataprior.CameraPrior" title="pointrix.dataset.utils.dataprior.CameraPrior"><span class="pre">CameraPrior</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.load_camera_prior" title="Link to this definition">#</a></dt>
+<dd><p>The function for loading the camera typically requires user customization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>split</strong> (<em>The split</em><em> of </em><em>the data.</em>) – </p>
+</dd>
+</dl>
 </dd></dl>
 
-</section>
-<section id="module-pointrix.dataset.colmap_data">
-<span id="colmap-dataset"></span><h2>Colmap dataset<a class="headerlink" href="#module-pointrix.dataset.colmap_data" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="pointrix.dataset.colmap_data.ColmapDataset">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.dataset.colmap_data.</span></span><span class="sig-name descname"><span class="pre">ColmapDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.colmap_data.ColmapDataset" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#pointrix.dataset.base_data.BaseDataset" title="pointrix.dataset.base_data.BaseDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDataset</span></code></a></p>
-<p>The dataset class for the Colmap based dataset.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.load_data_list">
+<span class="sig-name descname"><span class="pre">load_data_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pointrix.dataset.utils.dataprior.CameraPrior" title="pointrix.dataset.utils.dataprior.CameraPrior"><span class="pre">CameraPrior</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#pointrix.dataset.utils.dataprior.PointsPrior" title="pointrix.dataset.utils.dataprior.PointsPrior"><span class="pre">PointsPrior</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.load_data_list" title="Link to this definition">#</a></dt>
+<dd><p>The foundational function for formating the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>split</strong> (<em>The split</em><em> of </em><em>the data.</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>camera</strong> (<em>List[CameraPrior]</em>) – The list of cameras prior</p></li>
+<li><p><strong>observed_data</strong> (<em>Dict[str, Any]</em>) – The observed data</p></li>
+<li><p><strong>pointcloud</strong> (<em>PointsPrior</em>) – The pointcloud for the gaussian model.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.load_observed_data">
+<span class="sig-name descname"><span class="pre">load_observed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.load_observed_data" title="Link to this definition">#</a></dt>
+<dd><p>The function for loading the observed_data, such as image, depth, normal, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>split</strong> (<em>The split</em><em> of </em><em>the data</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>observed_data</strong> – The observed data for the dataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior">
+<span class="sig-name descname"><span class="pre">load_pointcloud_prior</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pointrix.dataset.utils.dataprior.PointsPrior" title="pointrix.dataset.utils.dataprior.PointsPrior"><span class="pre">PointsPrior</span></a></span></span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior" title="Link to this definition">#</a></dt>
+<dd><p>The function for loading the Pointcloud for initialization of gaussian model.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.base_data.BaseDataset.transform_observed_data">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">transform_observed_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.base_data.BaseDataset.transform_observed_data" title="Link to this definition">#</a></dt>
+<dd><p>The function for transforming the observed_data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observed_data</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – The observed_data for the dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>observed_data</strong> – The transformed observed_data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -474,48 +550,28 @@ If fovX, fovY are provided, fx, fy, cx, cy will be calculated from them.</p>
 </pre></div>
 </div>
 <dl class="py method">
-<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.dolly">
-<span class="sig-name descname"><span class="pre">dolly</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c2w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_frames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.dolly" title="Link to this definition">#</a></dt>
-<dd><p>Generate the camera path with dolly zoom.</p>
+<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path">
+<span class="sig-name descname"><span class="pre">generate_camera_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Dolly'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pointrix.dataset.utils.dataprior.CameraPrior" title="pointrix.dataset.utils.dataprior.CameraPrior"><span class="pre">CameraPrior</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path" title="Link to this definition">#</a></dt>
+<dd><p>Generate the camera path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c2w</strong> (<em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;3 4&quot;</em><em>]</em>) – The camera to world transform.</p></li>
-<li><p><strong>focal</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The focal length of the camera.</p></li>
-<li><p><strong>sc</strong> (<em>float</em>) – The scale of the scene.</p></li>
-<li><p><strong>length</strong> (<em>int</em>) – The length of the camera path.</p></li>
 <li><p><strong>num_frames</strong> (<em>int</em>) – The number of frames of the camera path.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – The mode of the camera path.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>camera_path</strong> – The camera path.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Float[Tensor, “num_frames 4 4”]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path">
-<span class="sig-name descname"><span class="pre">generate_camera_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_frames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Dolly'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path" title="Link to this definition">#</a></dt>
-<dd><p>Generate the camera path.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>num_frames</strong> (<em>int</em>) – The number of frames of the camera path.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>camera_path</strong> – The camera path.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Float[Tensor, “num_frames 4 4”]</p>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#pointrix.dataset.utils.dataprior.CameraPrior" title="pointrix.dataset.utils.dataprior.CameraPrior">CameraPrior</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.get_radius">
-<span class="sig-name descname"><span class="pre">get_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_radius</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Float</span></span></span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius" title="Link to this definition">#</a></dt>
 <dd><p>Get the path radius of the cameras.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -527,66 +583,6 @@ If fovX, fovY are provided, fx, fy, cx, cy will be calculated from them.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam">
-<span class="sig-name descname"><span class="pre">pose_to_cam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam" title="Link to this definition">#</a></dt>
-<dd><p>Generate the camera path from poses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>poses</strong> (<em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;num_frames 3 4&quot;</em><em>]</em>) – The poses of the camera path.</p></li>
-<li><p><strong>focals</strong> (<em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;num_frames&quot;</em><em>]</em>) – The focal lengths of the camera path.</p></li>
-<li><p><strong>width</strong> (<em>int</em>) – The width of the image.</p></li>
-<li><p><strong>height</strong> (<em>int</em>) – The height of the image.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.spiral">
-<span class="sig-name descname"><span class="pre">spiral</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c2w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_frames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.spiral" title="Link to this definition">#</a></dt>
-<dd><p>Generate the camera path with spiral.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>c2w</strong> (<em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;3 4&quot;</em><em>]</em>) – The camera to world transform.</p></li>
-<li><p><strong>focal</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The focal length of the camera.</p></li>
-<li><p><strong>width</strong> (<em>int</em>) – The width of the image.</p></li>
-<li><p><strong>height</strong> (<em>int</em>) – The height of the image.</p></li>
-<li><p><strong>sc</strong> (<em>float</em>) – The scale of the scene.</p></li>
-<li><p><strong>length</strong> (<em>int</em>) – The length of the camera path.</p></li>
-<li><p><strong>num_frames</strong> (<em>int</em>) – The number of frames of the camera path.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.CamerasPrior.zoom">
-<span class="sig-name descname"><span class="pre">zoom</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c2w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_frames</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.CamerasPrior.zoom" title="Link to this definition">#</a></dt>
-<dd><p>Generate the camera path with zoom.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>c2w</strong> (<em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;3 4&quot;</em><em>]</em>) – The camera to world transform.</p></li>
-<li><p><strong>focal</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The focal length of the camera.</p></li>
-<li><p><strong>width</strong> (<em>int</em>) – The width of the image.</p></li>
-<li><p><strong>height</strong> (<em>int</em>) – The height of the image.</p></li>
-<li><p><strong>sc</strong> (<em>float</em>) – The scale of the scene.</p></li>
-<li><p><strong>length</strong> (<em>int</em>) – The length of the camera path.</p></li>
-<li><p><strong>num_frames</strong> (<em>int</em>) – The number of frames of the camera path.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>camera_path</strong> – The camera path.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Float[Tensor, “num_frames 4 4”]</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -594,6 +590,40 @@ If fovX, fovY are provided, fx, fy, cx, cy will be calculated from them.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pointrix.dataset.utils.dataprior.</span></span><span class="sig-name descname"><span class="pre">PointsPrior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'N</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'N</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Float</span><span class="p"><span class="pre">[</span></span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'N</span> <span class="pre">3'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">_ScalarType_co</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.PointsPrior" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Point cloud initialization used in data Pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>positions</strong> (<em>Union</em><em>[</em><em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;N 3&quot;</em><em>]</em><em>, </em><em>NDArray</em><em>, </em><em>None</em><em>]</em>) – The positions of the points.</p></li>
+<li><p><strong>colors</strong> (<em>Union</em><em>[</em><em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;N 3&quot;</em><em>]</em><em>, </em><em>NDArray</em><em>, </em><em>None</em><em>]</em>) – The colors of the points.</p></li>
+<li><p><strong>normals</strong> (<em>Union</em><em>[</em><em>Float</em><em>[</em><em>Tensor</em><em>, </em><em>&quot;N 3&quot;</em><em>]</em><em>, </em><em>NDArray</em><em>, </em><em>None</em><em>]</em>) – The normals of the points.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.PointsPrior.read_ply">
+<span class="sig-name descname"><span class="pre">read_ply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.PointsPrior.read_ply" title="Link to this definition">#</a></dt>
+<dd><p>Read the point cloud from a ply file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to the ply file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pointrix.dataset.utils.dataprior.PointsPrior.save_ply">
+<span class="sig-name descname"><span class="pre">save_ply</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pointrix.dataset.utils.dataprior.PointsPrior.save_ply" title="Link to this definition">#</a></dt>
+<dd><p>Save the point cloud to a ply file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – The path to save the ply file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -647,26 +677,27 @@ If fovX, fovY are provided, fx, fy, cx, cy will be calculated from them.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.base_data">Base dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.Config"><code class="docutils literal notranslate"><span class="pre">BaseDataset.Config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_camera_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_camera_prior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_data_list"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_data_list()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_observed_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_pointcloud_prior()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.base_data.BaseDataset.transform_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.transform_observed_data()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.colmap_data">Colmap dataset</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.colmap_data.ColmapDataset"><code class="docutils literal notranslate"><span class="pre">ColmapDataset</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-pointrix.dataset.utils.dataprior">Data Prior</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CameraPrior"><code class="docutils literal notranslate"><span class="pre">CameraPrior</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior"><code class="docutils literal notranslate"><span class="pre">CamerasPrior</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.dolly"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.dolly()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.generate_camera_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.get_radius()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.pose_to_cam()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.spiral"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.spiral()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.CamerasPrior.zoom"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.zoom()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior.read_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.read_ply()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#pointrix.dataset.utils.dataprior.PointsPrior.save_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.save_ply()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

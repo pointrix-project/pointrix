@@ -4,11 +4,13 @@ API
 TODO: Explanation of each component
 
 .. toctree::
+
     code/dataset
     code/point_cloud
     code/hook
     code/logger
     code/model
+    code/controller
     code/optimizer
     code/trainer
 

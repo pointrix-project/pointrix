@@ -188,6 +188,7 @@
 <li class="toctree-l2"><a class="reference internal" href="code/hook.html">hook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/logger.html">logger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/controller.html">controller</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/optimizer.html">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="code/trainer.html">trainer</a></li>
 </ul>
@@ -354,26 +355,27 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.base_data">Base dataset</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset"><code class="docutils literal notranslate"><span class="pre">BaseDataset</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.Config"><code class="docutils literal notranslate"><span class="pre">BaseDataset.Config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_camera_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_camera_prior()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_data_list"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_data_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_observed_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.load_pointcloud_prior"><code class="docutils literal notranslate"><span class="pre">BaseDataset.load_pointcloud_prior()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.base_data.BaseDataset.transform_observed_data"><code class="docutils literal notranslate"><span class="pre">BaseDataset.transform_observed_data()</span></code></a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.colmap_data">Colmap dataset</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.colmap_data.ColmapDataset"><code class="docutils literal notranslate"><span class="pre">ColmapDataset</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="code/dataset.html#module-pointrix.dataset.utils.dataprior">Data Prior</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CameraPrior"><code class="docutils literal notranslate"><span class="pre">CameraPrior</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior"><code class="docutils literal notranslate"><span class="pre">CamerasPrior</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.dolly"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.dolly()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.generate_camera_path"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.generate_camera_path()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.get_radius"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.get_radius()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.pose_to_cam"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.pose_to_cam()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.spiral"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.spiral()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.CamerasPrior.zoom"><code class="docutils literal notranslate"><span class="pre">CamerasPrior.zoom()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior"><code class="docutils literal notranslate"><span class="pre">PointsPrior</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior.read_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.read_ply()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="code/dataset.html#pointrix.dataset.utils.dataprior.PointsPrior.save_ply"><code class="docutils literal notranslate"><span class="pre">PointsPrior.save_ply()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -499,6 +501,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.image_width"><code class="docutils literal notranslate"><span class="pre">CameraModel.image_width</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.intrinsic_params"><code class="docutils literal notranslate"><span class="pre">CameraModel.intrinsic_params()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.rotation_matrices"><code class="docutils literal notranslate"><span class="pre">CameraModel.rotation_matrices()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.setup"><code class="docutils literal notranslate"><span class="pre">CameraModel.setup()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.translation_vectors"><code class="docutils literal notranslate"><span class="pre">CameraModel.translation_vectors()</span></code></a></li>
 </ul>
 </li>
@@ -509,9 +512,8 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.Config"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.Config</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.cfg"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.cfg</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.render_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.setup()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender"><code class="docutils literal notranslate"><span class="pre">MsplatRender</span></code></a><ul>
@@ -519,13 +521,30 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.load_state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.load_state_dict()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.render_batch"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_batch()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">MsplatRender.render_iter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.setup"><code class="docutils literal notranslate"><span class="pre">MsplatRender.setup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.state_dict"><code class="docutils literal notranslate"><span class="pre">MsplatRender.state_dict()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.msplat.MsplatRender.update_sh_degree"><code class="docutils literal notranslate"><span class="pre">MsplatRender.update_sh_degree()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender"><code class="docutils literal notranslate"><span class="pre">GsplatRender</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender.Config"><code class="docutils literal notranslate"><span class="pre">GsplatRender.Config</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender.cfg"><code class="docutils literal notranslate"><span class="pre">GsplatRender.cfg</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.gsplat.GsplatRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GsplatRender.render_iter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="code/controller.html">controller</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController"><code class="docutils literal notranslate"><span class="pre">DensificationController</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.Config"><code class="docutils literal notranslate"><span class="pre">DensificationController.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.accumulate_viewspace_grad"><code class="docutils literal notranslate"><span class="pre">DensificationController.accumulate_viewspace_grad()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.densify_clone"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.densify_split"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_split()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.generate_clone_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_clone_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.generate_split_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_split_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.new_pos_scale"><code class="docutils literal notranslate"><span class="pre">DensificationController.new_pos_scale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.prune"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.prune_postprocess"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune_postprocess()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.reset_densification_state"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_densification_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.reset_opacity"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_opacity()</span></code></a></li>
 </ul>
 </li>
 </ul>
