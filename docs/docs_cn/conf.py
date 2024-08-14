@@ -29,6 +29,10 @@ html_logo = "../images/pointrix_landscape_b.png"
 html_favicon = "../images/pointrix.ico"
 html_title = "Pointrix"
 
+html_context = {
+   # ...
+   "default_mode": "light"
+}
 autodoc_mock_imports = ["simple_knn", "dptr", "msplat", "diff_gaussian_rasterization"]
 
 # -- General configuration ---------------------------------------------------
