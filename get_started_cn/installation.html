@@ -365,6 +365,7 @@ document.write(`
 <h2>1. 相关库安装<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>首先，你需要下载Pointrix:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pointrix-project/pointrix.git<span class="w">  </span>--recursive
+<span class="nb">cd</span><span class="w"> </span>pointrix
 </pre></div>
 </div>
 <p>创建一个带Pytorch的Conda 环境。</p>
@@ -374,10 +375,10 @@ conda<span class="w"> </span>install<span class="w"> </span><span class="nv">pyt
 </pre></div>
 </div>
 <p>安装 Pointrix 和 Msplat:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">../..</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span>
 
+<span class="n">cd</span> <span class="o">..</span>
 <span class="n">cd</span> <span class="n">msplat</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
 </pre></div>

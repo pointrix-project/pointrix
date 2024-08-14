@@ -10,6 +10,7 @@
 
 ```bash
 git clone https://github.com/pointrix-project/pointrix.git  --recursive
+cd pointrix
 ```
 
 创建一个带Pytorch的Conda 环境。
@@ -23,10 +24,10 @@ conda install pytorch==2.1.1 torchvision==0.16.1 pytorch-cuda=12.1 -c pytorch -c
 安装 Pointrix 和 Msplat:
 
 ```
-cd ../..
 pip install -r requirements.txt
 pip install -e .
 
+cd ..
 cd msplat
 pip install .
 ```

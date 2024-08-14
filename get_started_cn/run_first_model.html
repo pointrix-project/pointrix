@@ -366,7 +366,7 @@ document.write(`
 <li><p>下载Mip-Nerf 360:http://storage.googleapis.com/gresearch/refraw360/360_v2.zip 数据到你的文件夹下:</p></li>
 <li><p>运行以下命令来训练你的模型 (…数据路径在配置文件下…):</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pointrix/examples/gaussian_splatting
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>examples/gaussian_splatting
 <span class="c1"># For Mip-NeRF 360 data which have high-res images and need to downsample.</span>
 python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/colmap.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.datapipeline.dataset.scale<span class="o">=</span><span class="m">0</span>.25<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
 </pre></div>
@@ -398,7 +398,7 @@ python<span class="w"> </span>launch.py<span class="w"> </span>--config<span cla
 </pre></div>
 </div>
 <p>运行下方代码(with adjusted data path):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>pointrix/examples/gaussian_splatting
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>examples/gaussian_splatting
 python<span class="w"> </span>launch.py<span class="w"> </span>--config<span class="w"> </span>./configs/nerf.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
 </pre></div>
 </div>
