@@ -8,7 +8,7 @@
 
   </p>
   <p align="center">
-    A differentiable point-based rendering library.
+    A differentiable point-based rendering framework
     <br />
     <a href="https://pointrix-project.github.io/pointrix/">
     <strong>Document🏠</strong></a>  | 
@@ -213,8 +213,8 @@ python launch.py --config config.yaml trainer.datapipeline.dataset.data_path=you
 - [x] Nerf_synthetic dataset (this week).
 - [x] Dust3r initialization (this week).
 - [x] Mesh exstraction (this week).
-- [ ] Introduction video (this week)
-- [ ] reformat the document (this week)
+- [x] Introduction video (this week)
+- [x] reformat the document (this week)
 - [ ] Dynamic Gaussian Project(next week).
 
 Welcome to discuss with us and submit PR on new ideas and methods.
