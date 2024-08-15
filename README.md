@@ -17,7 +17,9 @@
     <a href="https://pointrix-project.github.io/pointrix/">
     <strong>Paper(Comming soon)📄</strong></a> | 
     <a href="https://github.com/pointrix-project/msplat">
-    <strong>Msplat Backend🌐</strong></a>
+    <strong>Msplat Backend🌐</strong></a> |
+    <a href="https://www.bilibili.com/video/BV1GaeJepEij/?vd_source=8cf77152a94231ac96b3a3732b42cf30#reply112960710116213">
+    <strong>教程视频🔗</strong></a>
     <br />
     <br />
     <!-- <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
