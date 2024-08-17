@@ -12,7 +12,7 @@ from pointrix.logger.writer import Logger, ProgressLogger
 
 @DATA_SET_REGISTRY.register()
 class ColmapDepthNormalDataset(ColmapDataset):
-    def _transform_observed_data(self, observed_data, split):
+    def transform_observed_data(self, observed_data, split):
 
         cached_progress = ProgressLogger(description='transforming cached observed_data', suffix='iters/s')
         cached_progress.add_task(f'Transforming', f'Transforming {split} cached observed_data', len(observed_data))
