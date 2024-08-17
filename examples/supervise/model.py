@@ -87,11 +87,12 @@ class NormalModel(BaseModel):
         ssim_loss = 1.0 - ssim(render_results['rgb'], gt_images)
         loss += (1.0 - self.cfg.lambda_ssim) * L1_loss
         loss += self.cfg.lambda_ssim * ssim_loss
-        # normal_loss = 0.1 * l1_loss(render_results['normal'], normal_images)
-        # loss += normal_loss
+        normal_loss = 0.1 * l1_loss(render_results['normal'], normal_images)
+        loss += normal_loss
         loss_dict = {"loss": loss,
                      "L1_loss": L1_loss,
-                     "ssim_loss": ssim_loss}
+                     "ssim_loss": ssim_loss,
+                     "normal_loss": normal_loss}
         return loss_dict
 
     @torch.no_grad()
