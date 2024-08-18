@@ -70,7 +70,7 @@ def logproject(file_dir: Path, save_dir: Path, suffix: str):
     Filter files with suffix and save them to save_dir.
     """
     if not os.path.exists(save_dir):
-        os.makedirs(save_dir)
+        os.makedirs(save_dir, exist_ok=True)
     filelist = []
     for dir_path, dir_names, file_names in os.walk(file_dir):
         for file in file_names:

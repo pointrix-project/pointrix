@@ -7,7 +7,6 @@ from typing import Optional
 
 import torch
 import imageio
-from ..utils.system import mkdir_p
 from ..utils.visualize import visualize_depth, visualize_rgb
 from ..model.loss import psnr, ssim, LPIPS, l1_loss
 
@@ -138,7 +137,7 @@ class MetricExporter(BaseModule):
         val_dataset_size = len(val_dataset)
         progress_logger = ProgressLogger(description='Extracting metrics', suffix='iters/s')
         progress_logger.add_task(f'Metric', f'Extracting metrics', val_dataset_size)
-        mkdir_p(os.path.join(output_path, 'test_view'))
+        os.makedirs(os.path.join(output_path, 'test_view'), exist_ok=True)
 
         with progress_logger.progress as progress:
             for i in range(0, val_dataset_size):
@@ -155,7 +154,7 @@ class MetricExporter(BaseModule):
                     visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
                     if not os.path.exists(os.path.join(output_path, f'test_view_{feat_name}')):
                         os.makedirs(os.path.join(
-                            output_path, f'test_view_{feat_name}'))
+                            output_path, f'test_view_{feat_name}'), exist_ok=True)
                     imageio.imwrite(os.path.join(
                         output_path, f'test_view_{feat_name}', image_name), visual_feat)
 

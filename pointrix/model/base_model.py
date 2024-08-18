@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import Mapping, Any
 
 from ..utils.base import BaseModule
-from ..point_cloud import parse_point_cloud
+from .point_cloud import parse_point_cloud
 from .loss import l1_loss, ssim, psnr, LPIPS
 from ..utils.registry import Registry
 from .camera import parse_camera_model

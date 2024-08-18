@@ -1,6 +1,6 @@
 from ..engine.default_datapipeline import BaseDataPipeline
 from .base_model import BaseModel, MODEL_REGISTRY
-from .gaussian_points.gaussian_points import GaussianPointCloud
+from .point_cloud.gaussian_points import GaussianPointCloud
 
 __all__ = ["GaussianPointCloud", "BaseModel"]
 

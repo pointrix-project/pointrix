@@ -49,7 +49,7 @@ class VideoExporter(MetricExporter):
                     feat_frame[feat_name].append(visual_feat)
                     if not os.path.exists(os.path.join(output_path, f'{novel_view}_{feat_name}')):
                         os.makedirs(os.path.join(
-                            output_path, f'{novel_view}_{feat_name}'))
+                            output_path, f'{novel_view}_{feat_name}'), exist_ok=True)
                     imageio.imwrite(os.path.join(
                         output_path, f'{novel_view}_{feat_name}', "{:0>3}.png".format(i)), visual_feat)
 

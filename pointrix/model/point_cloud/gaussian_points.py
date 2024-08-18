@@ -2,8 +2,8 @@ import torch
 from torch import nn
 from dataclasses import dataclass
 
-from ...point_cloud import PointCloud, POINTSCLOUD_REGISTRY
-from ..utils.gaussian_utils import (
+from .points import PointCloud, POINTSCLOUD_REGISTRY
+from .utils.point_utils import (
     sigmoid_inv,
     gaussian_point_init
 )

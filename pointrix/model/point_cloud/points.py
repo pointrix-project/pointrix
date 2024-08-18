@@ -11,11 +11,11 @@ from typing import Union
 from plyfile import PlyData, PlyElement
 from dataclasses import dataclass, field
 
-from ..utils.system import mkdir_p
-from ..utils.base import BaseModule
-from ..utils.registry import Registry
 
-from .utils import (
+from ...utils.base import BaseModule
+from ...utils.registry import Registry
+
+from .utils.point_utils import (
     unwarp_name,
     points_init,
     get_random_points,
@@ -378,7 +378,7 @@ class PointCloud(BaseModule):
         path: Path
             The path of the ply file.
         '''
-        mkdir_p(os.path.dirname(path))
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         num_points = self.position.shape[0]
         normals = np.zeros_like(self.position.detach().cpu().numpy())
         ply_atribute_list = [self.position.detach().cpu().numpy(), normals]
