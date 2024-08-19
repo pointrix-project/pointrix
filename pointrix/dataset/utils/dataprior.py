@@ -151,7 +151,7 @@ class PointsPrior:
         assert all([attr in plyData['vertex'] for attr in normal_attributes]), "Missing normal attributes"
         
         self.positions = np.stack([plyData['vertex'][a] for a in coordinates_attributes], axis=1)
-        self.colors = np.stack([plyData['vertex'][a] for a in color_attributes], axis=1) / 255.
+        self.colors = np.stack([plyData['vertex'][a] for a in color_attributes], axis=1)
         self.normals = np.stack([plyData['vertex'][a] for a in normal_attributes], axis=1)
 
 class CamerasPrior:

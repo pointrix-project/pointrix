@@ -71,6 +71,7 @@ class ColmapDataset(BaseDataset):
         else:
             point_cloud = PointsPrior()
             point_cloud.read_ply(points3d_ply_path)
+        point_cloud.colors = point_cloud.colors / 255.
         return point_cloud
     
     def transform_observed_data(self, observed_data, split):
@@ -119,6 +120,7 @@ class ColmapDataset(BaseDataset):
         observed_data = []
         for k, v in self.observed_data_dirs_dict.items():
             observed_data_path = self.data_root / Path(v)
+            print(observed_data_path)
             if not os.path.exists(observed_data_path):
                 Logger.error(f"observed_data path {observed_data_path} does not exist.")
             observed_data_file_names = sorted(os.listdir(observed_data_path))
