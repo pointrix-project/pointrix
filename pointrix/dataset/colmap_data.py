@@ -68,7 +68,6 @@ class ColmapDataset(BaseDataset):
             normals = np.zeros_like(positions)
             point_cloud = PointsPrior(positions=positions, colors=colors, normals=normals)
             point_cloud.save_ply(points3d_ply_path)
-            point_cloud.read_ply(points3d_ply_path)
         else:
             point_cloud = PointsPrior()
             point_cloud.read_ply(points3d_ply_path)
