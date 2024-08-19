@@ -120,7 +120,6 @@ class ColmapDataset(BaseDataset):
         observed_data = []
         for k, v in self.observed_data_dirs_dict.items():
             observed_data_path = self.data_root / Path(v)
-            print(observed_data_path)
             if not os.path.exists(observed_data_path):
                 Logger.error(f"observed_data path {observed_data_path} does not exist.")
             observed_data_file_names = sorted(os.listdir(observed_data_path))
