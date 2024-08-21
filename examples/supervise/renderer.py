@@ -70,7 +70,7 @@ class MsplatNormalRender(MsplatRender):
             uv, depth, width, height, radius, tiles_touched
         )
 
-        Render_Features = RenderFeatures(rgb=rgb, depth=depth, normal=normals) if normals is not None else RenderFeatures(rgb=rgb, depth=depth)
+        Render_Features = RenderFeatures(rgb=rgb, normal=normals) if normals is not None else RenderFeatures(rgb=rgb)
         render_features = Render_Features.combine()
 
         ndc = torch.zeros_like(uv, requires_grad=True)

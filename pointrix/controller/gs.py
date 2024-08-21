@@ -13,7 +13,7 @@ from ..utils.pose import quat_to_rotmat
 
 class DensificationController(BaseDensificationController):
     """
-    The densification controller class for densifying the point cloud.
+    The controller class for densifying the point cloud.
     """
     @dataclass
     class Config(BaseDensificationController.Config):
@@ -29,7 +29,7 @@ class DensificationController(BaseDensificationController):
         opacity_reset_interval : int
             The interval to reset the opacity.
         densify_grad_threshold : float
-            The densification gradient threshold.
+            The controller gradient threshold.
         min_opacity : float
             The minimum opacity.
         normalize_grad : bool
@@ -188,7 +188,7 @@ class DensificationController(BaseDensificationController):
         mask = self.generate_clone_mask(grads)
         atributes = self.point_cloud.select_atributes(mask)
         self.point_cloud.extand_points(atributes, self.optimizer)
-        self.reset_densification_state()
+        self.reset_controller_state()
 
     def densify_split(self, grads: Tensor) -> None:
         """
@@ -221,7 +221,7 @@ class DensificationController(BaseDensificationController):
             atributes[key] = value.repeat(*sizes)
 
         self.point_cloud.extand_points(atributes, self.optimizer)
-        self.reset_densification_state()
+        self.reset_controller_state()
 
         # TODO: need to remove unused operation
         prune_filter = torch.cat((mask, torch.zeros(self.split_num * mask.sum(),
@@ -243,9 +243,9 @@ class DensificationController(BaseDensificationController):
         self.acc_steps = self.acc_steps[valid_points_mask]
         self.max_radii = self.max_radii[valid_points_mask]
 
-    def reset_densification_state(self) -> None:
+    def reset_controller_state(self) -> None:
         """
-        Reset the densification state.
+        Reset the controller state.
         """
         num_points = len(self.point_cloud)
         self.grad_accum = torch.zeros(

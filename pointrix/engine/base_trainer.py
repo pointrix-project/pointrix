@@ -13,7 +13,7 @@ from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
 from ..exporter import parse_exporter
-from ..densification.gs import DensificationController
+from ..controller.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 
 

@@ -143,10 +143,10 @@ We can see that the Pointrix trainer consists of **model, controller, optimizer,
 
 ### controller
 - control_module: Name of variables to be densified.
-- percent_dense: Percentage of scene range (0-1); densification is enforced if exceeded.
+- percent_dense: Percentage of scene range (0-1); controller is enforced if exceeded.
 - split_num: Number of splits when performing segmentation on point clouds.
-- densify_start_iter: Iteration to start densification.
-- densify_stop_iter: Iteration to stop densification.
+- densify_start_iter: Iteration to start controller.
+- densify_stop_iter: Iteration to stop controller.
 - prune_interval: Pruning frequency.
 - duplicate_interval: Duplication frequency.
 - opacity_reset_interval: Frequency to reset opacity.
