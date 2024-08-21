@@ -12,9 +12,11 @@ from roma import rotmat_to_unitquat, quat_xyzw_to_wxyz
 from ...dataset.utils.dataprior import CameraPrior, CamerasPrior
 from ...utils.base import BaseObject
 from ...utils.pose import ViewScaling, unitquat_to_rotmat
+from ...utils.registry import Registry
 
+CAMERA_REGISTRY = Registry("CAMERA", modules=["pointrix.model.camera"])
 
-
+@CAMERA_REGISTRY.register()
 class CameraModel(BaseObject):
     """
     Camera class used in Pointrix
@@ -30,6 +32,7 @@ class CameraModel(BaseObject):
         scene_scale: float
             The scale of the scene
         """
+        name: str = "CameraModel"
         enable_training: bool = False
         scene_scale: float = 1.0
 
@@ -204,3 +207,4 @@ class CameraModel(BaseObject):
 
         """
         return self.width
+    

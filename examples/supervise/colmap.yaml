@@ -18,6 +18,7 @@ trainer:
         init_type: 'colmap'
         feat_dim: 3
     camera_model:
+      name: "CameraModel"
       enable_training: False
     renderer:
       name: "MsplatNormalRender"
