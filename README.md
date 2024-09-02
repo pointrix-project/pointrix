@@ -169,6 +169,10 @@ python launch_sweep.py --config configs/colmap.yaml --config_sweep configs/colma
 
 The corresponding document will be released soon.
 
+![2024-09-02 17-35-49屏幕截图](https://github.com/user-attachments/assets/6ef2b481-cefe-47bd-8e42-183d9351f35b)
+
+
+
 #### Camera optimization
 
 To enable camera optimization, you should set trainer.model.camera_model.enable_training=True and trainer.optimizer.optimizer_1.camera_params.lr=1e-3:
