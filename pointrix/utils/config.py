@@ -1,4 +1,5 @@
 import os
+import yaml
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -102,3 +103,7 @@ def parse_structured(
 ) -> Any:
     scfg = OmegaConf.structured(fields(**cfg))
     return scfg
+
+def load_yaml(file_path):
+    with open(file_path, "r") as f:
+        return yaml.safe_load(f)

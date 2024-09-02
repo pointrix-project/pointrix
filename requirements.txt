@@ -17,3 +17,5 @@ open3d
 pyav
 imageio==2.27
 imageio-ffmpeg
+wandb
+pyyaml

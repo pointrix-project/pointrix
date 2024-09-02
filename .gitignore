@@ -166,3 +166,4 @@ _local_scripts
 _build/
 
 __pycache__/
+wandb/

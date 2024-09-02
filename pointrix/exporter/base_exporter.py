@@ -109,10 +109,25 @@ class MetricExporter(BaseModule):
         """Target number of triangles to simplify mesh to."""
     cfg: Config
 
-    def setup(self, model: BaseModel, datapipeline: BaseDataPipeline, device="cuda"):
+    def setup(self, model, datapipeline, device="cuda"):
         self.device  = device
         self.datapipeline = datapipeline
         self.model = model
+        self.reset_metric()
+                
+    def reset_metric(self):
+        self.l1 = 0.0
+        self.psnr_metric = 0.0
+        self.ssim_metric  = 0.0
+        self.lpips_metric  = 0.0
+        
+        self.abs_rel_metric = 0.0
+        self.sq_rel_metric = 0.0
+        self.rmse_metric = 0.0
+        self.rmse_log_metric = 0.0
+        self.a1_metric = 0.0
+        self.a2_metric = 0.0
+        self.a3_metric = 0.0
         
     @torch.no_grad()
     def forward(self, output_path):
@@ -128,10 +143,7 @@ class MetricExporter(BaseModule):
         output_path : str
             The output path to save the images.
         """
-        l1 = 0.0
-        psnr_metric = 0.0
-        ssim_metric  = 0.0
-        lpips_metric  = 0.0
+        self.reset_metric()
         lpips_func = LPIPS()
         val_dataset = self.datapipeline.validation_dataset
         val_dataset_size = len(val_dataset)
@@ -154,18 +166,20 @@ class MetricExporter(BaseModule):
                     visual_feat = eval(f"visualize_{feat_name}")(feat.squeeze())
                     if not os.path.exists(os.path.join(output_path, f'test_view_{feat_name}')):
                         os.makedirs(os.path.join(
-                            output_path, f'test_view_{feat_name}'), exist_ok=True)
+                            output_path, f'test_view_{feat_name}'))
                     imageio.imwrite(os.path.join(
                         output_path, f'test_view_{feat_name}', image_name), visual_feat)
 
-                l1 += l1_loss(image, gt, return_mean=True).double()
-                psnr_metric += psnr(image, gt).mean().double()
-                ssim_metric += ssim(image, gt).mean().double()
-                lpips_metric += lpips_func(image, gt).mean().double()
+                self.l1 += l1_loss(image, gt, return_mean=True).double()
+                self.psnr_metric += psnr(image, gt).mean().double()
+                self.ssim_metric += ssim(image, gt).mean().double()
+                self.lpips_metric += lpips_func(image, gt).mean().double()
+                
                 progress_logger.update(f'Metric', step=1)
-        l1 /= val_dataset_size
-        psnr_metric /= val_dataset_size
-        ssim_metric /= val_dataset_size
-        lpips_metric /= val_dataset_size
+        self.l1 /= val_dataset_size
+        self.psnr_metric /= val_dataset_size
+        self.ssim_metric /= val_dataset_size
+        self.lpips_metric /= val_dataset_size
+        
         print(
-            f"Test results: L1 {l1:.5f} PSNR {psnr_metric:.5f} SSIM {ssim_metric:.5f} LPIPS (VGG) {lpips_metric:.5f}")
+            f"Test results: L1 {self.l1:.5f} PSNR {self.psnr_metric:.5f} SSIM {self.ssim_metric:.5f}, LPIPS (VGG) {self.lpips_metric:.5f}")

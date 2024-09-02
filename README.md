@@ -30,6 +30,9 @@
   </p>
 </div>
 
+## News
+
+- 9/2/2024: we support hyperparameter (all hyperparameters in config.yaml) turning based on wandb, including "random", "grid" and "bayes" sweep configuration.
 Pointrix is a differentiable point-based rendering framework which has following properties:
 
 - **Highly Extensible**:
@@ -153,6 +156,17 @@ python launch.py --config ./configs/nerf.yaml trainer.training=False trainer.dat
 
 ## Advanced Approaches
 
+#### Turning your hyperparameters
+
+Pointrix support turning of hyperparameters based on sweep configuration in wandb, try this feature by running following command:
+
+```bash
+cd examples/gaussian_splatting_sweep
+python launch_sweep.py --config configs/colmap.yaml --config_sweep configs/colmap_sweep.yaml trainer.datapipeline.dataset.data_path=your_data_path  trainer.output_path=your_log_path
+```
+
+The corresponding document will be released soon.
+
 #### Camera optimization
 
 To enable camera optimization, you should set trainer.model.camera_model.enable_training=True and trainer.optimizer.optimizer_1.camera_params.lr=1e-3:
@@ -208,6 +222,8 @@ python convert_dust3r.py --model_path your_dust3r_weights --filelist your_image_
 ```bash
 python launch.py --config config.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
+
+
 
 ## Release Plans
 - [x] Nerf_synthetic dataset (this week).

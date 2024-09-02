@@ -1,0 +1,18 @@
+method: "random"
+name: "colmap_sweep"
+metric: {goal: "maximize", name: "psnr"}
+
+parameters:
+  controller:
+    densify_grad_threshold: 
+      min: 0.0002
+      max: 0.0004
+    densify_stop_iter:
+      values: [10000, 15000]
+  optimizer:
+    optimizer_1:
+      params:
+        point_cloud.position:
+          lr: 
+            min: 0.00016
+            max: 0.00032
