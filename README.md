@@ -33,6 +33,8 @@
 ## News
 
 - 9/2/2024: we support hyperparameter (all hyperparameters in config.yaml) turning based on wandb, including "random", "grid" and "bayes" sweep configuration.
+
+## Features
 Pointrix is a differentiable point-based rendering framework which has following properties:
 
 - **Highly Extensible**:
