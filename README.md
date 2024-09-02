@@ -32,7 +32,9 @@
 
 ## News
 
-- 9/2/2024: we support hyperparameter (all hyperparameters in config.yaml) turning based on wandb, including "random", "grid" and "bayes" sweep configuration.
+- 2024-09-02: we support all hyperparameter turning based on wandb, including "**random**", "**grid**" and "**bayes**" sweep configuration.
+- 2024-08-18: we have released Pointrix: v1.0
+- 2024-08-18: we add exporter which supports metric/video/mesh export.
 
 ## Features
 Pointrix is a differentiable point-based rendering framework which has following properties:
@@ -169,7 +171,8 @@ python launch_sweep.py --config configs/colmap.yaml --config_sweep configs/colma
 
 The corresponding document will be released soon.
 
-![2024-09-02 17-35-49屏幕截图](https://github.com/user-attachments/assets/6ef2b481-cefe-47bd-8e42-183d9351f35b)
+
+![2024-09-02 18-33-13屏幕截图](https://github.com/user-attachments/assets/e25ea893-b3ba-4f1d-ae2d-78834588d42c)
 
 
 
