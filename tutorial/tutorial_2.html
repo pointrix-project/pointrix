@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/camera_optimization.html">Camera Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Dust3r Initialization for Camera Model and Point Cloud (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Post-Processing Results Extraction (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/sweep_parameter.html">Hyperparameter Search</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -716,6 +717,10 @@ To read the normal prior outputs of the DSINE model, we first need to modify the
 </div>
 </div>
 <p>Lastly, we need to modify our configuration to integrate the updated model, renderer, dataset, and hook functions into the Pointrix training pipeline.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>If you have added learnable parameters (such as convolutional networks or MLPs) on top of the Basemodel, please include the corresponding learnable parameters in the optimizer configuration so that the new parameters can be optimized.</strong></p>
+</div>
 <div class="literal-block-wrapper docutils container" id="id6">
 <div class="code-block-caption"><span class="caption-text">We highlight the modified part.</span><a class="headerlink" href="#id6" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;garden&quot;</span>

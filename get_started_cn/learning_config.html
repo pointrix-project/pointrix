@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/camera_optimization.html">相机优化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/dust3r_init.html">Dust3r 初始化相机模型与点云 (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/extract_mesh.html">后处理结果提取 (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/sweep_parameter.html">搜索超参数</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
 <ul class="nav bd-sidenav">
@@ -527,6 +528,10 @@ document.write(`
 <li><p>densify_grad_threshold: 基于 2D 位置梯度决定是否应稠密化点的阈值。</p></li>
 <li><p>min_opacity: 剪枝操作中将使用的最小不透明度。</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>如果您在Basemodel 基础上新加入了可学习的参数（例如卷积网络或者MLP），请在optimizer配置中添加对应的可学习的参数，这样新参数才会优化。</strong></p>
+</div>
 </section>
 <section id="optimizer">
 <h3>optimizer<a class="headerlink" href="#optimizer" title="Link to this heading">#</a></h3>

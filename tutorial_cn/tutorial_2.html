@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/camera_optimization.html">相机优化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/dust3r_init.html">Dust3r 初始化相机模型与点云 (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/extract_mesh.html">后处理结果提取 (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/sweep_parameter.html">搜索超参数</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
 <ul class="nav bd-sidenav">
@@ -713,6 +714,10 @@ document.write(`
 </div>
 </div>
 <p>最后，我们需要修改我们的配置，从而将修改后的模型，渲染器，数据集，钩子函数添加到Pointrix 训练流中：</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>如果您在Basemodel 基础上新加入了可学习的参数（例如卷积网络或者MLP），请在optimizer配置中添加对应的可学习的参数，这样新参数才会优化。</strong></p>
+</div>
 <div class="literal-block-wrapper docutils container" id="id11">
 <div class="code-block-caption"><span class="caption-text">We highlight the modified part.</span><a class="headerlink" href="#id11" title="Link to this code">#</a></div>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;garden&quot;</span>

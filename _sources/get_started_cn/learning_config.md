@@ -144,6 +144,9 @@ trainer:
 - densify_grad_threshold: 基于 2D 位置梯度决定是否应稠密化点的阈值。
 - min_opacity: 剪枝操作中将使用的最小不透明度。
 
+```{warning}
+**如果您在Basemodel 基础上新加入了可学习的参数（例如卷积网络或者MLP），请在optimizer配置中添加对应的可学习的参数，这样新参数才会优化。**
+```
 ### optimizer
 - optimizer_x: 第 x 个优化器，您可以添加任意数量的优化器，Pointrix 将自动处理它们。
     - type: 优化器的类型，由注册器索引。

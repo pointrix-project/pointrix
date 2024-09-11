@@ -1,6 +1,6 @@
 controller
 ============
 
-.. automodule:: pointrix.densification.gs
+.. automodule:: pointrix.controller.gs
    :members:
    :show-inheritance:

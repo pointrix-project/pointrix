@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>point_cloud &#8212; Pointrix</title>
+    <title>Hyperparameter Search &#8212; Pointrix</title>
   
   
   
@@ -42,12 +42,12 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'code/point_cloud';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'advanced_usage/sweep_parameter';</script>
     <link rel="icon" href="../_static/pointrix.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="hook" href="hook.html" />
-    <link rel="prev" title="dataset" href="dataset.html" />
+    <link rel="next" title="API" href="../API.html" />
+    <link rel="prev" title="Post-Processing Results Extraction (Metric, Mesh, Video)" href="extract_mesh.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -128,7 +128,7 @@
     
   
 
-<a class="navbar-brand logo" href="../index_cn.html">
+<a class="navbar-brand logo" href="../index.html">
   
   
   
@@ -155,49 +155,48 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">开始（10分钟内学习Pointrix）</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Get started (In 10 minutes)</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/installation.html">安装</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/run_first_model.html">运行你的第一个模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/learning_config.html">Pointrix 中的配置文件</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started_cn/render_novel_view_gui.html">使用 Pointflicks (GUI) 可视化</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/run_first_model.html">Run Your First Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/render_novel_view_gui.html">Using Pointflicks (GUI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/learning_configuration.html">Configuration Files in Pointrix</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">教程</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../tutorial_cn/tutorial_2.html">为点云渲染添加监督</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/tutorial_2.html">Adding Supervision for 3DGS</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">架构</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Framework</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/overall.html">总览</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/data.html">数据流水线</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/model.html">模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/trainer.html">训练器 (Trainer)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../framework_cn/hook.html">钩子函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/overall.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/data.html">Data Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/trainer.html">Trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../framework/hook.html">Hook</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/camera_optimization.html">相机优化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/dust3r_init.html">Dust3r 初始化相机模型与点云 (Beta)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/extract_mesh.html">后处理结果提取 (Metric, Mesh, Video)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../advanced_usage_cn/sweep_parameter.html">搜索超参数</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="dataset.html">dataset</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">point_cloud</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hook.html">hook</a></li>
-<li class="toctree-l2"><a class="reference internal" href="logger.html">logger</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model.html">model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="controller.html">controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="optimizer.html">optimizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="trainer.html">trainer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="camera_optimization.html">Camera Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dust3r_init.html">Dust3r Initialization for Camera Model and Point Cloud (Beta)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extract_mesh.html">Post-Processing Results Extraction (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hyperparameter Search</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../code/dataset.html">dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/point_cloud.html">point_cloud</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/hook.html">hook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/logger.html">logger</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/model.html">model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/controller.html">controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/optimizer.html">optimizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../code/trainer.html">trainer</a></li>
 </ul>
 </details></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../switch_cn.html"><a href="https://pointrix-project.github.io/pointrix/index.html">English</a></a></li>
-
+<li class="toctree-l1"><a class="reference internal" href="../switch.html"><a href="https://pointrix-project.github.io/pointrix/index_cn.html">简体中文</a></a></li>
 </ul>
 
     </div>
@@ -252,7 +251,7 @@
       
       
       
-      <li><a href="../_sources/code/point_cloud.rst" target="_blank"
+      <li><a href="../_sources/advanced_usage/sweep_parameter.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -262,7 +261,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.rst</span>
+<span class="btn__text-container">.md</span>
 </a>
 </li>
       
@@ -323,9 +322,7 @@ document.write(`
   </button>
 `);
 </script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -336,19 +333,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>point_cloud</h1>
+    <h1>Hyperparameter Search</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-point-cloud">Base point cloud</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -358,11 +347,40 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="point-cloud">
-<h1>point_cloud<a class="headerlink" href="#point-cloud" title="Link to this heading">#</a></h1>
-<section id="base-point-cloud">
-<h2>Base point cloud<a class="headerlink" href="#base-point-cloud" title="Link to this heading">#</a></h2>
-</section>
+  <section id="hyperparameter-search">
+<h1>Hyperparameter Search<a class="headerlink" href="#hyperparameter-search" title="Link to this heading">#</a></h1>
+<p>Pointrix supports searching over all parameters specified in the configuration files. Example code can be found in <code class="docutils literal notranslate"><span class="pre">examples/gaussian_splatting_sweep</span></code>.</p>
+<p>Here, we’ll use the <code class="docutils literal notranslate"><span class="pre">colmap_sweep.yaml</span></code> configuration file as an example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;random&quot;</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;colmap_sweep&quot;</span>
+<span class="nt">metric</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">goal</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;maximize&quot;</span><span class="p p-Indicator">,</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;psnr&quot;</span><span class="p p-Indicator">}</span>
+
+<span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">controller</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">densify_grad_threshold</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0002</span>
+<span class="w">      </span><span class="nt">max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0004</span>
+<span class="w">    </span><span class="nt">densify_stop_iter</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">values</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">10000</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">15000</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">optimizer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">optimizer_1</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">point_cloud.position</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">lr</span><span class="p">:</span><span class="w"> </span>
+<span class="w">            </span><span class="nt">min</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.00016</span>
+<span class="w">            </span><span class="nt">max</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.00032</span>
+</pre></div>
+</div>
+<p>This configuration file specifies the parameters to be searched within <code class="docutils literal notranslate"><span class="pre">colmap.yaml</span></code>. For example, <code class="docutils literal notranslate"><span class="pre">densify_grad_threshold</span></code> ranges from 0.0002 to 0.0004, and <code class="docutils literal notranslate"><span class="pre">densify_stop_iter</span></code> can take values of 10000 or 15000, among others.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">method</span></code> can be <strong>random</strong>, <strong>grid</strong>, or <strong>bayes</strong>, corresponding to random search, grid search, and Bayesian optimization, respectively. Users can also configure the search range for any other parameters in <code class="docutils literal notranslate"><span class="pre">colmap.yaml</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">metric</span></code> specifies the goal to optimize. In this example, we aim to maximize the <code class="docutils literal notranslate"><span class="pre">psnr</span></code> parameter. Related parameters can be read in <code class="docutils literal notranslate"><span class="pre">launch_sweep.py</span></code>.</p>
+<p>Once <code class="docutils literal notranslate"><span class="pre">colmap_sweep.yaml</span></code> and <code class="docutils literal notranslate"><span class="pre">colmap.yaml</span></code> are configured, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>examples/gaussian_splatting_sweep
+python<span class="w"> </span>launch_sweep.py<span class="w"> </span>--config<span class="w"> </span>configs/colmap.yaml<span class="w"> </span>--config_sweep<span class="w"> </span>configs/colmap_sweep.yaml<span class="w"> </span>trainer.datapipeline.dataset.data_path<span class="o">=</span>your_data_path<span class="w"> </span>trainer.output_path<span class="o">=</span>your_log_path
+</pre></div>
+</div>
+<p>During the run, you can visit the provided URL to view the analysis results of the hyperparameters and metrics.</p>
+<p><img alt="xxx" src="https://github.com/user-attachments/assets/e25ea893-b3ba-4f1d-ae2d-78834588d42c" /></p>
 </section>
 
 
@@ -377,20 +395,20 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="dataset.html"
+       href="extract_mesh.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">dataset</p>
+        <p class="prev-next-title">Post-Processing Results Extraction (Metric, Mesh, Video)</p>
       </div>
     </a>
     <a class="right-next"
-       href="hook.html"
+       href="../API.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">hook</p>
+        <p class="prev-next-title">API</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -400,21 +418,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#base-point-cloud">Base point cloud</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

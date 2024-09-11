@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/camera_optimization.html">Camera Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Dust3r Initialization for Camera Model and Point Cloud (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Post-Processing Results Extraction (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/sweep_parameter.html">Hyperparameter Search</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -447,6 +448,10 @@ document.write(`
 </ul>
 </li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>If you have added learnable parameters (such as convolutional networks or MLPs) on top of the Basemodel, please include the corresponding learnable parameters in the optimizer configuration so that the new parameters can be optimized.</strong></p>
+</div>
 </section>
 <section id="optimizer-configuration">
 <h3>Optimizer Configuration：<a class="headerlink" href="#optimizer-configuration" title="Link to this heading">#</a></h3>

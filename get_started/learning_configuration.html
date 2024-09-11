@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/camera_optimization.html">Camera Optimization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/dust3r_init.html">Dust3r Initialization for Camera Model and Point Cloud (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced_usage/extract_mesh.html">Post-Processing Results Extraction (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced_usage/sweep_parameter.html">Hyperparameter Search</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -526,10 +527,10 @@ document.write(`
 <h3>controller<a class="headerlink" href="#controller" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>control_module: Name of variables to be densified.</p></li>
-<li><p>percent_dense: Percentage of scene range (0-1); densification is enforced if exceeded.</p></li>
+<li><p>percent_dense: Percentage of scene range (0-1); controller is enforced if exceeded.</p></li>
 <li><p>split_num: Number of splits when performing segmentation on point clouds.</p></li>
-<li><p>densify_start_iter: Iteration to start densification.</p></li>
-<li><p>densify_stop_iter: Iteration to stop densification.</p></li>
+<li><p>densify_start_iter: Iteration to start controller.</p></li>
+<li><p>densify_stop_iter: Iteration to stop controller.</p></li>
 <li><p>prune_interval: Pruning frequency.</p></li>
 <li><p>duplicate_interval: Duplication frequency.</p></li>
 <li><p>opacity_reset_interval: Frequency to reset opacity.</p></li>

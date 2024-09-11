@@ -158,6 +158,7 @@ framework_cn/hook
 advanced_usage_cn/camera_optimization
 advanced_usage_cn/dust3r_init
 advanced_usage_cn/extract_mesh
+advanced_usage_cn/sweep_parameter.md
 ```
 
 ```{toctree}

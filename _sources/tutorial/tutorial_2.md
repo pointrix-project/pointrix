@@ -384,6 +384,10 @@ class NormalLogHook(LogHook):
 ```
 Lastly, we need to modify our configuration to integrate the updated model, renderer, dataset, and hook functions into the Pointrix training pipeline.
 
+```{warning}
+**If you have added learnable parameters (such as convolutional networks or MLPs) on top of the Basemodel, please include the corresponding learnable parameters in the optimizer configuration so that the new parameters can be optimized.**
+```
+
 ```{code-block} yaml
 :lineno-start: 1 
 :emphasize-lines: "10, 23, 61, 70, 77"

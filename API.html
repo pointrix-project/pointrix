@@ -47,7 +47,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="dataset" href="code/dataset.html" />
-    <link rel="prev" title="后处理结果提取 (Metric, Mesh, Video)" href="advanced_usage_cn/extract_mesh.html" />
+    <link rel="prev" title="搜索超参数" href="advanced_usage_cn/sweep_parameter.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -179,6 +179,7 @@
 <li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/camera_optimization.html">相机优化</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/dust3r_init.html">Dust3r 初始化相机模型与点云 (Beta)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/extract_mesh.html">后处理结果提取 (Metric, Mesh, Video)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_usage_cn/sweep_parameter.html">搜索超参数</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">参考</span></p>
 <ul class="current nav bd-sidenav">
@@ -382,30 +383,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code/point_cloud.html">point_cloud</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code/point_cloud.html#module-pointrix.point_cloud.points">Base point cloud</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud"><code class="docutils literal notranslate"><span class="pre">PointCloud</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.Config"><code class="docutils literal notranslate"><span class="pre">PointCloud.Config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.extand_points"><code class="docutils literal notranslate"><span class="pre">PointCloud.extand_points()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.extend_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.extend_optimizer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.get_all_atributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.get_all_atributes()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.list_of_attributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.list_of_attributes()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.load_ply"><code class="docutils literal notranslate"><span class="pre">PointCloud.load_ply()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.prune_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.prune_optimizer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.re_init"><code class="docutils literal notranslate"><span class="pre">PointCloud.re_init()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.register_atribute"><code class="docutils literal notranslate"><span class="pre">PointCloud.register_atribute()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.remove_points"><code class="docutils literal notranslate"><span class="pre">PointCloud.remove_points()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.replace"><code class="docutils literal notranslate"><span class="pre">PointCloud.replace()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.replace_optimizer"><code class="docutils literal notranslate"><span class="pre">PointCloud.replace_optimizer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.save_ply"><code class="docutils literal notranslate"><span class="pre">PointCloud.save_ply()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.select_atributes"><code class="docutils literal notranslate"><span class="pre">PointCloud.select_atributes()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_all_atributes_trainable"><code class="docutils literal notranslate"><span class="pre">PointCloud.set_all_atributes_trainable()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.set_prefix_name"><code class="docutils literal notranslate"><span class="pre">PointCloud.set_prefix_name()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.setup"><code class="docutils literal notranslate"><span class="pre">PointCloud.setup()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="code/point_cloud.html#pointrix.point_cloud.points.PointCloud.unwarp"><code class="docutils literal notranslate"><span class="pre">PointCloud.unwarp()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="code/point_cloud.html#base-point-cloud">Base point cloud</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code/hook.html">hook</a><ul>
@@ -506,12 +484,6 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.camera.camera_model.CameraModel.translation_vectors"><code class="docutils literal notranslate"><span class="pre">CameraModel.translation_vectors()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.Config"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.Config</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.re_init"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.re_init()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.gaussian_points.gaussian_points.GaussianPointCloud.setup"><code class="docutils literal notranslate"><span class="pre">GaussianPointCloud.setup()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.render_iter"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.render_iter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="code/model.html#pointrix.model.renderer.base_splatting.GaussianSplattingRender.setup"><code class="docutils literal notranslate"><span class="pre">GaussianSplattingRender.setup()</span></code></a></li>
@@ -534,18 +506,18 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="code/controller.html">controller</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController"><code class="docutils literal notranslate"><span class="pre">DensificationController</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.Config"><code class="docutils literal notranslate"><span class="pre">DensificationController.Config</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.accumulate_viewspace_grad"><code class="docutils literal notranslate"><span class="pre">DensificationController.accumulate_viewspace_grad()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.densify_clone"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_clone()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.densify_split"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_split()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.generate_clone_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_clone_mask()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.generate_split_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_split_mask()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.new_pos_scale"><code class="docutils literal notranslate"><span class="pre">DensificationController.new_pos_scale()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.prune"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.prune_postprocess"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune_postprocess()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.reset_densification_state"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_densification_state()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.densification.gs.DensificationController.reset_opacity"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_opacity()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController"><code class="docutils literal notranslate"><span class="pre">DensificationController</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.Config"><code class="docutils literal notranslate"><span class="pre">DensificationController.Config</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.accumulate_viewspace_grad"><code class="docutils literal notranslate"><span class="pre">DensificationController.accumulate_viewspace_grad()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.densify_clone"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.densify_split"><code class="docutils literal notranslate"><span class="pre">DensificationController.densify_split()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.generate_clone_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_clone_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.generate_split_mask"><code class="docutils literal notranslate"><span class="pre">DensificationController.generate_split_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.new_pos_scale"><code class="docutils literal notranslate"><span class="pre">DensificationController.new_pos_scale()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.prune"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.prune_postprocess"><code class="docutils literal notranslate"><span class="pre">DensificationController.prune_postprocess()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.reset_controller_state"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_controller_state()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="code/controller.html#pointrix.controller.gs.DensificationController.reset_opacity"><code class="docutils literal notranslate"><span class="pre">DensificationController.reset_opacity()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -600,12 +572,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="advanced_usage_cn/extract_mesh.html"
+       href="advanced_usage_cn/sweep_parameter.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">后处理结果提取 (Metric, Mesh, Video)</p>
+        <p class="prev-next-title">搜索超参数</p>
       </div>
     </a>
     <a class="right-next"
