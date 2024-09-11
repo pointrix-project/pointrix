@@ -130,6 +130,7 @@ from pointrix.model.base_model import BaseModel, MODEL_REGISTRY
 加入反向传播，并且
 在`get_metric_dict`函数中得到渲染后的表面法向图片，为可视化预测表面法向做准备：
 
+
 ```{code-block} python
 :lineno-start: 1 
 :emphasize-lines: "1,15,16,17,28,76,77,81, 36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,106,107,108,110,111,112"
@@ -381,6 +382,13 @@ class NormalLogHook(LogHook):
 ```
 
 最后，我们需要修改我们的配置，从而将修改后的模型，渲染器，数据集，钩子函数添加到Pointrix 训练流中：
+
+
+```{warning}
+**如果您在Basemodel 基础上新加入了可学习的参数（例如卷积网络或者MLP），请在optimizer配置中添加对应的可学习的参数，这样新参数才会优化。**
+```
+
+
 
 ```{code-block} yaml
 :lineno-start: 1 

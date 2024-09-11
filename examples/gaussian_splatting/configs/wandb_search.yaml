@@ -1,0 +1,8 @@
+trainer:
+  optimizer:
+    optimizer_1:
+      params:
+        point_cloud.position:
+          lr:
+            min: 0.00016
+            max: 0.0016
