@@ -31,10 +31,10 @@
 </div>
 
 ## News
-
-- 2024-09-02: we support all hyperparameter turning based on wandb, including "**random**", "**grid**" and "**bayes**" sweep configuration.
-- 2024-08-18: we have released Pointrix: v1.0
-- 2024-08-18: we add exporter which supports metric/video/mesh export.
+- 2024-09-11: We have included instructions for hyperparameter search in the documentation.
+- 2024-09-02: We support all hyperparameter turning based on wandb, including "**random**", "**grid**" and "**bayes**" sweep configuration.
+- 2024-08-18: We have released Pointrix: v1.0
+- 2024-08-18: We add exporter which supports metric/video/mesh export.
 
 ## Features
 Pointrix is a differentiable point-based rendering framework which has following properties:
@@ -112,7 +112,7 @@ pip install .
 ###  Train Your First 3D Gaussian
 
 #### Tanks and Temples Dataset Demo (Colmap format dataset)
-Download the demo truck scene [data](https://pan.baidu.com/s/1MEb0rXkbJMlmT8cu7TirTA?pwd=qg8c) and run:
+Download the demo truck scene [data](https://pan.baidu.com/s/1NlhxylY7q3SmVf9j29we3Q?pwd=f95m) and run:
 ```bash
 cd examples/gaussian_splatting
 # For Tanks and Temples data which have high-res images and need to downsample.
@@ -168,9 +168,6 @@ Pointrix support turning of hyperparameters based on sweep configuration in wand
 cd examples/gaussian_splatting_sweep
 python launch_sweep.py --config configs/colmap.yaml --config_sweep configs/colmap_sweep.yaml trainer.datapipeline.dataset.data_path=your_data_path  trainer.output_path=your_log_path
 ```
-
-The corresponding document will be released soon.
-
 
 ![2024-09-02 18-33-13屏幕截图](https://github.com/user-attachments/assets/e25ea893-b3ba-4f1d-ae2d-78834588d42c)
 
