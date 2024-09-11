@@ -164,7 +164,7 @@ advanced_usage_cn/sweep_parameter.md
 ```{toctree}
 :maxdepth: 1
 :caption: 参考
-API
+API_cn
 ```
 :::
 

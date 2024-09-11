@@ -3,7 +3,7 @@
 我们以表面法线为例，来说明如何为点云渲染模型添加表面法线先验的监督。所有的代码在`example/supervise` 文件夹下。
 本教程用到的数据下载链接如下：
 
-https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
+https://pan.baidu.com/s/1NlhxylY7q3SmVf9j29we3Q?pwd=f95m.
 
 我们使用DSINE 模型来为 Tanks and Temple 数据集的truck场景生成Normal。
 ## 数据部分的修改
