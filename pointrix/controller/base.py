@@ -7,8 +7,12 @@ from typing import Tuple, List
 from pointrix.utils.config import C
 
 from ..utils.base import BaseObject
+from ..utils.registry import Registry
 
+CONTROLER_REGISTRY = Registry("CONTROLER", modules=["pointrix.controller"])
+CONTROLER_REGISTRY.__doc__ = ""
 
+@CONTROLER_REGISTRY.register()
 class BaseDensificationController(BaseObject):
     @dataclass
     class Config:

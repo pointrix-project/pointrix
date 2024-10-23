@@ -6,11 +6,12 @@ from typing import Tuple, List
 
 from pointrix.utils.config import C
 
-from .base import BaseDensificationController
+from .base import BaseDensificationController, CONTROLER_REGISTRY
 
 from ..model.utils.gaussian_utils import sigmoid_inv
 from ..utils.pose import quat_to_rotmat
 
+@CONTROLER_REGISTRY.register()
 class DensificationController(BaseDensificationController):
     """
     The controller class for densifying the point cloud.

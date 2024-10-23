@@ -24,9 +24,15 @@ trainer:
       enable_training: False
     renderer:
       name: "MsplatRender"
+      render_depth: True
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
+
+  gui:
+    name: BaseGUI
+    viewer_port: 8928
   
   controller:
+    name: DensificationController
     normalize_grad: False
     control_module: "point_cloud"
     split_num: 2

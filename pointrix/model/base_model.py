@@ -76,7 +76,6 @@ class BaseModel(BaseModule):
                             if training else self.validation_camera_model.intrinsic_params(frame_idx_list)
         camera_center = self.training_camera_model.camera_centers(frame_idx_list) \
                         if training else self.validation_camera_model.camera_centers(frame_idx_list)
-        # print(self.camera_models[frame_idx], frame_idx)
         render_dict = {
             "extrinsic_matrix": extrinsic_matrix,
             "intrinsic_params": intrinsic_params,
@@ -86,9 +85,11 @@ class BaseModel(BaseModule):
             "scaling": self.point_cloud.get_scaling,
             "rotation": self.point_cloud.get_rotation,
             "shs": self.point_cloud.get_shs,
+            "height": batch[0]['height'],
+            "width": batch[0]['width']
         }
         if render:
-            render_results = self.renderer.render_batch(render_dict, batch)
+            render_results = self.renderer.render_batch(render_dict)
             return render_results
         return render_dict
 

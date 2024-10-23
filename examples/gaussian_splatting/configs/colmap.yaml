@@ -5,6 +5,7 @@ trainer:
   max_steps: 30000
   val_interval: 5000
   training: True
+  enable_gui: True
 
   model:
     name: BaseModel
@@ -22,10 +23,15 @@ trainer:
       enable_training: False
     renderer:
       name: "MsplatRender"
-      render_depth: False
+      render_depth: True
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
+
+  gui:
+    name: BaseGUI
+    viewer_port: 8925
   
   controller:
+    name: DensificationController
     normalize_grad: False
     control_module: "point_cloud"
     split_num: 2

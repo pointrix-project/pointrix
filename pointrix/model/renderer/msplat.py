@@ -157,7 +157,7 @@ class MsplatRender(BaseObject):
                 "radii": radius
                 }
 
-    def render_batch(self, render_dict: dict, batch: List[dict]) -> dict:
+    def render_batch(self, render_dict: dict) -> dict:
         """
         Render the batch of point clouds.
 
@@ -180,15 +180,17 @@ class MsplatRender(BaseObject):
         visibilitys = []
         radii = []
     
-        batched_render_keys = ["extrinsic_matrix", "intrinsic_params", "camera_center"]
-
-        for i, b_i in enumerate(batch):
+        batched_render_keys = ["extrinsic_matrix", "camera_center"]
+        
+        for i in range(render_dict['extrinsic_matrix'].shape[0]):
+            render_iter_dict = {}
             for key in render_dict.keys():
                 if key not in batched_render_keys:
-                    b_i[key] = render_dict[key]
+                    render_iter_dict[key] = render_dict[key]
                 else:
-                    b_i[key] = render_dict[key][i, ...]
-            render_results = self.render_iter(**b_i)
+                    render_iter_dict[key] = render_dict[key][i, ...]
+
+            render_results = self.render_iter(**render_iter_dict)
             for feature_name in render_results["rendered_features_split"].keys():
                 if feature_name not in rendered_features:
                     rendered_features[feature_name] = []
