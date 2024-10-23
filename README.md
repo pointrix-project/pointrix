@@ -31,6 +31,7 @@
 </div>
 
 ## News
+- 2024-10-23: We add basic viser support for pointrix. We will update documentation soon.
 - 2024-09-11: We have included instructions for hyperparameter search in the documentation.
 - 2024-09-02: We support all hyperparameter turning based on wandb, including "**random**", "**grid**" and "**bayes**" sweep configuration.
 - 2024-08-18: We have released Pointrix: v1.0
@@ -232,12 +233,7 @@ python launch.py --config config.yaml trainer.datapipeline.dataset.data_path=you
 
 
 ## Release Plans
-- [x] Nerf_synthetic dataset (this week).
-- [x] Dust3r initialization (this week).
-- [x] Mesh exstraction (this week).
-- [x] Introduction video (this week)
-- [x] reformat the document (this week)
-- [ ] Dynamic Gaussian Project(next week).
+- [ ] Update GUI(next week).
 
 Welcome to discuss with us and submit PR on new ideas and methods.
 
@@ -252,7 +248,8 @@ Thanks to the developers and contributors of the following open-source repositor
 - [detectron2](https://github.com/facebookresearch/detectron2): Detectron2 is Facebook AI Research's next generation library that provides state-of-the-art detection and segmentation algorithms. 
 - [DN-Splatter](https://github.com/maturk/dn-splatter): Depth and Normal Priors for Gaussian Splatting and Meshing
 - [GOF](https://github.com/autonomousvision/gaussian-opacity-fields): Efficient and Compact Surface Reconstruction in Unbounded Scenes
-
+- [Viser](https://viser.studio/latest/): A library for interactive 3D visualization in Python.
+- [2D-GS-Viser-Viewer](https://github.com/hwanhuh/2D-GS-Viser-Viewer): Simple Viser Viewer for 2D Gaussian Splatting for Geometrically Accurate Radiance Fields.
 
 This is project is licensed under Apache License. However, if you use MSplat or the original 3DGS kernel in your work, please follow their license.
 
