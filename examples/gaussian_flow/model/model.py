@@ -59,11 +59,11 @@ class GaussianFlow(BaseModel):
             "extrinsic_matrix": extrinsic_matrix,
             "intrinsic_params": intrinsic_params,
             "camera_center": camera_center,
-            "position": self.point_cloud.get_position_flow,
-            "opacity": self.point_cloud.get_opacity,
+            "position": self.point_cloud.get_position_flow,    # [B, N, 3]
+            "opacity": self.point_cloud.get_opacity,           # [N, 1]
             "scaling": self.point_cloud.get_scaling,
-            "rotation": self.point_cloud.get_rotation_flow,
-            "shs": self.point_cloud.get_shs_flow,
+            "rotation": self.point_cloud.get_rotation_flow,    # [B, N, 3]
+            "shs": self.point_cloud.get_shs_flow,              # [B, N, D]
             "height": batch[0]['height'],
             "width": batch[0]['width']
         }
