@@ -19,3 +19,4 @@ imageio==2.27
 imageio-ffmpeg
 wandb
 pyyaml
+viser

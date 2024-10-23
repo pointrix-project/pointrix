@@ -3,7 +3,7 @@ We use surface normals as an example to illustrate how to add supervision for su
 All code can be found in the `example/supervise` directory.
 The data download link for this tutorial is provided below: 
 
-https://pan.baidu.com/share/init?surl=MEb0rXkbJMlmT8cu7TirTA&pwd=qg8c.
+https://pan.baidu.com/s/1NlhxylY7q3SmVf9j29we3Q?pwd=f95m.
 
 
 We employ the DSINE model to generate normals for the truck scene in the Tanks and Temple dataset.
