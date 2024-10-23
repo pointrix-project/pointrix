@@ -9,7 +9,11 @@ model
    :members:
    :show-inheritance:
 
-.. automodule:: pointrix.model.gaussian_points.gaussian_points
+.. automodule:: pointrix.model.point_cloud.gaussian_points
+   :members:
+   :show-inheritance:
+
+.. automodule:: pointrix.model.point_cloud.points
    :members:
    :show-inheritance:
 

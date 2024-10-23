@@ -6,6 +6,9 @@ import torch
 from pathlib import Path
 from abc import abstractmethod
 
+import threading
+import time
+
 from ..model import parse_model
 from ..logger import parse_writer, Logger
 from ..hook import parse_hooks
@@ -13,6 +16,8 @@ from ..dataset import parse_data_set
 from ..utils.config import parse_structured
 from ..optimizer import parse_optimizer, parse_scheduler
 from ..exporter import parse_exporter
+from ..controller import parse_controller
+from ..webgui import parse_gui
 from ..controller.gs import DensificationController
 from .default_datapipeline import BaseDataPipeline
 
@@ -40,6 +45,7 @@ class BaseTrainer:
         hooks: dict = field(default_factory=dict)
         exporter: dict = field(default_factory=dict)
         controller: dict = field(default_factory=dict)
+        gui: dict = field(default_factory=dict)
         # Dataset
         dataset_name: str = "NeRFDataset"
         datapipeline: dict = field(default_factory=dict)
@@ -62,6 +68,8 @@ class BaseTrainer:
         bar_upd_interval: int = 10
         # Output path
         output_path: str = "output"
+        
+        enable_gui: bool = True
 
     cfg: Config
 
@@ -93,7 +101,21 @@ class BaseTrainer:
         
         self.exporter = parse_exporter(
                 self.cfg.exporter, self.model, self.datapipeline, device=self.device)
-
+        
+        if self.cfg.enable_gui:
+            self.gui = parse_gui(self.cfg.gui, self.model, device=self.device)
+            self.lock = threading.Lock()
+            
+            def gui_thread():
+                while True:
+                    if self.gui.need_update:
+                        self.gui.update()
+                    else:
+                        time.sleep(3)
+            
+            viewer_thread = threading.Thread(target=gui_thread)
+            viewer_thread.start()
+        
         if self.cfg.training:
             cameras_extent = self.datapipeline.training_dataset.radius
             self.schedulers = parse_scheduler(self.cfg.scheduler,
@@ -103,9 +125,8 @@ class BaseTrainer:
                                              self.model, datapipeline=self.datapipeline,
                                              cameras_extent=cameras_extent)
 
-            self.controller = DensificationController(
-                self.cfg.controller, self.optimizer, self.model, cameras_extent=cameras_extent)
-
+            self.controller = parse_controller(self.cfg.controller, self.optimizer, self.model, cameras_extent=cameras_extent)
+            
     @abstractmethod
     def train_loop(self) -> None:
         """

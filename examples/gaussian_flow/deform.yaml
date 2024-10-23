@@ -1,16 +1,18 @@
 name: "garden"
 
 trainer:
-  output_path: "/home/linzhuo/clz/log/garden"
-  max_steps: 30000
+  output_path: "/NASdata/clz/log/gf_test"
+  max_steps: 40000
   val_interval: 5000
   training: True
+  enable_gui: False
 
+  spatial_lr_scale: False
   model:
-    name: BaseModel
+    name: GaussianFlow
     lambda_ssim: 0.2
     point_cloud:
-      point_cloud_type: "GaussianPointCloud"  
+      point_cloud_type: "GaussianFlowPointCloud"  
       max_sh_degree: 3
       trainable: true
       unwarp_prefix: "point_cloud"
@@ -18,18 +20,15 @@ trainer:
         init_type: 'colmap'
         feat_dim: 3
     camera_model:
-      name: "CameraModel"
+      name: TimeCameraModel
       enable_training: False
     renderer:
-      name: "MsplatRender"
+      name: "GaussianFlowRender"
       render_depth: False
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
-
-  gui:
-    name: BaseGUI
-    viewer_port: 8918
   
   controller:
+    name: GFDensificationController
     normalize_grad: False
     control_module: "point_cloud"
     split_num: 2
@@ -43,6 +42,11 @@ trainer:
     opacity_reset_interval: 3000
     optimizer_name: "optimizer_1"
 
+  
+  gui:
+    name: BaseGUI
+    viewer_port: 8918
+
   optimizer:
     optimizer_1:
       type: BaseOptimizer
@@ -54,37 +58,43 @@ trainer:
       params:
         point_cloud.position:
           lr: 0.00016
+        point_cloud.pos_params:
+          lr: 0.002
         point_cloud.features:
           lr: 0.0025
         point_cloud.features_rest:
           lr: 0.000125 # features/20
+        point_cloud.feat_params:
+          lr: 0.0025
         point_cloud.scaling:
           lr: 0.005
         point_cloud.rotation:
           lr: 0.001
+        point_cloud.rot_params:
+          lr: 0.005
         point_cloud.opacity:
           lr: 0.05
-      # camera_params:
-      #   lr: 1e-3
-
+        point_cloud.time_center:
+          lr: 0.001
   scheduler:
     name: "ExponLRScheduler"
     params:
       point_cloud.position:
-        init:  0.00016
-        final: 0.0000016
-        max_steps: ${trainer.max_steps}
+        init:  0.0008
+        final: 0.000008
+        max_steps: 30000
   
   datapipeline:
-    data_set: "ColmapDataset"
+    data_set: "NerfiesDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
-      data_path: "/home/linzhuo/gj/data/garden"
+      data_path: "/NASdata/clz/data/vrig-peel-banana"
       cached_observed_data: True
-      scale: 0.25
+      scale: 1.0
       white_bg: False
+      observed_data_dirs_dict: {"image": "rgb"}
 
   writer:
     writer_type: "TensorboardWriter"
@@ -98,5 +108,3 @@ trainer:
   exporter:
     exporter_1:
       type: MetricExporter
-    exporter_3:
-      type: VideoExporter
