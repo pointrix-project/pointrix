@@ -1,7 +1,7 @@
 name: "garden"
 
 trainer:
-  output_path: "/home/linzhuo/clz/log/garden"
+  output_path: "/data/datasets/garden_output"
   max_steps: 30000
   val_interval: 5000
   training: True
@@ -83,7 +83,7 @@ trainer:
     batch_size: 1
     num_workers: 0
     dataset:
-      data_path: "/home/linzhuo/gj/data/garden"
+      data_path: "/data/datasets/360_v2/garden"
       cached_observed_data: True
       scale: 0.25
       white_bg: False

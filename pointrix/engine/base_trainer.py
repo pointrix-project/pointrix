@@ -74,7 +74,6 @@ class BaseTrainer:
     cfg: Config
 
     def __init__(self, cfg: Config, exp_dir: Path, name: str) -> None:
-        super().__init__()
         self.exp_dir = exp_dir
         self.start_steps = 1
         self.global_step = 0
