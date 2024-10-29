@@ -124,6 +124,14 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 
 python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.datapipeline.dataset.scale=0.5 trainer.output_path=your_log_path trainer.controller.normalize_grad=True trainer.model.renderer.name=GsplatRender
 ```
+You can visualize the training process of rendering by enabling webgui (viser):
+```bash
+trainer.enable_gui=True
+```
+
+
+![2024-10-29 17-07-13屏幕截图](https://github.com/user-attachments/assets/1ec5270e-cf83-4fe9-80a9-8dc10c08ef67)
+
 The scale should be set as 0.25 for mipnerf 360 datasets.
 
 For other colmap dataset which do not need to downsample:
@@ -230,10 +238,6 @@ python convert_dust3r.py --model_path your_dust3r_weights --filelist your_image_
 python launch.py --config config.yaml trainer.datapipeline.dataset.data_path=your_data_path trainer.output_path=your_log_path
 ```
 
-
-
-## Release Plans
-- [ ] Update GUI(next week).
 
 Welcome to discuss with us and submit PR on new ideas and methods.
 
