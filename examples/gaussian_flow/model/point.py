@@ -33,7 +33,7 @@ class GaussianFlowPointCloud(GaussianPointCloud):
         normalize_timestamp: bool = False
         
         random_noise: bool = False
-        max_steps: int = 0
+        max_steps: int = 30000
         
     cfg: Config
 
@@ -154,16 +154,16 @@ class GaussianFlowPointCloud(GaussianPointCloud):
         if self.cfg.random_noise and training:
             noise_weight = self.offset_width * (1 - (training_step/self.cfg.max_steps))
             self.timestamp += noise_weight*np.random.randn()
-            
+
         return self.timestamp - self.time_center.unsqueeze(0)
     
     def fwd_flow(self, timestamp_batch):
         pos_base = self.position[:, :3]
         rot_base = self.rotation[:, :4]
         
-        self.position_flow = []
-        self.rotation_flow = []
-        self.feat_flow = []
+        self.position_flow_list = []
+        self.rotation_flow_list = []
+        self.feat_flow_list = []
         
         for i in range(timestamp_batch.size(0)):
             timestamp = timestamp_batch[i]
@@ -173,14 +173,14 @@ class GaussianFlowPointCloud(GaussianPointCloud):
                 timestamp, 
                 self.cfg.pos_traj_dim,
             )
-            self.position_flow.append(pos_base + pos_traj)
+            self.position_flow_list.append(pos_base + pos_traj)
             rot_traj = self.rot_fit_model(
                 # rot_traj_params, 
                 self.rot_params,
                 timestamp, 
                 self.cfg.rot_traj_dim,
             )
-            self.rotation_flow.append(rot_base + rot_traj)
+            self.rotation_flow_list.append(rot_base + rot_traj)
             
             
             feat_traj = self.feat_fit_model(
@@ -188,10 +188,10 @@ class GaussianFlowPointCloud(GaussianPointCloud):
                 timestamp, 
                 self.cfg.feat_traj_dim,
             )
-            self.feat_flow.append(self.features + feat_traj.unsqueeze(1))
-        self.position_flow = torch.stack(self.position_flow, dim=0)
-        self.rotation_flow = torch.stack(self.rotation_flow, dim=0)
-        self.feat_flow = torch.stack(self.feat_flow, dim=0)
+            self.feat_flow_list.append(self.features + feat_traj.unsqueeze(1))
+        self.position_flow = torch.stack(self.position_flow_list, dim=0)
+        self.rotation_flow = torch.stack(self.rotation_flow_list, dim=0)
+        self.feat_flow = torch.stack(self.feat_flow_list, dim=0)
         
     def set_timestep(self, t, training=False, training_step=0):
         self.t = t

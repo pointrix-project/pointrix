@@ -52,7 +52,7 @@ class GaussianFlow(BaseModel):
         self.point_cloud.set_timestep(
             t=time_input,
             training=True,
-            training_step=self.global_step,
+            training_step=iteration
         )
         
         render_dict = {

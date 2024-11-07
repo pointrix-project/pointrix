@@ -1,23 +1,33 @@
-name: "garden"
+name: "dnerf-lego"
 
 trainer:
-  output_path: "/NASdata/clz/log/gf_test"
-  max_steps: 30000
-  val_interval: 10000
+  output_path: "/NASdata/clz/log/gf_tes"
+  max_steps: 10000
+  val_interval: 5000
   training: True
-  enable_gui: False
+  enable_gui: True
 
   spatial_lr_scale: True
+
   model:
     name: GaussianFlow
     lambda_ssim: 0.2
     point_cloud:
       point_cloud_type: "GaussianFlowPointCloud"  
-      max_sh_degree: 3
-      trainable: true
       unwarp_prefix: "point_cloud"
+      max_sh_degree: 3
+      pos_traj_dim: 2
+      rot_traj_dim: 1
+      feat_traj_dim: 2
+      rescale_value: 0.5
+      offset_value: 0.1
+      trainable: true
+      random_noise: False
+      max_steps: ${trainer.max_steps}
       initializer:
-        init_type: 'colmap'
+        num_points: 10000
+        radius: 1.3
+        init_type: 'random'
         feat_dim: 3
     camera_model:
       name: TimeCameraModel
@@ -25,24 +35,28 @@ trainer:
     renderer:
       name: "GaussianFlowRender"
       render_depth: False
-      update_sh_iter: 1000
       max_sh_degree: ${trainer.model.point_cloud.max_sh_degree}
   
   controller:
     name: GFDensificationController
     normalize_grad: False
     control_module: "point_cloud"
-    densify_start_iter: 500
-    densify_stop_iter: 5_000
+    split_num: 2
     prune_interval: 100
-    duplicate_interval: 100
-    opacity_reset_interval: 3000
-    densify_grad_threshold: 0.0002
     min_opacity: 0.001
+    percent_dense: 0.01
+    densify_grad_threshold: 0.00005
+    duplicate_interval: 100
+    densify_start_iter: 500
+    densify_stop_iter: 5000
+    opacity_reset_interval: 3000
     optimizer_name: "optimizer_1"
+
+  
   gui:
-    name: BaseGUI
-    viewer_port: 8918
+    name: GaussianFlowGUI
+    viewer_port: 9012
+
 
   optimizer:
     optimizer_1:
@@ -54,9 +68,9 @@ trainer:
         backward: False
       params:
         point_cloud.position:
-          lr: 0.000016
+          lr: 0.00016
         point_cloud.pos_params:
-          lr: 0.00005
+          lr: 0.002
         point_cloud.features:
           lr: 0.0025
         point_cloud.features_rest:
@@ -72,30 +86,30 @@ trainer:
         point_cloud.opacity:
           lr: 0.05
         point_cloud.time_center:
-          lr: 0.001
+          # lr: 0.001
+          lr: 0.0
   scheduler:
     name: "ExponLRScheduler"
     params:
       point_cloud.position:
-        init:  0.000016
-        final: 0.00000016
-        max_steps: 30000
+        init:  0.00016
+        final: 0.0000016
+        max_steps: ${trainer.max_steps}
       point_cloud.pos_params:
-        init:  0.00005
-        final: 0.0000005
-        max_steps: 30000
+        init:  0.002
+        final: 0.0002
+        max_steps: ${trainer.max_steps}
   
   datapipeline:
-    data_set: "NerfiesDataset"
+    data_set: "DNeRFDataset"
     shuffle: True
     batch_size: 1
     num_workers: 0
     dataset:
-      data_path: "/NASdata/clz/data/vrig-peel-banana"
+      data_path: "/NASdata/clz/data/d-nerf/data/lego"
       cached_observed_data: True
       scale: 1.0
-      white_bg: False
-      observed_data_dirs_dict: {"image": "rgb"}
+      white_bg: True
 
   writer:
     writer_type: "TensorboardWriter"

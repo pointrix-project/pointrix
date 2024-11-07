@@ -9,9 +9,11 @@ from pointrix.logger.writer import logproject, Logger
 from controller.gf import GFDensificationController
 from model.model import GaussianFlow
 from data.data import NerfiesDataset
+from data.dnerf_data import DNeRFDataset
 from model.point import GaussianFlowPointCloud
 from model.renderer import GaussianFlowRender
 from model.camera import TimeCameraModel
+from gui import GaussianFlowGUI
 import taichi as ti
 
 
@@ -24,27 +26,27 @@ def main(args, extras) -> None:
     logproject(project_path, os.path.join(cfg.exp_dir, 'project_file'), ['py', 'yaml'])
 
     
-    try:
-        gaussian_trainer = DefaultTrainer(
-                            cfg.trainer,
-                            cfg.exp_dir,
-                            cfg.name
-                            )
-        if cfg.trainer.training:
-            gaussian_trainer.train_loop()
-            model_path = os.path.join(
-                cfg.exp_dir,
-                "chkpnt" + str(gaussian_trainer.global_step) + ".pth"
-            )
-            gaussian_trainer.save_model(path=model_path)
-            gaussian_trainer.test()
-        else:
-            gaussian_trainer.test(cfg.trainer.test_model_path)
-        Logger.print("\nTraining complete.")
-    except:
-        Logger.print_exception(show_locals=False)
-        for hook in gaussian_trainer.hooks:
-            hook.exception()
+    # try:
+    gaussian_trainer = DefaultTrainer(
+                        cfg.trainer,
+                        cfg.exp_dir,
+                        cfg.name
+                        )
+    if cfg.trainer.training:
+        gaussian_trainer.train_loop()
+        model_path = os.path.join(
+            cfg.exp_dir,
+            "chkpnt" + str(gaussian_trainer.global_step) + ".pth"
+        )
+        gaussian_trainer.save_model(path=model_path)
+        gaussian_trainer.test()
+    else:
+        gaussian_trainer.test(cfg.trainer.test_model_path)
+    Logger.print("\nTraining complete.")
+    # except:
+    #     Logger.print_exception(show_locals=False)
+    #     for hook in gaussian_trainer.hooks:
+    #         hook.exception()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

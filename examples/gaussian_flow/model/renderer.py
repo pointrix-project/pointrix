@@ -1,8 +1,9 @@
 import torch
 from pointrix.model.renderer import MsplatRender, RENDERER_REGISTRY
+from pointrix.model.renderer.base_splatting import GaussianSplattingRender
 
 @RENDERER_REGISTRY.register()
-class GaussianFlowRender(MsplatRender):
+class GaussianFlowRender(GaussianSplattingRender):
     
     def render_batch(self, render_dict: dict) -> dict:
         """
@@ -27,7 +28,7 @@ class GaussianFlowRender(MsplatRender):
         visibilitys = []
         radii = []
     
-        batched_render_keys = ["extrinsic_matrix", "camera_center", "position", "rotation", "shs"]
+        batched_render_keys = ["extrinsic_matrix", "camera_center", "position", "rotation", "shs", "intrinsic_params"]
         
         for i in range(render_dict['extrinsic_matrix'].shape[0]):
             render_iter_dict = {}
