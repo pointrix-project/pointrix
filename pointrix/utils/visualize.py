@@ -122,5 +122,16 @@ def visualize_flow(flow_uv, clip_flow=None, convert_to_bgr=False):
     v[np.isnan(v)] = 0
     return flow_uv_to_colors(u, v, convert_to_bgr)
 
+def visualize_normal(rgb):
+    rgb = (rgb + 1.0)/2.0
+    rgb = torch.clamp(rgb, 0.0, 1.0)
+    rgb = rgb.detach().cpu().numpy()
+    return to8b(rgb.transpose(1, 2, 0))
+
+def visualize_depth_normal(rgb):
+    rgb = (rgb + 1.0)/2.0
+    rgb = torch.clamp(rgb, 0.0, 1.0)
+    rgb = rgb.detach().cpu().numpy()
+    return to8b(rgb.transpose(1, 2, 0))
 
 

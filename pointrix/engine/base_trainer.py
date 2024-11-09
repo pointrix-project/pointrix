@@ -108,14 +108,12 @@ class BaseTrainer:
         if self.cfg.training:
             if self.cfg.enable_gui:
                 self.lock = threading.Lock()
-                
                 def gui_thread():
                     while True:
                         if self.gui.need_update:
                             self.gui.update()
                         else:
                             time.sleep(3)
-                
                 viewer_thread = threading.Thread(target=gui_thread)
                 viewer_thread.start()
             cameras_extent = self.datapipeline.training_dataset.radius

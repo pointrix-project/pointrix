@@ -81,11 +81,13 @@ class GaussianSplattingRender(MsplatRender):
             Logger.warn("NDC does not have grad")
 
         renderer = GSRenderer(GSettings(int(height), int(width), math.tan(fovx/2.),
-                                        math.tan(fovy/2.), self.bg_color, 1.0,
-                                        extrinsic_matrix.transpose(0, 1),
-                                        (projection_matrix @ extrinsic_matrix).transpose(0, 1),
-                                        self.sh_degree,
-                                        camera_center,
+                                        math.tan(fovy/2.), 
+                                        bg = self.bg_color, 
+                                        scale_modifier = 1.0,
+                                        viewmatrix = extrinsic_matrix.transpose(0, 1),
+                                        projmatrix = (projection_matrix @ extrinsic_matrix).transpose(0, 1),
+                                        sh_degree = self.sh_degree,
+                                        campos = camera_center,
                                         prefiltered=False,
                                         debug=False,
                                         ))

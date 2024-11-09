@@ -154,6 +154,17 @@ class BaseDataset(Dataset):
         frame_idx = self.frame_idx_list[idx]
         for key, value in observed_data.items():
             observed_data[key] = value.to(self.device)
+        random_idx = np.random.randint(0, 1)
+        # random_idxs = np.random.randint(1, 5)
+        random_idxs = 1
+        if random_idx == 0:
+            next_idx = random_idxs if idx + random_idxs < len(self.camera_list) else -random_idxs
+        else:
+            next_idx = -random_idxs if idx - random_idxs >= 0 else random_idxs
+        next_observed_data = self.observed_data[idx + next_idx] 
+        next_camera = self.camera_list[idx + next_idx] 
+        next_frame_idx = self.frame_idx_list[idx + next_idx]
+        next_data = {**next_observed_data, "camera": next_camera, "frame_idx": next_frame_idx, "camera_idx": int(next_camera.idx)}
         return {
             **observed_data,
             "camera": camera,
@@ -161,5 +172,6 @@ class BaseDataset(Dataset):
             "camera_idx": int(camera.idx),
             "height": int(camera.image_height),
             "width": int(camera.image_width),
+            "next_data": next_data
         }
 
