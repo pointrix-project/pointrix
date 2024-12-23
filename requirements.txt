@@ -20,3 +20,4 @@ imageio-ffmpeg
 wandb
 pyyaml
 viser
+numpy=1.26.4
