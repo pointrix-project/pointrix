@@ -17,7 +17,7 @@ class CheckPointHook(Hook):
         trainner : Trainer
             The trainer object.
         """
-        if trainner.global_step % 5000 == 0:
+        if trainner.global_step % trainner.cfg.save_step == 0:
             trainner.model.point_cloud.save_ply(os.path.join(
                 trainner.exp_dir, "{:0>5}.ply".format(trainner.global_step)))
             trainner.save_model()

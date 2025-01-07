@@ -68,6 +68,7 @@ class BaseTrainer:
         bar_upd_interval: int = 10
         # Output path
         output_path: str = "output"
+        save_step: int = 40000
         
         enable_gui: bool = True
 
