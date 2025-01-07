@@ -100,8 +100,8 @@ class LogHook(Hook):
         iteration = trainner.global_step
         if trainner.cfg.enable_gui:
             if iteration % trainner.gui.train_viewer_update_period_slider.value == 0 and trainner.gui.need_update:
-                with trainner.lock:
                     trainner.gui.update_point_cloud(trainner.model)
+            trainner.gui.update()
     def before_val(self, trainner) -> None:
         """
         some operations before the validation loop starts.

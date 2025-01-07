@@ -101,9 +101,6 @@ class BaseGUI(BaseObject):
         self.resolution_slider = self.server.add_gui_slider(
             "Resolution", min=512, max=4096, step=2, initial_value=1024
         )
-        self.time_slider = self.server.add_gui_slider(
-            "Time", min=0, max=1, step=0.01, initial_value=0
-        )
         
         self.fx_slider = self.server.add_gui_slider(
             "fx", min=0, max=2 * fx, step=0.1, initial_value=fx

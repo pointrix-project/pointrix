@@ -163,6 +163,8 @@ class DensificationController(BaseDensificationController):
 
         stds = scaling[mask].repeat(split_num, 1)
         means = torch.zeros((stds.size(0), 3), device="cuda")
+        if stds.shape != means.shape:
+            stds = torch.cat([stds, 0 * torch.ones_like(stds[:,:1])], dim=-1)
         samples = torch.normal(mean=means, std=stds)
         rots = quat_to_rotmat(
             rotation[mask]

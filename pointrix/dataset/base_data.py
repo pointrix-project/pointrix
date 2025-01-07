@@ -160,6 +160,6 @@ class BaseDataset(Dataset):
             "frame_idx": frame_idx,
             "camera_idx": int(camera.idx),
             "height": int(camera.image_height),
-            "width": int(camera.image_width),
+            "width": int(camera.image_width)
         }
 

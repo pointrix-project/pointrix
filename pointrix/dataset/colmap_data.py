@@ -121,7 +121,7 @@ class ColmapDataset(BaseDataset):
         for k, v in self.observed_data_dirs_dict.items():
             observed_data_path = self.data_root / Path(v)
             if not os.path.exists(observed_data_path):
-                Logger.error(f"observed_data path {observed_data_path} does not exist.")
+                Logger.print(f"observed_data path {observed_data_path} does not exist.")
             observed_data_file_names = sorted(os.listdir(observed_data_path))
             observed_data_file_names_split = [observed_data_file_names[i] for i in self.train_index] if split == "train" else [observed_data_file_names[i] for i in self.val_index]
             cached_progress = ProgressLogger(description='Loading cached observed_data', suffix='iters/s')

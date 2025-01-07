@@ -68,6 +68,7 @@ class BaseTrainer:
         bar_upd_interval: int = 10
         # Output path
         output_path: str = "output"
+        save_step: int = 40000
         
         enable_gui: bool = True
 
@@ -104,17 +105,6 @@ class BaseTrainer:
         
         if self.cfg.enable_gui:
             self.gui = parse_gui(self.cfg.gui, self.model, device=self.device)
-            self.lock = threading.Lock()
-            
-            def gui_thread():
-                while True:
-                    if self.gui.need_update:
-                        self.gui.update()
-                    else:
-                        time.sleep(3)
-            
-            viewer_thread = threading.Thread(target=gui_thread)
-            viewer_thread.start()
         
         if self.cfg.training:
             cameras_extent = self.datapipeline.training_dataset.radius
