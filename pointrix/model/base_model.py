@@ -141,6 +141,7 @@ class BaseModel(BaseModule):
                           "uv_points": render_results['uv_points'],
                           "visibility": render_results['visibility'],
                           "radii": render_results['radii'],
+                          "num_points": self.point_cloud.position.shape[0],
                           "white_bg": white_bg}
         return optimizer_dict
 

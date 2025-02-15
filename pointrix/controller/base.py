@@ -39,6 +39,7 @@ class BaseDensificationController(BaseObject):
         densify_stop_iter: int = 15000
         densify_grad_threshold: float = 0.0002
         optimizer_name: str = "optimizer_1"
+        max_points: int = 5000000
 
     cfg: Config
 
@@ -98,10 +99,11 @@ class BaseDensificationController(BaseObject):
 
     def f_step(self, **kwargs):
         self.process_grad(**kwargs)
-        if self.step < self.cfg.densify_stop_iter:
-            self.preprocess(**kwargs)
-            if self.step > self.cfg.densify_start_iter:
-                self.densify(**kwargs)
+        if kwargs['num_points'] < self.cfg.max_points:
+            if self.step < self.cfg.densify_stop_iter:
+                self.preprocess(**kwargs)
+                if self.step > self.cfg.densify_start_iter:
+                    self.densify(**kwargs)
 
         self.update_states()
 
