@@ -77,7 +77,7 @@ class DefaultTrainer(BaseTrainer):
         #     "normal": normal, ....
         # }
 
-        self.loss_dict = self.model.get_loss_dict(render_results, batch)
+        self.loss_dict = self.model.get_loss_dict(render_results, batch, step=self.global_step)
         self.loss_dict['loss'].backward()
         # structure of optimizer_dict: {}
         # example of optimizer_dict = {

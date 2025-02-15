@@ -93,7 +93,7 @@ class BaseModel(BaseModule):
             return render_results
         return render_dict
 
-    def get_loss_dict(self, render_results, batch) -> dict:
+    def get_loss_dict(self, render_results, batch, step) -> dict:
         """
         Get the loss dictionary.
 

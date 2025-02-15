@@ -394,13 +394,6 @@ def cull_mesh_iphone(mesh_pred):
 
 
 def cut_projected_mesh(projection, predicted_mesh, type, kernel_size, dilate=True):
-    # # Visualize
-    # plt.figure(figsize=(10, 10))
-    # ax = plt.gca()
-
-    # # Invert y axis
-    # ax.invert_yaxis()
-    # plt.scatter(projection[:, 0], projection[:, 1], s=1)
 
     max_val = projection.max(axis=0)
     min_val = projection.min(axis=0)
@@ -437,14 +430,6 @@ def cut_projected_mesh(projection, predicted_mesh, type, kernel_size, dilate=Tru
         np.array(c).squeeze() * (max_val - min_val) / 499 + min_val for c in contours
     ]
 
-    # for contour in contour_points:
-    #     if len(contour.shape) < 2:
-    #         continue
-    #     ax.plot(contour[:, 0], contour[:, 1], color='red')
-
-    # plt.show()
-
-    # Filter the point cloud
     cloud_points = np.asarray(predicted_mesh.vertices)
     inside = np.zeros(len(cloud_points), dtype=bool)
     if type == "xy":
@@ -570,7 +555,6 @@ def mesh_metric(
         ).reshape(4, 4)
         pred_mesh = pred_mesh.apply_transform(initial_transformation)
 
-
         pred_mesh = open3d_mesh_from_trimesh(pred_mesh)
         pred_mesh = cut_mesh(gt_mesh, pred_mesh, kernel_size=15, dilate=True)
 
@@ -586,40 +570,10 @@ def mesh_metric(
         pred_mesh = trimesh_from_open3d_mesh(pred_mesh)
 
         rst = compute_metrics(pred_mesh, gt_mesh)
-        print(rst)
-        json.dump(rst, open(Path(f"./{str(gt_mesh_path.name)}_metrics.json"), "w"))
         return rst
     else:
         gt_mesh_ply = trimesh.load(gt_mesh_path, process=False)
         pd_mesh_ply = trimesh.load(pred_mesh_path, process=False)
-
-        # to_align, _ = trimesh.bounds.oriented_bounds(gt_mesh_ply)
-        # gt_mesh_ply.vertices = (
-        #     to_align[:3, :3] @ gt_mesh_ply.vertices.T + to_align[:3, 3:]
-        # ).T
-        # pd_mesh_ply.vertices = (
-        #     to_align[:3, :3] @ pd_mesh_ply.vertices.T + to_align[:3, 3:]
-        # ).T
-        # print(
-        #     f"saving pred mesh after tranforms to {str(pred_mesh.parent / pred_mesh.stem) + '_pred_mesh_culled.ply'}"
-        # )
-        # pd_mesh_ply.export(str(pred_mesh.parent / pred_mesh.stem) + "_pred_mesh_culled.ply")
-
-        # min_points = gt_mesh_ply.vertices.min(axis=0) * 1.01  # 1.01
-        # max_points = gt_mesh_ply.vertices.max(axis=0) * 1.01  # 1.01
-
-        # mask_min = (pd_mesh_ply.vertices - min_points[None]) > 0
-        # mask_max = (pd_mesh_ply.vertices - max_points[None]) < 0
-        # mask = np.concatenate((mask_min, mask_max), axis=1).all(axis=1)
-        # face_mask = mask[pd_mesh_ply.faces].all(axis=1)
-        # pd_mesh_ply.update_vertices(mask)
-        # pd_mesh_ply.update_faces(face_mask)
-
-        # gt_mesh_path = Path(gt_mesh_path)
-        # # pd_mesh_ply.export(str(pred_mesh.parent / pred_mesh.stem) + "_pred_mesh_culled.ply")
-        # # o3d.visualization.draw_geometries([pd_mesh_ply.as_open3d, gt_mesh_ply.as_open3d])
-
-        # gt_mesh_ply.export(str(gt_mesh_path.parent / gt_mesh_path.stem) + "_pred_mesh_culled.ply")
 
         rst = compute_metrics(pd_mesh_ply, gt_mesh_ply)
         print(rst)

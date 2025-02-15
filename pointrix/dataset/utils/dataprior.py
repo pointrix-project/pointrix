@@ -148,11 +148,10 @@ class PointsPrior:
         normal_attributes = ['nx', 'ny', 'nz']
         assert all([attr in plyData['vertex'] for attr in coordinates_attributes]), "Missing coordinate attributes"
         assert all([attr in plyData['vertex'] for attr in color_attributes]), "Missing color attributes"
-        assert all([attr in plyData['vertex'] for attr in normal_attributes]), "Missing normal attributes"
         
         self.positions = np.stack([plyData['vertex'][a] for a in coordinates_attributes], axis=1)
         self.colors = np.stack([plyData['vertex'][a] for a in color_attributes], axis=1)
-        self.normals = np.stack([plyData['vertex'][a] for a in normal_attributes], axis=1)
+        self.normals = np.stack([plyData['vertex'][a] for a in normal_attributes], axis=1) if all([attr in plyData['vertex'] for attr in normal_attributes]) else np.zeros_like(self.positions)
 
 class CamerasPrior:
     """

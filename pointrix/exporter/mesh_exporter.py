@@ -45,6 +45,7 @@ def post_process_mesh(mesh, cluster_to_keep=1000):
     print("num vertices raw {}".format(len(mesh.vertices)))
     print("num vertices post {}".format(len(mesh_0.vertices)))
     return mesh_0
+
 @EXPORTER_REGISTRY.register()
 class DepthAndNormalMapsPoisson(MetricExporter):
     """

@@ -73,7 +73,7 @@ class NormalModel(BaseModel):
         normals_image = normals @ w2c.T
         return normals_image
 
-    def get_loss_dict(self, render_results, batch) -> dict:
+    def get_loss_dict(self, render_results, batch, step=None) -> dict:
         loss = 0.0
         gt_images = torch.stack(
             [batch[i]["image"] for i in range(len(batch))],

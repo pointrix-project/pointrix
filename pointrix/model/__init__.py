@@ -1,8 +1,9 @@
 from ..engine.default_datapipeline import BaseDataPipeline
 from .base_model import BaseModel, MODEL_REGISTRY
 from .point_cloud.gaussian_points import GaussianPointCloud
+from .point_cloud.tdgaussian_points import TDGaussianPointCloud
 
-__all__ = ["GaussianPointCloud", "BaseModel"]
+__all__ = ["GaussianPointCloud", "BaseModel", "TDGaussianPointCloud"]
 
 
 def parse_model(cfg, datapipeline:BaseDataPipeline, device="cuda"):
