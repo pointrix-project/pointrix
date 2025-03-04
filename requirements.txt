@@ -14,9 +14,9 @@ scikit-learn==1.2.2
 gsplat==1.3.0
 vdbfusion==0.1.6
 open3d==0.18.0
-pyav==12.0.5
 imageio-ffmpeg==0.5.1
 wandb==0.17.8
 PyYAML==6.0.1
 viser==0.2.19
 numpy==1.26.4
+pyrender==0.1.45
