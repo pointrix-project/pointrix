@@ -70,8 +70,10 @@ class ExperimentConfig:
     def __post_init__(self):
         if self.use_timestamp:
             self.timestamp = datetime.now().strftime("@%Y%m%d-%H%M%S")
-        self.exp_dir = os.path.join(
-            self.trainer.output_path, self.name) + self.timestamp
+        if self.exp_dir == "":
+            self.exp_dir = os.path.join(
+                self.trainer.output_path, self.name) + self.timestamp
+
         os.makedirs(self.exp_dir, exist_ok=True)
 
 
