@@ -34,10 +34,13 @@ pip install .
 
 （可选）你也可以安装gsplat 或者 diff-gaussian-rasterization
 
-```
+```bash
 pip install gsplat
 
 git clone https://github.com/graphdeco-inria/diff-gaussian-rasterization.git
+cd diff-gaussian-rasterization 
+# maybe you need this: 
+# sudo apt-get install libglm-dev 
 python setup.py install
 pip install .
 ```

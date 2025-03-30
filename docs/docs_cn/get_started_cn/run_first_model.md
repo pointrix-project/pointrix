@@ -2,7 +2,7 @@
 
 ## 1. Colmap 数据集
 我们以Mip-Nerf 360 数据集为例子
-- 下载Mip-Nerf 360:http://storage.googleapis.com/gresearch/refraw360/360_v2.zip 数据到你的文件夹下:
+- 下载Mip-Nerf 360 [11.7GB](http://storage.googleapis.com/gresearch/refraw360/360_v2.zip) 数据到你的文件夹下:
 
 - 运行以下命令来训练你的模型 (...数据路径在配置文件下...):
 
@@ -45,7 +45,7 @@ python launch.py --config ./configs/colmap.yaml trainer.datapipeline.dataset.dat
 ```
 
 ## 2. NeRF-Lego (NeRF-Synthetic format dataset)
-下载lego 数据:
+下载 lego 数据, [Size 353Mb](http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip):
 
 ```bash
 wget http://cseweb.ucsd.edu/~viscomp/projects/LF/papers/ECCV20/nerf/nerf_example_data.zip
