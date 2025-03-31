@@ -1,8 +1,8 @@
 from .base_hook import HOOK_REGISTRY
 from .log_hook import LogHook
 from .checkpoint_hook import CheckPointHook
-from pointrix_generalize.hook import visualize_hook
-from pointrix_generalize.hook import metric_hook
+# from pointrix_generalize.hook import visualize_hook
+# from pointrix_generalize.hook import metric_hook
 
 
 def parse_hooks(cfg: dict):
